@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔬 SFA Scout</title>
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --red:    #ef4444;
+  --blue:   #60a5fa;
+  --pink:   #f472b6;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-pill: 100px;
+  --shadow:     0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-green: 0 0 18px rgba(34,197,94,0.30);
+  --glow-pink:  0 0 18px rgba(244,114,182,0.28);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(244,114,182,.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(96,165,250,.06) 0%, transparent 55%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── HEADER ──────────────────────────────────────────────────────────── */
+#app-header {
+  width: 100%;
+  max-width: 680px;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--pink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.score-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 7px 18px;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.score-chip .num { color: var(--gold); font-weight: 800; font-size: 1rem; }
+
+/* ─── MAIN ────────────────────────────────────────────────────────────── */
+#app-main {
+  width: 100%;
+  max-width: 680px;
+  padding: 24px 20px 64px;
+  flex: 1;
+}
+
+/* ─── SCREENS ─────────────────────────────────────────────────────────── */
+.screen        { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes pop     { 0%,100% { transform: scale(1); } 40% { transform: scale(1.12); } }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-8px)} 35%{transform:translateX(8px)} 55%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+/* ─── HOME ────────────────────────────────────────────────────────────── */
+.home-hero {
+  text-align: center;
+  padding: 8px 0 36px;
+}
+.home-hero .hero-icon { font-size: 4rem; display: block; margin-bottom: 14px; }
+.home-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.home-hero p  { color: var(--muted); font-size: 1rem; line-height: 1.65; max-width: 420px; margin: 0 auto; }
+
+.home-meta {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 18px 0 32px;
+}
+.home-meta-badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.home-actions { max-width: 360px; margin: 0 auto; }
+
+/* ─── BUTTONS ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--pink);
+  color: #1a001a;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-pink); }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-secondary:hover { background: var(--surface-hover); border-color: rgba(255,255,255,.25); }
+
+.btn-green {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--green);
+  color: #051205;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-align: center;
+  margin-top: 14px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  animation: slideUp .35s ease;
+}
+.btn-green:hover { transform: translateY(-2px); box-shadow: var(--glow-green); }
+
+.back-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 9px 15px;
+  color: var(--text);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+  text-decoration: none;
+  display: inline-block;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.back-btn:hover { background: var(--surface-hover); }
+
+/* ─── GAME TOP BAR ───────────────────────────────────────────────────── */
+.game-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.word-badge {
+  background: rgba(244,114,182,.12);
+  border: 1px solid rgba(244,114,182,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--pink);
+}
+.progress-dots { display: flex; gap: 6px; margin-left: auto; }
+.pdot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .3s;
+}
+.pdot.done    { background: var(--gold); }
+.pdot.current { background: var(--text); transform: scale(1.4); }
+
+/* ─── TARGET BANNER ──────────────────────────────────────────────────── */
+.target-banner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.target-emoji { font-size: 2.4rem; line-height: 1; }
+.target-info label {
+  font-size: .72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 4px;
+}
+.target-word-text {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--pink);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+/* ─── SECTION LABEL ──────────────────────────────────────────────────── */
+.section-label {
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ─── FEATURE CARDS ──────────────────────────────────────────────────── */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+  transition: opacity .25s, border-color .25s, background .25s;
+}
+.feature-card.inactive {
+  opacity: .38;
+  pointer-events: none;
+}
+.feature-card.done {
+  border-color: rgba(34,197,94,.35);
+  background: rgba(34,197,94,.07);
+  opacity: 1;
+  pointer-events: none;
+}
+.feature-card.active {
+  border-color: rgba(244,114,182,.35);
+  background: rgba(244,114,182,.04);
+  opacity: 1;
+}
+
+.feature-q {
+  font-size: .97rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.feature-card.done   .feature-q { color: var(--green); }
+.feature-card.active .feature-q { color: var(--pink); }
+.feature-card.inactive .feature-q { color: var(--muted); }
+
+.feature-label {
+  font-size: .7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 12px;
+}
+
+.chosen-answer {
+  font-size: .92rem;
+  color: var(--green);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ─── OPTION BUTTONS ─────────────────────────────────────────────────── */
+.options-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.opt-btn {
+  width: 100%;
+  padding: 13px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s, background .15s, transform .15s;
+  text-align: left;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt-btn:hover {
+  border-color: rgba(255,255,255,.28);
+  background: var(--surface-hover);
+  transform: translateX(4px);
+}
+.opt-btn:active { transform: translateX(2px); }
+.opt-btn.shake {
+  animation: shake .42s ease;
+  border-color: rgba(239,68,68,.45);
+  background: rgba(239,68,68,.07);
+}
+.opt-btn.correct {
+  border-color: var(--green);
+  background: rgba(34,197,94,.14);
+  color: var(--green);
+  font-weight: 800;
+  cursor: default;
+  transform: none !important;
+  box-shadow: var(--glow-green);
+}
+
+/* ─── TOASTS ─────────────────────────────────────────────────────────── */
+#praise-toast, #error-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-14px);
+  border-radius: var(--r-pill);
+  padding: 11px 26px;
+  font-size: .95rem;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  white-space: nowrap;
+  z-index: 200;
+  max-width: calc(100vw - 40px);
+  text-align: center;
+}
+#praise-toast { background: rgba(34,197,94,.14); border: 1px solid rgba(34,197,94,.32); color: var(--green); }
+#error-toast  { background: rgba(239,68,68,.14);  border: 1px solid rgba(239,68,68,.32);  color: var(--red);   }
+#praise-toast.show, #error-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── WORD SUCCESS OVERLAY ───────────────────────────────────────────── */
+#word-success {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,24,.92);
+  backdrop-filter: blur(10px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+#word-success.show { display: flex; animation: fadeIn .3s ease; }
+
+.ws-box {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--r-lg);
+  padding: 40px 32px 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+.ws-icon  { font-size: 4.5rem; display: block; margin-bottom: 16px; animation: pop .5s ease; }
+.ws-word  { font-size: 2.4rem; font-weight: 900; color: var(--pink); margin-bottom: 6px; letter-spacing: -.5px; }
+.ws-title { font-size: 1.15rem; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+.ws-pts   { font-size: .9rem; color: var(--muted); margin-bottom: 28px; }
+
+/* ─── COMPLETE SCREEN ────────────────────────────────────────────────── */
+.complete-wrap {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.big-icon    { font-size: 5.5rem; display: block; margin-bottom: 18px; animation: pop .5s ease; }
+.final-score { font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.score-sub   { color: var(--muted); font-size: .95rem; margin: 6px 0 20px; }
+.complete-wrap h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 8px; }
+.complete-wrap p  {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.complete-actions { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .target-word-text { font-size: 1.6rem; }
+  .opt-btn { font-size: .88rem; padding: 12px 14px; }
+  .feature-card { padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOASTS ────────────────────────────────────────────────────────── -->
+<div id="praise-toast"></div>
+<div id="error-toast"></div>
+
+<!-- ─── WORD SUCCESS OVERLAY ──────────────────────────────────────────── -->
+<div id="word-success">
+  <div class="ws-box">
+    <span class="ws-icon"  id="ws-icon">🎉</span>
+    <div  class="ws-word"  id="ws-word"></div>
+    <div  class="ws-title" id="ws-title"></div>
+    <div  class="ws-pts"   id="ws-pts"></div>
+    <button class="btn-green" id="ws-next-btn" onclick="nextWord()"></button>
+  </div>
+</div>
+
+<!-- ─── HEADER ────────────────────────────────────────────────────────── -->
+<header id="app-header">
+  <div class="logo">🔬 SFA Scout</div>
+  <div class="score-chip">⭐ <span class="num" id="hdr-score">0</span> stig</div>
+</header>
+
+<!-- ─── MAIN ──────────────────────────────────────────────────────────── -->
+<main id="app-main">
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="home-hero">
+      <span class="hero-icon">🔬</span>
+      <h1>SFA Scout</h1>
+      <p>Skoðaðu hvert orð vandlega — flokkur, eiginleikar, notkun og fleira. Svaraðu 5 spurningum um hvert orð!</p>
+      <div class="home-meta">
+        <span class="home-meta-badge">⚽ Fótbolti</span>
+        <span class="home-meta-badge">🏛️ Pólitík</span>
+        <span class="home-meta-badge">📱 TikTok</span>
+        <span class="home-meta-badge">6 orð · 5 spurningar</span>
+        <span class="home-meta-badge">Enginn teljari ⏱️✗</span>
+      </div>
+    </div>
+    <div class="home-actions">
+      <button class="btn-primary" onclick="startGame()">Byrja leikinn ▶</button>
+      <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="game-topbar">
+      <button class="back-btn" onclick="goHome()">← Heim</button>
+      <span class="word-badge" id="g-word-badge">1 / 6</span>
+      <div class="progress-dots" id="g-word-dots"></div>
+    </div>
+
+    <div class="target-banner">
+      <span class="target-emoji" id="g-emoji">⚽</span>
+      <div class="target-info">
+        <label>🎯 Orðið þitt</label>
+        <div class="target-word-text" id="g-word"></div>
+      </div>
+    </div>
+
+    <div class="section-label">🧩 5 spurningar um þetta orð</div>
+    <div class="features-list" id="g-features"></div>
+  </div>
+
+  <!-- COMPLETE -->
+  <div class="screen" id="screen-complete">
+    <div class="complete-wrap">
+      <span class="big-icon"  id="c-icon">🏆</span>
+      <div class="final-score" id="c-score">0</div>
+      <div class="score-sub"   id="c-sub"></div>
+      <h2 id="c-title"></h2>
+      <p  id="c-msg"></p>
+      <div class="complete-actions">
+        <button class="btn-primary" onclick="startGame()">Spila aftur 🔄</button>
+        <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── SCRIPT ────────────────────────────────────────────────────────── -->
+<script>
+/* ── DATA ────────────────────────────────────────────────────────────── */
+const DATA = [
+  {
+    word: 'Knattspyrna', emoji: '⚽',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Íþrótt og leikur',
+        distractors: ['Tónlistarflokk', 'Matreiðslustefnumót']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Líkamleg, hröð og spennandi',
+        distractors: ['Hljóðlát og friðsæl', 'Kyrr og þögul']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Keppa og skora mörk',
+        distractors: ['Að lesa og skrifa', 'Að elda mat']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Á knattspyrnuvelli',
+        distractors: ['Í bókasafni', 'Í eldhúsi']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Lið, dómari og knöttur',
+        distractors: ['Hljóðfæri og nótur', 'Pönnur og gryttur']
+      }
+    ]
+  },
+  {
+    word: 'Forseti', emoji: '🏛️',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Æðsti embættismaður ríkisins',
+        distractors: ['Tónlistarmaður', 'Íþróttamaður']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Valdsamur og áhrifamikill',
+        distractors: ['Hljóður og óþekktur', 'Ungur og nýr']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Fara fyrir þjóð og ríki',
+        distractors: ['Spila knattspyrnu', 'Gera TikTok myndskeið']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Í Bessastaðir',
+        distractors: ['Á knattspyrnuvelli', 'Á TikTok']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Þjóðin, fáni og stjórnin',
+        distractors: ['Knöttur og leikmaður', 'Símar og fylgjendur']
+      }
+    ]
+  },
+  {
+    word: 'Áhrifavaldur', emoji: '📱',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Einstaklingur á netinu',
+        distractors: ['Stjórnmálamaður', 'Dómari í íþróttum']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Vinsæll og með marga fylgjendur',
+        distractors: ['Óþekktur og einn', 'Gamall og reyndur lögfræðingur']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Gera efni og auglýsa vörur',
+        distractors: ['Dæma knattspyrnuleiki', 'Skrifa lög á Alþingi']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Á TikTok og Instagram',
+        distractors: ['Á Alþingi', 'Á knattspyrnuvelli']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Myndskeið, fylgjendur og þrek',
+        distractors: ['Knöttur, mark og dómari', 'Atkvæði og frambjóðendur']
+      }
+    ]
+  },
+  {
+    word: 'Dómari', emoji: '🟥',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Starfsmaður í leikum',
+        distractors: ['Stjórnmálamaður', 'Tæknimaður á netinu']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Hlutlægur og ákveðinn',
+        distractors: ['Alltaf vinsæll hjá leikmönnum', 'Hljóður og falinn']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Gæta reglna og gefa dóma',
+        distractors: ['Skora mörk í leiknum', 'Gera myndskeið á netinu']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Á leikvangi',
+        distractors: ['Á Alþingi', 'Á TikTok']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Hljóðpípa, rautt spjald og reglur',
+        distractors: ['Mikrófonn og sjónvarp', 'Kosning og frambjóðandi']
+      }
+    ]
+  },
+  {
+    word: 'Kosning', emoji: '🗳️',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Lýðræðisleg athöfn',
+        distractors: ['Íþróttamót', 'Tónlistarviðburður']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Mikilvæg og opinber',
+        distractors: ['Skemmtileg og létt', 'Falinn og óformlegt']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Kjósa fulltrúa til Alþingis',
+        distractors: ['Skora mörk í leiknum', 'Deila myndböndum á netið']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Á kjörstöð',
+        distractors: ['Á leikvangi', 'Á TikTok']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Atkvæði, frambjóðendur og niðurstöður',
+        distractors: ['Knöttur og mark', 'Myndskeið og fylgjendur']
+      }
+    ]
+  },
+  {
+    word: 'Myndband', emoji: '📹',
+    features: [
+      {
+        question: '🏷️ Hvað er þetta?',
+        label: 'Flokkur',
+        correct: 'Stafrænt efni',
+        distractors: ['Líkamsæfing', 'Stjórnmálaleg athöfn']
+      },
+      {
+        question: '⭐ Hvernig er það?',
+        label: 'Eiginleikar',
+        correct: 'Sjónrænt og hljóðrænt',
+        distractors: ['Þungt og harðlægt', 'Gamalt og leiðinlegt']
+      },
+      {
+        question: '🎯 Til hvers er það notað?',
+        label: 'Notkun',
+        correct: 'Hlæja, læra og skemmta sér',
+        distractors: ['Skora mörk í leiknum', 'Kjósa fulltrúa á Alþing']
+      },
+      {
+        question: '📍 Hvar er það?',
+        label: 'Staðsetning',
+        correct: 'Á TikTok og YouTube',
+        distractors: ['Á kjörstöð', 'Á leikvangi']
+      },
+      {
+        question: '💭 Hvað tengist þessu?',
+        label: 'Tengsl',
+        correct: 'Símar, skjáir og fylgjendur',
+        distractors: ['Hljóðpípa og rautt spjald', 'Atkvæði og frambjóðendur']
+      }
+    ]
+  }
+];
+
+const PRAISE_FEATURE = [
+  '✅ Rétt! Vel gert!',
+  '🎯 Einmitt! Frábært!',
+  '⭐ Rétt! Þú þekkir þetta!',
+  '🌟 Nákvæmlega! Snilld!',
+  '💪 Rétt! Þetta var flott!'
+];
+
+const WORD_PRAISE = [
+  { icon: '🏆', title: 'Fullkomið!' },
+  { icon: '🌟', title: 'Frábær!'   },
+  { icon: '🎉', title: 'Vel gert!' },
+  { icon: '⭐', title: 'Snilld!'   }
+];
+
+/* ── STATE ───────────────────────────────────────────────────────────── */
+let wordIdx    = 0;
+let featureIdx = 0;
+let totalScore = 0;
+let wordScore  = 0;
+
+/* ── UTILS ───────────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── TOASTS ──────────────────────────────────────────────────────────── */
+let praiseTimer = null;
+let errorTimer  = null;
+
+function showPraise(msg) {
+  const t = $('praise-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(praiseTimer);
+  praiseTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function showError(msg) {
+  const t = $('error-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(errorTimer);
+  errorTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ── GAME FLOW ───────────────────────────────────────────────────────── */
+function goHome() {
+  $('word-success').classList.remove('show');
+  showScreen('screen-home');
+}
+
+function startGame() {
+  wordIdx    = 0;
+  totalScore = 0;
+  $('hdr-score').textContent = 0;
+  // Clear cached shuffled options from any previous game
+  DATA.forEach(entry => entry.features.forEach(f => delete f._opts));
+  showScreen('screen-game');
+  loadWord();
+}
+
+function loadWord() {
+  featureIdx = 0;
+  wordScore  = 0;
+  // Clear option cache for this word
+  DATA[wordIdx].features.forEach(f => delete f._opts);
+
+  const entry = DATA[wordIdx];
+
+  $('g-word-badge').textContent = `${wordIdx + 1} / ${DATA.length}`;
+  $('g-word-dots').innerHTML = DATA.map((_, i) =>
+    `<div class="pdot ${i < wordIdx ? 'done' : i === wordIdx ? 'current' : ''}"></div>`
+  ).join('');
+
+  $('g-emoji').textContent = entry.emoji;
+  $('g-word').textContent  = entry.word;
+
+  renderFeatures();
+}
+
+/* ── RENDER FEATURE CARDS ────────────────────────────────────────────── */
+function renderFeatures() {
+  const entry    = DATA[wordIdx];
+  const list     = $('g-features');
+  list.innerHTML = '';
+
+  entry.features.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.id = `fc-${i}`;
+
+    if (i < featureIdx) {
+      /* ── DONE ── */
+      card.className = 'feature-card done';
+      card.innerHTML = `
+        <div class="feature-q">${f.question}</div>
+        <div class="feature-label">${f.label}</div>
+        <div class="chosen-answer">✅ ${f.correct}</div>`;
+
+    } else if (i === featureIdx) {
+      /* ── ACTIVE ── */
+      card.className = 'feature-card active';
+
+      // Cache shuffled options so they don't re-shuffle on re-render
+      if (!f._opts) f._opts = shuffle([f.correct, ...f.distractors]);
+      const opts = f._opts;
+
+      const qEl = document.createElement('div');
+      qEl.className = 'feature-q';
+      qEl.textContent = f.question;
+
+      const lEl = document.createElement('div');
+      lEl.className = 'feature-label';
+      lEl.textContent = f.label;
+
+      const row = document.createElement('div');
+      row.className = 'options-row';
+
+      opts.forEach(o => {
+        const btn = document.createElement('button');
+        btn.className  = 'opt-btn';
+        btn.textContent = o;
+        btn.dataset.answer = o;
+        btn.addEventListener('click', () => pickOption(btn, f.correct));
+        row.appendChild(btn);
+      });
+
+      card.appendChild(qEl);
+      card.appendChild(lEl);
+      card.appendChild(row);
+
+    } else {
+      /* ── INACTIVE ── */
+      card.className = 'feature-card inactive';
+      card.innerHTML = `
+        <div class="feature-q">${f.question}</div>
+        <div class="feature-label">${f.label}</div>`;
+    }
+
+    list.appendChild(card);
+  });
+}
+
+/* ── PICK OPTION ─────────────────────────────────────────────────────── */
+function pickOption(btn, correct) {
+  const chosen = btn.dataset.answer;
+
+  if (chosen === correct) {
+    /* ── CORRECT ── */
+    btn.classList.add('correct');
+    btn.closest('.options-row').querySelectorAll('.opt-btn').forEach(b => {
+      b.disabled = true;
+    });
+
+    wordScore  += 10;
+    totalScore += 10;
+    $('hdr-score').textContent = totalScore;
+
+    showPraise(rnd(PRAISE_FEATURE));
+    featureIdx++;
+
+    setTimeout(() => {
+      const entry = DATA[wordIdx];
+      if (featureIdx >= entry.features.length) {
+        showWordSuccess();
+      } else {
+        renderFeatures();
+        // Scroll to newly active card
+        setTimeout(() => {
+          const next = $(`fc-${featureIdx}`);
+          if (next) next.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 80);
+      }
+    }, 700);
+
+  } else {
+    /* ── WRONG ── */
+    btn.classList.add('shake');
+    btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
+    showError('Reyndu aftur! 💪');
+  }
+}
+
+/* ── WORD SUCCESS ────────────────────────────────────────────────────── */
+function showWordSuccess() {
+  const entry  = DATA[wordIdx];
+  const isLast = wordIdx === DATA.length - 1;
+  const p      = rnd(WORD_PRAISE);
+
+  $('ws-icon').textContent  = p.icon;
+  $('ws-word').textContent  = entry.word;
+  $('ws-title').textContent = p.title + ' Þú þekkir þetta orð!';
+  $('ws-pts').textContent   = `+${wordScore} stig — samtals ${totalScore} stig`;
+  $('ws-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta orð ▶';
+  $('word-success').classList.add('show');
+}
+
+function nextWord() {
+  $('word-success').classList.remove('show');
+  wordIdx++;
+  if (wordIdx >= DATA.length) {
+    showComplete();
+  } else {
+    loadWord();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+/* ── COMPLETE ────────────────────────────────────────────────────────── */
+function showComplete() {
+  showScreen('screen-complete');
+  const max = DATA.length * 5 * 10;
+  const pct = Math.round(totalScore / max * 100);
+
+  let icon, title, msg;
+  if (pct === 100) {
+    icon = '🏆'; title = 'Fullkomið!';
+    msg = 'Þú svaraðir öllu rétt! Þú ert orðasnjallur — þú skilur öll þessi orð mjög vel!';
+  } else if (pct >= 70) {
+    icon = '⭐'; title = 'Mjög gott!';
+    msg = 'Þú skilur þessi orð vel. Prófaðu aftur til að fá fullkomnar stig!';
+  } else {
+    icon = '💪'; title = 'Haltu áfram!';
+    msg = 'Þú ert að þróa orðaforða þinn. Æfing skapar meistarann — prófaðu aftur!';
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = totalScore;
+  $('c-sub').textContent   = `stig af ${max} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+}
+</script>
+</body>
+</html>
