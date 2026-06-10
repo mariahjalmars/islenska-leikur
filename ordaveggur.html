@@ -268,6 +268,18 @@ body {
 .flip-card.purple-card .card-face-word { color: var(--purple); }
 .flip-card.purple-card .card-face-back { border-left: 3px solid rgba(167,139,250,.5); background: rgba(167,139,250,.06); }
 
+/* Blue variant (Fréttaorð) */
+.flip-card.news-card .card-front {
+  border-left: 3px solid rgba(96,165,250,.5);
+  background: rgba(96,165,250,.04);
+}
+.flip-card.news-card:hover .card-front {
+  background: rgba(96,165,250,.08);
+  border-left-color: var(--blue);
+}
+.flip-card.news-card .card-face-word { color: var(--blue); }
+.flip-card.news-card .card-face-back { border-left: 3px solid rgba(96,165,250,.5); background: rgba(96,165,250,.06); }
+
 .card-face-emoji {
   font-size: 2rem;
   line-height: 1;
@@ -384,6 +396,9 @@ body {
     <button class="tab-btn"              id="tab-fun"     onclick="switchTab('fun')">
       🤪 Skrítin orð
     </button>
+    <button class="tab-btn"              id="tab-frett"   onclick="switchTab('frett')">
+      📰 Fréttaorð
+    </button>
   </div>
 
   <!-- ─── PANEL: ORÐIN MÍN ────────────────────────────────────────── -->
@@ -410,140 +425,84 @@ body {
     <div class="card-grid" id="grid-fun"></div>
   </div>
 
+  <!-- ─── PANEL: FRÉTTAORÐ ─────────────────────────────────────────── -->
+  <div class="panel" id="panel-frett">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(96,165,250,.12);">📰</div>
+      <div>
+        <div class="section-title">Fréttaorð</div>
+        <div class="section-desc">Orð sem þú valdir úr Frétt dagsins</div>
+      </div>
+    </div>
+    <div class="card-grid" id="grid-frett"></div>
+  </div>
+
 </div>
 
 <script>
 'use strict';
 
+const STORAGE_KEY = 'islenska_frett_ord';
+
 /* ─── DATABASE ───────────────────────────────────────────────────── */
 const DATA = {
   ordin_min: [
-    {
-      word:       "Seigla",
-      emoji:      "💪",
-      definition: "Að gefast ekki upp þótt eitthvað sé erfitt.",
-      example:    "Liðið sýndi mikla seiglu í leiknum."
-    },
-    {
-      word:       "Krefjandi",
-      emoji:      "🏋️",
-      definition: "Eitthvað sem reynir mikið á mann.",
-      example:    "Þetta var mjög krefjandi stærðfræðidæmi."
-    },
-    {
-      word:       "Orðrómur",
-      emoji:      "💬",
-      definition: "Kjaftasaga sem gengur á milli fólks en er ekki staðfest.",
-      example:    "Það var orðrómur á TikTok um nýja skólareglu."
-    },
-    {
-      word:       "Hæstánægður",
-      emoji:      "😄",
-      definition: "Mjög glaður og sáttur.",
-      example:    "Þjálfarinn var hæstánægður með sigurinn."
-    }
+    { word: "Seigla",       emoji: "💪", definition: "Að gefast ekki upp þótt eitthvað sé erfitt.", example: "Liðið sýndi mikla seiglu í leiknum." },
+    { word: "Krefjandi",    emoji: "🏋️", definition: "Eitthvað sem reynir mikið á mann.", example: "Þetta var mjög krefjandi stærðfræðidæmi." },
+    { word: "Orðrómur",     emoji: "💬", definition: "Kjaftasaga sem gengur á milli fólks en er ekki staðfest.", example: "Það var orðrómur á TikTok um nýja skólareglu." },
+    { word: "Hæstánægður",  emoji: "😄", definition: "Mjög glaður og sáttur.", example: "Þjálfarinn var hæstánægður með sigurinn." }
   ],
   skritin_ord: [
-    {
-      word:       "Dordingull",
-      emoji:      "🕷️",
-      definition: "Lítil kónguló — eða notað um skrítna manneskju. Hljómar mjög skemmtilega!",
-      example:    "Það var lítill dordingull úti í horni."
-    },
-    {
-      word:       "Rúsínubolla",
-      emoji:      "🍞",
-      definition: "Sætabrauð með rúsínum — en líka notað sem krúttlegt gælunafn.",
-      example:    "Komdu hingað, litla rúsínubolla!"
-    },
-    {
-      word:       "Kexruglaður",
-      emoji:      "🤪",
-      definition: "Algjörlega ruglaður eða galinn. Skemmtilegt slangur.",
-      example:    "Dómarinn er algjörlega kexruglaður að dæma þetta!"
-    },
-    {
-      word:       "Þátttaka",
-      emoji:      "✋",
-      definition: "Að taka þátt. Skrítin stafsetning — þrjú T í röð!",
-      example:    "Þátttaka í fótboltamótinu var frábær."
-    }
+    { word: "Dordingull",   emoji: "🕷️", definition: "Lítil kónguló — eða notað um skrítna manneskju. Hljómar mjög skemmtilega!", example: "Það var lítill dordingull úti í horni." },
+    { word: "Rúsínubolla",  emoji: "🍞", definition: "Sætabrauð með rúsínum — en líka notað sem krúttlegt gælunafn.", example: "Komdu hingað, litla rúsínubolla!" },
+    { word: "Kexruglaður",  emoji: "🤪", definition: "Algjörlega ruglaður eða galinn. Skemmtilegt slangur.", example: "Dómarinn er algjörlega kexruglaður að dæma þetta!" },
+    { word: "Þátttaka",     emoji: "✋", definition: "Að taka þátt. Skrítin stafsetning — þrjú T í röð!", example: "Þátttaka í fótboltamótinu var frábær." }
   ]
 };
 
-/* ─── BUILD CARDS ────────────────────────────────────────────────── */
+/* ─── BUILD STATIC CARDS (gold / purple) ────────────────────────── */
 function buildCards(items, containerId, variant) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
-
   items.forEach(item => {
     const card = document.createElement('div');
     card.className = `flip-card ${variant}-card`;
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', `Orðspjald: ${item.word}`);
     card.setAttribute('tabindex', '0');
-
     card.innerHTML = `
       <div class="flip-card-inner">
-        <!-- FRONT -->
         <div class="card-face card-front">
           <span class="card-face-emoji">${item.emoji}</span>
           <span class="card-face-word">${item.word}</span>
           <span class="card-face-hint">smelltu til að sjá</span>
         </div>
-        <!-- BACK -->
         <div class="card-face card-face-back">
           <span class="card-back-close">↩ loka</span>
           <div class="card-back-word">${item.emoji} ${item.word}</div>
           <div class="card-back-def">${item.definition}</div>
           <div class="card-back-example">"${item.example}"</div>
         </div>
-      </div>
-    `;
-
-    /* Click or Enter to flip */
+      </div>`;
     const toggle = () => card.classList.toggle('flipped');
     card.addEventListener('click', toggle);
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-    });
-
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
     container.appendChild(card);
   });
 }
 
-/* ─── TABS ───────────────────────────────────────────────────────── */
-function switchTab(tab) {
-  /* Panels */
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + (tab === 'mine' ? 'mine' : 'fun')).classList.add('active');
+/* ─── BUILD NEWS CARDS (from localStorage) ──────────────────────── */
+function buildFrettCards() {
+  const container = document.getElementById('grid-frett');
+  container.innerHTML = '';
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch {}
 
-  /* Tab buttons */
-  const btnMine = document.getElementById('tab-mine');
-  const btnFun  = document.getElementById('tab-fun');
-  btnMine.className = 'tab-btn' + (tab === 'mine' ? ' active-gold' : '');
-  btnFun.className  = 'tab-btn' + (tab === 'fun'  ? ' active-purple' : '');
-
-  /* Close any open cards when switching tabs */
-  document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
-
-  /* Re-animate cards in new panel */
-  const activeGrid = tab === 'mine' ? 'grid-mine' : 'grid-fun';
-  document.querySelectorAll(`#${activeGrid} .flip-card`).forEach((c, i) => {
-    c.style.animationDelay = `${i * .05}s`;
-    c.style.animation = 'none';
-    void c.offsetWidth; /* reflow */
-    c.style.animation = '';
-  });
-}
-
-/* ─── INIT ───────────────────────────────────────────────────────── */
-buildCards(DATA.ordin_min,    'grid-mine', 'gold');
-buildCards(DATA.skritin_ord,  'grid-fun',  'purple');
-
-/* Update badge */
-const total = DATA.ordin_min.length + DATA.skritin_ord.length;
-document.getElementById('word-count-badge').textContent = `${total} orð`;
-</script>
-</body>
-</html>
+  if (!saved.length) {
+    container.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:36px 20px;color:var(--muted);line-height:1.7;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">📰</div>
+        <div style="font-weight:700;margin-bottom:6px;">Engin fréttaorð ennþá</div>
+        <div style="font-size:.85rem;">Farðu í <strong style="color:var(--blue);">Frétt dagsins</strong> og smelltu á áhugaverð orð til að safna þeim hér.</div>
+        <br>
+        <a href="frett_dagsins.html" style="display:inline-block;margin-top:4px;background:rgba(96

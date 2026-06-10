@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📰 Frétt dagsins</title>
+<style>
+/* ─── DESIGN TOKENS ──────────────────────────────────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --blue:   #60a5fa;
+  --purple: #a78bfa;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-xl:   32px;
+  --r-pill: 100px;
+  --shadow:     0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-green: 0 0 18px rgba(34,197,94,0.30);
+  --glow-blue:  0 0 18px rgba(96,165,250,0.28);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%,  rgba(96,165,250,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%,  rgba(245,166,35,.05) 0%, transparent 50%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 680px;
+  padding: 0 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── TOP BAR ────────────────────────────────────────────────────── */
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0 20px;
+  gap: 10px;
+}
+.btn-back {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 8px 18px;
+  color: var(--muted);
+  font-size: .85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: color .18s, border-color .18s;
+  white-space: nowrap;
+}
+.btn-back:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+
+.topbar-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.saved-badge {
+  background: rgba(34,197,94,.12);
+  border: 1px solid rgba(34,197,94,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--green);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s;
+  text-decoration: none;
+  display: inline-block;
+}
+.saved-badge:hover { background: rgba(34,197,94,.2); }
+
+/* ─── HERO ───────────────────────────────────────────────────────── */
+.hero {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 24px;
+  animation: fadeUp .4s ease both;
+}
+.hero-title {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #60a5fa 0%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+.hero-desc {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.hero-desc strong { color: var(--text); }
+
+/* ─── CATEGORY TABS ──────────────────────────────────────────────── */
+.tabs {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px;
+  margin-bottom: 24px;
+  animation: fadeUp .4s .05s ease both;
+}
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 11px 14px;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .2s, color .2s, box-shadow .2s;
+}
+.tab-btn.active {
+  background: rgba(96,165,250,.15);
+  color: var(--blue);
+  box-shadow: inset 0 0 0 1.5px rgba(96,165,250,.35);
+}
+.tab-btn:not(.active):hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+/* ─── PRAISE BANNER ──────────────────────────────────────────────── */
+.praise-banner {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.06));
+  border: 1.5px solid rgba(34,197,94,.30);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  animation: slideDown .4s ease;
+}
+.praise-banner.visible { display: flex; }
+.praise-icon { font-size: 1.8rem; flex-shrink: 0; }
+.praise-body { flex: 1; }
+.praise-title { font-size: .95rem; font-weight: 800; color: var(--green); }
+.praise-sub   { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+/* ─── ARTICLE CARD ───────────────────────────────────────────────── */
+.article-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: fadeUp .4s .1s ease both;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px 0;
+  gap: 10px;
+}
+.article-source {
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--blue);
+}
+.article-date {
+  font-size: .72rem;
+  color: var(--muted);
+}
+.article-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-article-nav {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 4px 12px;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .18s, border-color .18s;
+}
+.btn-article-nav:hover:not(:disabled) { color: var(--text); border-color: rgba(255,255,255,.25); }
+.btn-article-nav:disabled { opacity: .3; cursor: default; }
+.article-counter { font-size: .72rem; color: var(--muted); }
+
+.article-headline {
+  padding: 16px 22px 12px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.article-body {
+  padding: 0 22px 22px;
+  font-size: .95rem;
+  line-height: 1.85;
+  color: rgba(239,240,243,.85);
+}
+
+/* ─── WORD TOKENS ────────────────────────────────────────────────── */
+.word-token {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 1px 3px;
+  margin: 0 -1px;
+  transition: background .15s, color .15s;
+  display: inline;
+  -webkit-tap-highlight-color: transparent;
+  border-bottom: 1px dotted rgba(96,165,250,.35);
+}
+.word-token:hover {
+  background: rgba(96,165,250,.18);
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+.word-token.saved {
+  background: rgba(34,197,94,.18);
+  color: var(--green);
+  border-bottom: 1px solid rgba(34,197,94,.5);
+  font-weight: 700;
+}
+.word-token.just-saved {
+  animation: wordPop .5s ease;
+}
+
+/* ─── INSTRUCTION BOX ────────────────────────────────────────────── */
+.instruction-box {
+  width: 100%;
+  background: rgba(96,165,250,.07);
+  border: 1px solid rgba(96,165,250,.20);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  animation: fadeUp .4s .15s ease both;
+}
+.instruction-text {
+  font-size: .88rem;
+  line-height: 1.6;
+  color: rgba(239,240,243,.75);
+}
+.instruction-text strong { color: var(--blue); }
+
+/* ─── LOADING / ERROR STATES ─────────────────────────────────────── */
+.state-box {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 52px 24px;
+  text-align: center;
+  animation: fadeUp .4s ease;
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(96,165,250,.2);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+.state-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.state-sub   { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+/* ─── ANIMATIONS ──────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes wordPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+  .article-headline { font-size: 1rem; padding: 12px 16px 10px; }
+  .article-body     { font-size: .88rem; padding: 0 16px 18px; }
+  .article-meta     { padding: 12px 16px 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="index.html" class="btn-back">← Til baka í valmynd</a>
+    <span class="topbar-title">📰 Frétt dagsins</span>
+    <a href="ordaveggur.html" class="saved-badge" id="saved-badge">0 orð ✅</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1 class="hero-title">📰 Frétt dagsins</h1>
+    <p class="hero-desc">
+      <strong>Lestu fréttina.</strong> Smelltu á orðið sem þér finnst <strong>flóknast eða áhugaverðast</strong> til að setja það á Orðavegginn þinn!
+    </p>
+  </div>
+
+  <!-- INSTRUCTION BOX -->
+  <div class="instruction-box">
+    <p class="instruction-text">
+      💡 Hvert orð í fréttinni er smellanlegt. Veldu <strong>eitt orð sem þú þekkir ekki vel</strong> — það fer beint á Orðavegginn þinn til að þjálfa seinna.
+    </p>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-innlent" onclick="switchFeed('innlent')">🗞️ Innlent</button>
+    <button class="tab-btn"        id="tab-sport"   onclick="switchFeed('sport')">⚽ Íþróttir</button>
+    <button class="tab-btn"        id="tab-erlent"  onclick="switchFeed('erlent')">🌍 Erlent</button>
+  </div>
+
+  <!-- PRAISE BANNER -->
+  <div class="praise-banner" id="praise-banner">
+    <span class="praise-icon">🌟</span>
+    <div class="praise-body">
+      <div class="praise-title" id="praise-title">Frábært val!</div>
+      <div class="praise-sub"  id="praise-sub">Orðið er komið á Orðavegginn þinn.</div>
+    </div>
+  </div>
+
+  <!-- ARTICLE AREA -->
+  <div id="article-area">
+    <div class="state-box" id="loading-box">
+      <div class="spinner"></div>
+      <div class="state-title">Sæki fréttir frá RÚV…</div>
+      <div class="state-sub">Þetta tekur sekúndu</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+/* ─── CONFIG ─────────────────────────────────────────────────────── */
+const STORAGE_KEY = 'islenska_frett_ord';
+
+const FEEDS = {
+  innlent: { url: 'https://www.ruv.is/rss/innlent', label: 'RÚV – Innlent' },
+  sport:   { url: 'https://www.ruv.is/rss/sport',   label: 'RÚV – Íþróttir' },
+  erlent:  { url: 'https://www.ruv.is/rss/erlent',  label: 'RÚV – Erlent'   }
+};
+
+const PROXIES = [
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+];
+
+const PRAISE_PHRASES = [
+  "Frábært val! „{}" er komið á Orðavegginn þinn! 🎉",
+  "Vel fundið! „{}" er nú í safninu þínu! ⭐",
+  "Flott! „{}" er geymt á Orðaveginum þínum! 🧱",
+  "Þú ert að verða orðasmiður! „{}" er vistað! 💪",
+  "Nákvæmlega það sem við þurftum! „{}" er skráð! 🌟"
+];
+
+/* ─── STATE ──────────────────────────────────────────────────────── */
+let articles       = [];
+let currentIdx     = 0;
+let currentFeed    = 'innlent';
+let praiseTimeout  = null;
+
+/* ─── LOCALSTORAGE ───────────────────────────────────────────────── */
+function loadSavedWords() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function isWordSaved(word) {
+  const saved = loadSavedWords();
+  return saved.some(w => w.word.toLowerCase() === word.toLowerCase());
+}
+
+function saveWord(word, headline) {
+  const saved = loadSavedWords();
+  if (saved.some(w => w.word.toLowerCase() === word.toLowerCase())) return false;
+  saved.push({
+    word,
+    source: FEEDS[currentFeed].label,
+    headline: headline.slice(0, 70) + (headline.length > 70 ? '…' : ''),
+    savedAt: new Date().toISOString().slice(0, 10)
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+  return true;
+}
+
+function updateBadge() {
+  const count = loadSavedWords().length;
+  document.getElementById('saved-badge').textContent = `${count} orð ✅`;
+}
+
+/* ─── RSS FETCH ──────────────────────────────────────────────────── */
+async function fetchWithProxy(feedUrl) {
+  for (const makeProxy of PROXIES) {
+    try {
+      const proxyUrl = makeProxy(feedUrl);
+      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const data = await res.json().catch(() => null);
+      if (!data) continue;
+      /* allorigins wraps in { contents: "..." } */
+      const xmlStr = data.contents ?? data;
+      if (typeof xmlStr === 'string' && xmlStr.includes('<item')) return xmlStr;
+    } catch { /* try next proxy */ }
+  }
+  throw new Error('Ekki tókst að sækja fréttir');
+}
+
+function parseRSS(xmlStr) {
+  const doc  = new DOMParser().parseFromString(xmlStr, 'text/xml');
+  const items = [...doc.querySelectorAll('item')].slice(0, 4);
+  return items.map(item => ({
+    title:   cleanText(item.querySelector('title')?.textContent || 'Frétt'),
+    desc:    cleanText(item.querySelector('description')?.textContent || ''),
+    pubDate: formatDate(item.querySelector('pubDate')?.textContent || ''),
+    link:    item.querySelector('link')?.textContent?.trim() || ''
+  })).filter(a => a.desc.length > 40);
+}
+
+function cleanText(str) {
+  /* Strip CDATA and HTML tags, decode entities */
+  const s = str.replace(/<!\[CDATA\[|\]\]>/g, '').trim();
+  const div = document.createElement('div');
+  div.innerHTML = s;
+  return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function formatDate(pubDateStr) {
+  try {
+    const d = new Date(pubDateStr);
+    return d.toLocaleDateString('is-IS', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch { return ''; }
+}
+
+/* ─── WORD TOKENIZER ─────────────────────────────────────────────── */
+// Icelandic alphabet: regular + á é í ó ú ý þ ð æ ö (upper and lower)
+const WORD_RE = /([a-zA-ZáéíóúýÁÉÍÓÚÝþðæöÞÐÆÖ]{3,})/g;
+
+function makeClickable(text, savedSet) {
+  return text.replace(WORD_RE, (word) => {
+    const isSaved = savedSet.has(word.toLowerCase());
+    const cls = 'word-token' + (isSaved ? ' saved' : '');
+    return `<span class="${cls}" role="button" tabindex="0" data-word="${word}">${word}</span>`;
+  });
+}
+
+/* ─── RENDER ─────────────────────────────────────────────────────── */
+function renderArticles() {
+  if (!articles.length) {
+    showError('Engar fréttir fundust', 'Reyndu að skipta um flokk eða kom aftur síðar.');
+    return;
+  }
+
+  currentIdx = Math.min(currentIdx, articles.length - 1);
+  const a = articles[currentIdx];
+  const saved = new Set(loadSavedWords().map(w => w.word.toLowerCase()));
+
+  const area = document.getElementById('article-area');
+  area.innerHTML = `
+    <div class="article-card" id="article-card">
+      <div class="article-meta">
+        <span class="article-source">${FEEDS[currentFeed].label}</span>
+        <div class="article-nav">
+          <button class="btn-article-nav" id="btn-prev"
+                  onclick="navigate(-1)" ${currentIdx === 0 ? 'disabled' : ''}>‹</button>
+          <span class="article-counter">${currentIdx + 1} / ${articles.length}</span>
+          <button class="btn-article-nav" id="btn-next"
+                  onclick="navigate(1)" ${currentIdx >= articles.length - 1 ? 'disabled' : ''}>›</button>
+        </div>
+        <span class="article-date">${a.pubDate}</span>
+      </div>
+      <div class="article-headline" id="article-headline">${escHtml(a.title)}</div>
+      <div class="article-body">${makeClickable(a.desc, saved)}</div>
+    </div>
+  `;
+
+  /* Attach click listeners to all word tokens */
+  document.querySelectorAll('.word-token').forEach(el => {
+    el.addEventListener('click', () => handleWordClick(el));
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleWordClick(el); }
+    });
+  });
+
+  updateBadge();
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function showLoading() {
+  document.getElementById('article-area').innerHTML = `
+    <div class="state-box" id="loading-box">
+      <div class="spinner"></div>
+      <div class="state-title">Sæki fréttir frá RÚV…</div>
+      <div class="state-sub">Þetta tekur sekúndu</div>
+    </div>`;
+}
+
+function showError(title, sub) {
+  document.getElementById('article-area').innerHTML = `
+    <div class="state-box">
+      <div style="font-size:3rem;margin-bottom:14px;">📡</div>
+      <div class="state-title">${title}</div>
+      <div class="state-sub">${sub}</div>
+      <br>
+      <button class="btn-back" onclick="loadFeed()" style="margin-top:8px;cursor:pointer;">
+        Reyna aftur ↺
+      </button>
+    </div>`;
+}
+
+/* ─── WORD CLICK ─────────────────────────────────────────────────── */
+function handleWordClick(el) {
+  const word = el.dataset.word;
+  if (!word) return;
+
+  /* Already saved */
+  if (el.classList.contains('saved')) {
+    showPraise(`„${word}" er þegar á Orðaveginum þínum!`, 'Veldu annað orð 😊', '⭐');
+    return;
+  }
+
+  /* Save it */
+  const headline = document.getElementById('article-headline')?.textContent || '';
+  const isNew = saveWord(word, headline);
+
+  if (isNew) {
+    el.classList.add('saved', 'just-saved');
+    el.addEventListener('animationend', () => el.classList.remove('just-saved'), { once: true });
+
+    const phrase = PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)]
+                    .replace('{}', word);
+    showPraise(phrase, 'Smelltu á „✅ orð" efst til að sjá Orðavegginn', '🌟');
+    updateBadge();
+  }
+}
+
+function showPraise(title, sub, icon) {
+  const banner = document.getElementById('praise-banner');
+  document.getElementById('praise-title').textContent = title;
+  document.getElementById('praise-sub').textContent   = sub;
+  banner.querySelector('.praise-icon').textContent    = icon || '🌟';
+  banner.classList.add('visible');
+
+  if (praiseTimeout) clearTimeout(praiseTimeout);
+  praiseTimeout = setTimeout(() => banner.classList.remove('visible'), 4000);
+}
+
+/* ─── NAV & FEED SWITCH ──────────────────────────────────────────── */
+function navigate(dir) {
+  currentIdx = Math.max(0, Math.min(articles.length - 1, currentIdx + dir));
+  document.getElementById('praise-banner').classList.remove('visible');
+  renderArticles();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchFeed(feed) {
+  if (feed === currentFeed) return;
+  currentFeed = feed;
+  currentIdx  = 0;
+
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + feed).classList.add('active');
+  document.getElementById('praise-banner').classList.remove('visible');
+
+  loadFeed();
+}
+
+async function loadFeed() {
+  showLoading();
+  try {
+    const xmlStr = await fetchWithProxy(FEEDS[currentFeed].url);
+    articles = parseRSS(xmlStr);
+    currentIdx = 0;
+    renderArticles();
+  } catch (err) {
+    showError(
+      'Ekki tókst að sækja fréttir',
+      'Athugaðu nettenginguna og reyndu aftur. RÚV gæti verið tímabundið óaðgengilegt.'
+    );
+  }
+}
+
+/* ─── INIT ───────────────────────────────────────────────────────── */
+updateBadge();
+loadFeed();
+</script>
+</body>
+</html>
