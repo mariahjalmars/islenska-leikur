@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏟️ Þjálfunarbúðirnar</title>
+<style>
+/* ─── DESIGN TOKENS (identical to voldug_ord / frayer) ──────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --red:    #ef4444;
+  --blue:   #60a5fa;
+  --pink:   #f472b6;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-xl:   32px;
+  --r-pill: 100px;
+  --shadow:     0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 24px rgba(245,166,35,0.30);
+  --glow-green: 0 0 24px rgba(34,197,94,0.28);
+  --glow-blue:  0 0 24px rgba(96,165,250,0.28);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%,  rgba(245,166,35,.07)  0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%,  rgba(96,165,250,.07)  0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(244,114,182,.05) 0%, transparent 50%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── WRAPPER ────────────────────────────────────────────────────────────── */
+.wrapper {
+  width: 100%;
+  max-width: 680px;
+  padding: 36px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ─── HERO ───────────────────────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(245,166,35,.1);
+  border: 1px solid rgba(245,166,35,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 18px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  /* Gradient text */
+  background: linear-gradient(135deg, #f5a623 0%, #ffe082 55%, #f5a623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ─── SECTION LABEL ──────────────────────────────────────────────────────── */
+.section-label {
+  width: 100%;
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── GAME CARDS ─────────────────────────────────────────────────────────── */
+.game-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 22px 24px;
+  text-decoration: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .22s ease, box-shadow .22s ease, background .18s, border-color .18s;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Subtle shimmer on the left edge */
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  background: var(--surface-hover);
+}
+.game-card:active { transform: translateY(-1px); }
+
+/* Accent left border colour per card */
+.game-card.card-power  { border-left: 4px solid var(--green); }
+.game-card.card-frayer { border-left: 4px solid var(--blue);  }
+.game-card.card-ordasmidjan { border-left: 4px solid var(--gold);  }
+.game-card.card-sfa    { border-left: 4px solid var(--pink);  }
+.game-card.card-nefndu { border-left: 4px solid #a78bfa;      }
+
+.game-card:hover.card-power  { box-shadow: 0 8px 40px rgba(34,197,94,.18);  }
+.game-card:hover.card-frayer { box-shadow: 0 8px 40px rgba(96,165,250,.18); }
+.game-card:hover.card-ordasmidjan { box-shadow: 0 8px 40px rgba(245,166,35,.18); }
+.game-card:hover.card-sfa    { box-shadow: 0 8px 40px rgba(244,114,182,.18);}
+.game-card:hover.card-nefndu { box-shadow: 0 8px 40px rgba(167,139,250,.18);}
+
+/* Icon bubble */
+.card-icon-wrap {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+.card-power  .card-icon-wrap { background: rgba(34,197,94,.12);  }
+.card-frayer .card-icon-wrap { background: rgba(96,165,250,.12); }
+.card-ordasmidjan .card-icon-wrap { background: rgba(245,166,35,.12); }
+.card-sfa    .card-icon-wrap { background: rgba(244,114,182,.12);}
+.card-nefndu .card-icon-wrap { background: rgba(167,139,250,.12);}
+
+/* Text */
+.card-body { flex: 1; min-width: 0; }
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-desc {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* Status tag */
+.card-status {
+  flex-shrink: 0;
+  font-size: .75rem;
+  font-weight: 700;
+  padding: 5px 13px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.status-ready   { background: rgba(34,197,94,.12);  color: var(--green); }
+.status-soon    { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border); }
+
+/* Arrow */
+.card-arrow {
+  font-size: 1.1rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.game-card:hover .card-arrow { transform: translateX(4px); color: var(--text); }
+
+/* Disabled (coming soon) */
+.game-card.disabled {
+  opacity: .55;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ─── SCORE BAND ─────────────────────────────────────────────────────────── */
+.score-band {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.score-band .band-icon { font-size: 2rem; }
+.score-band .band-text { flex: 1; }
+.score-band .band-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 2px; }
+.score-band .band-val   { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+.footer {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: .8rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero       { animation: fadeUp .4s ease both; }
+.game-list  { animation: fadeUp .4s .1s ease both; }
+.score-band { animation: fadeUp .4s .2s ease both; }
+
+/* Stagger cards */
+.game-card:nth-child(1) { animation: fadeUp .35s .12s ease both; }
+.game-card:nth-child(2) { animation: fadeUp .35s .20s ease both; }
+.game-card:nth-child(3) { animation: fadeUp .35s .28s ease both; }
+.game-card:nth-child(4) { animation: fadeUp .35s .36s ease both; }
+.game-card:nth-child(5) { animation: fadeUp .35s .44s ease both; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card-icon-wrap { width: 50px; height: 50px; font-size: 1.7rem; border-radius: 14px; }
+  .card-title { font-size: 1.05rem; }
+  .game-card  { padding: 18px 16px; gap: 14px; }
+  .card-status { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ─── HERO ────────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-badge">🏟️ Orðaþjálfun</div>
+    <h1>Þjálfunarbúðirnar</h1>
+    <p>Veldu leik til að þjálfa íslenskt mál — orðaforða, beyging og málfræði.</p>
+  </div>
+
+  <!-- ─── GAME LIST ────────────────────────────────────────────────────── -->
+  <div class="section-label">🎮 Leikirnir</div>
+
+  <div class="game-list">
+
+    <!-- 1. Voldug Orð -->
+    <a class="game-card card-power" href="voldug_ord.html">
+      <div class="card-icon-wrap">💪</div>
+      <div class="card-body">
+        <div class="card-title">Voldug Orð</div>
+        <div class="card-desc">Uppfærðu setningar með sterkari og nákvæmari orðum</div>
+      </div>
+      <span class="card-status status-ready">✅ Tilbúið</span>
+      <span class="card-arrow">›</span>
+    </a>
+
+    <!-- 2. Frayer News Desk -->
+    <a class="game-card card-frayer" href="frayer.html">
+      <div class="card-icon-wrap">📰</div>
+      <div class="card-body">
+        <div class="card-title">Frayer News Desk</div>
+        <div class="card-desc">Kynntu þér ný orð — skilgreining, dæmi og eiginleikar</div>
+      </div>
+      <span class="card-status status-ready">✅ Tilbúið</span>
+      <span class="card-arrow">›</span>
+    </a>
+
+    <!-- 3. Orðasmiðjan — coming soon -->
+    <div class="game-card card-ordasmidjan disabled">
+      <div class="card-icon-wrap">🔨</div>
+      <div class="card-body">
+        <div class="card-title">Orðasmiðjan</div>
+        <div class="card-desc">Settu saman forskeyti og viðsteyti til að mynda rétt orðmyndir</div>
+      </div>
+      <span class="card-status status-soon">Væntanlegt</span>
+      <span class="card-arrow">›</span>
+    </div>
+
+    <!-- 4. SFA Scout — coming soon -->
+    <div class="game-card card-sfa disabled">
+      <div class="card-icon-wrap">🔬</div>
+      <div class="card-body">
+        <div class="card-title">SFA Scout</div>
+        <div class="card-desc">Greindu orð eins og sérfræðingur — hvað er þetta, hvernig er það notað?</div>
+      </div>
+      <span class="card-status status-soon">Væntanlegt</span>
+      <span class="card-arrow">›</span>
+    </div>
+
+    <!-- 5. Nefndu Þrennt — coming soon -->
+    <div class="game-card card-nefndu disabled">
+      <div class="card-icon-wrap">🧠</div>
+      <div class="card-body">
+        <div class="card-title">Nefndu Þrennt</div>
+        <div class="card-desc">Nefndu þrjú dæmi úr hverjum flokk — þjálgar minni og flokkun</div>
+      </div>
+      <span class="card-status status-soon">Væntanlegt</span>
+      <span class="card-arrow">›</span>
+    </div>
+
+  </div>
+
+  <!-- ─── PROGRESS BAND ────────────────────────────────────────────────── -->
+  <div class="section-label">📊 Framvinda</div>
+
+  <div class="score-band">
+    <div class="band-icon">🏆</div>
+    <div class="band-text">
+      <div class="band-label">Leikir tilbúnir</div>
+      <div class="band-val">2 af 5</div>
+    </div>
+    <div style="font-size:.88rem; color:var(--muted); text-align:right; line-height:1.5;">
+      Orðasmiðjan<br>kemur næst
+    </div>
+  </div>
+
+  <div class="footer">
+    Smelltu á leik til að byrja &nbsp;·&nbsp; Engin teljari &nbsp;·&nbsp; Allt á þínum hraða
+  </div>
+
+</div>
+</body>
+</html>

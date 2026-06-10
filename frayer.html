@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📰 Frayer News Desk</title>
+<style>
+/* ─── DESIGN TOKENS (same as voldug_ord.html) ───────────────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --red:    #ef4444;
+  --blue:   #60a5fa;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-pill: 100px;
+  --shadow:      0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:   0 0 18px rgba(245,166,35,0.30);
+  --glow-green:  0 0 18px rgba(34,197,94,0.30);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(96,165,250,.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(244,114,182,.06) 0%, transparent 55%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
+#app-header {
+  width: 100%;
+  max-width: 820px;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.score-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 7px 18px;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.score-chip .num { color: var(--gold); font-weight: 800; font-size: 1rem; }
+
+/* ─── MAIN ───────────────────────────────────────────────────────────────── */
+#app-main {
+  width: 100%;
+  max-width: 820px;
+  padding: 24px 20px 48px;
+  flex: 1;
+}
+
+/* ─── SCREENS ────────────────────────────────────────────────────────────── */
+.screen        { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes pop     { 0%,100%{ transform: scale(1); } 40%{ transform: scale(1.14); } }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-9px)} 35%{transform:translateX(9px)} 55%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+@keyframes pulseBorder {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.55); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: none; }
+}
+
+/* ─── SHARED BUTTONS ─────────────────────────────────────────────────────── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--gold);
+  color: #0c0c18;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-decoration: none;
+  text-align: center;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-gold); }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  text-decoration: none;
+  text-align: center;
+}
+.btn-secondary:hover { background: var(--surface-hover); border-color: rgba(255,255,255,.25); }
+
+.back-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 9px 15px;
+  color: var(--text);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+  text-decoration: none;
+  display: inline-block;
+}
+.back-btn:hover { background: var(--surface-hover); }
+
+/* ─── HOME SCREEN ────────────────────────────────────────────────────────── */
+.home-hero {
+  text-align: center;
+  padding: 8px 0 36px;
+}
+.home-hero .hero-icon { font-size: 4rem; display: block; margin-bottom: 14px; }
+.home-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.home-hero p  {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0 auto 32px;
+}
+.home-actions { max-width: 340px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+
+/* ─── GAME TOPBAR ────────────────────────────────────────────────────────── */
+.game-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.cat-badge {
+  font-size: .88rem;
+  font-weight: 700;
+  padding: 7px 15px;
+  border-radius: var(--r-pill);
+  background: rgba(96,165,250,.15);
+  color: var(--blue);
+}
+.progress-info {
+  margin-left: auto;
+  font-size: .85rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dots { display: flex; gap: 6px; }
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .3s;
+}
+.dot.done    { background: var(--gold); }
+.dot.current { background: var(--text); transform: scale(1.35); }
+
+/* ─── TARGET WORD ────────────────────────────────────────────────────────── */
+.target-wrap {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.target-label {
+  font-size: .78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.target-word {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -1.5px;
+  text-shadow: 0 0 30px rgba(245,166,35,.2);
+  line-height: 1.1;
+}
+
+/* ─── FRAYER GRID ────────────────────────────────────────────────────────── */
+.frayer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.quadrant {
+  background: var(--surface);
+  border: 2px dashed rgba(255,255,255,.12);
+  border-radius: var(--r-md);
+  padding: 16px;
+  min-height: 130px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Hover state when a card IS selected */
+body.card-selected .quadrant:not(.filled):hover {
+  border-color: var(--gold);
+  border-style: solid;
+  background: rgba(245,166,35,.07);
+}
+
+/* Drag-over state */
+.quadrant.drag-over:not(.filled) {
+  border-color: var(--gold);
+  border-style: solid;
+  background: rgba(245,166,35,.09);
+}
+
+/* Filled state */
+.quadrant.filled {
+  border-style: solid;
+  border-color: rgba(34,197,94,.38);
+  background: rgba(34,197,94,.07);
+  cursor: default;
+}
+
+.q-label {
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .9px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.quadrant.filled .q-label { color: rgba(34,197,94,.7); }
+
+.q-hint {
+  color: var(--muted);
+  font-size: .85rem;
+  font-style: italic;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.q-answer {
+  font-size: .9rem;
+  line-height: 1.55;
+  color: #a8f0c0;
+  font-weight: 500;
+  flex: 1;
+  display: none;
+}
+
+.quadrant.filled .q-hint   { display: none; }
+.quadrant.filled .q-answer { display: block; }
+
+/* ─── INSTRUCTION BAR ────────────────────────────────────────────────────── */
+.tray-label {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tray-label strong { color: var(--gold); }
+
+/* ─── CARDS TRAY ─────────────────────────────────────────────────────────── */
+.cards-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.drag-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  font-size: .9rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+  max-width: 380px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.drag-card:hover {
+  border-color: rgba(255,255,255,.28);
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+}
+.drag-card.selected {
+  border-color: var(--gold);
+  background: rgba(245,166,35,.13);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-gold);
+}
+.drag-card.shake {
+  animation: shake .42s ease;
+}
+.drag-card.dragging { opacity: .45; }
+
+/* ─── PRAISE TOAST ───────────────────────────────────────────────────────── */
+#praise-toast {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-14px);
+  background: rgba(34,197,94,.14);
+  border: 1px solid rgba(34,197,94,.32);
+  border-radius: var(--r-pill);
+  padding: 11px 26px;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--green);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  white-space: nowrap;
+  z-index: 200;
+  max-width: calc(100vw - 40px);
+  text-align: center;
+}
+#praise-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─── WORD SUCCESS OVERLAY ───────────────────────────────────────────────── */
+#word-success {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,24,.90);
+  backdrop-filter: blur(10px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+#word-success.show { display: flex; animation: fadeIn .3s ease; }
+
+.ws-box {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--r-lg);
+  padding: 40px 36px 32px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+}
+.ws-icon   { font-size: 4.5rem; display: block; margin-bottom: 16px; animation: pop .5s ease; }
+.ws-word   { font-size: 2.6rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: -1px; }
+.ws-title  { font-size: 1.2rem; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+.ws-pts    { font-size: .9rem; color: var(--muted); margin-bottom: 28px; }
+
+/* ─── COMPLETE SCREEN ────────────────────────────────────────────────────── */
+.complete-wrap {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.big-icon    { font-size: 5.5rem; display: block; margin-bottom: 18px; animation: pop .5s ease; }
+.final-score { font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.score-sub   { color: var(--muted); font-size: .95rem; margin: 6px 0 20px; }
+.complete-wrap h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 8px; }
+.complete-wrap p  {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.complete-actions { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .frayer-grid { gap: 8px; }
+  .quadrant    { min-height: 110px; padding: 12px; }
+  .target-word { font-size: 2.4rem; }
+  .ws-box      { padding: 28px 20px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────────────────────────────── -->
+<header id="app-header">
+  <div class="logo">📰 Frayer News Desk</div>
+  <div class="score-chip">⭐ <span class="num" id="hdr-score">0</span> stig</div>
+</header>
+
+<!-- ─── PRAISE TOAST ──────────────────────────────────────────────────── -->
+<div id="praise-toast"></div>
+
+<!-- ─── WORD SUCCESS OVERLAY ─────────────────────────────────────────── -->
+<div id="word-success">
+  <div class="ws-box">
+    <span class="ws-icon"  id="ws-icon">🎉</span>
+    <div  class="ws-word"  id="ws-word"></div>
+    <div  class="ws-title" id="ws-title"></div>
+    <div  class="ws-pts"   id="ws-pts"></div>
+    <button class="btn-primary" id="ws-next-btn" onclick="nextWord()"></button>
+  </div>
+</div>
+
+<!-- ─── MAIN ───────────────────────────────────────────────────────────── -->
+<main id="app-main">
+
+  <!-- HOME SCREEN -->
+  <div class="screen active" id="screen-home">
+    <div class="home-hero">
+      <span class="hero-icon">📰</span>
+      <h1>Frayer News Desk</h1>
+      <p>Lærðu ný og sterk orð með Frayer-líkaninu. Settu spjöldin á réttan stað í töfluna.</p>
+    </div>
+    <div class="home-actions">
+      <button class="btn-primary" onclick="startGame()">Byrja leikinn ▶</button>
+      <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div class="screen" id="screen-game">
+
+    <!-- Topbar -->
+    <div class="game-topbar">
+      <button class="back-btn" onclick="goHome()">← Til baka</button>
+      <span class="cat-badge" id="g-cat"></span>
+      <div class="progress-info">
+        <div class="dots" id="g-dots"></div>
+        <span id="g-prog-text"></span>
+      </div>
+    </div>
+
+    <!-- Target word -->
+    <div class="target-wrap">
+      <div class="target-label">🎯 Orðið í dag</div>
+      <div class="target-word" id="g-word"></div>
+    </div>
+
+    <!-- 2×2 Frayer grid -->
+    <div class="frayer-grid">
+
+      <div class="quadrant" id="q-skilgreining"
+           onclick="onQuadrantClick('skilgreining')"
+           ondragover="onDragOver(event)"
+           ondragleave="onDragLeave(event)"
+           ondrop="onDrop(event,'skilgreining')">
+        <div class="q-label">📖 Skilgreining</div>
+        <div class="q-hint">Hvað þýðir þetta orð?</div>
+        <div class="q-answer" id="qa-skilgreining"></div>
+      </div>
+
+      <div class="quadrant" id="q-eiginleikar"
+           onclick="onQuadrantClick('eiginleikar')"
+           ondragover="onDragOver(event)"
+           ondragleave="onDragLeave(event)"
+           ondrop="onDrop(event,'eiginleikar')">
+        <div class="q-label">⭐ Eiginleikar</div>
+        <div class="q-hint">Hvernig er þetta?</div>
+        <div class="q-answer" id="qa-eiginleikar"></div>
+      </div>
+
+      <div class="quadrant" id="q-daemi"
+           onclick="onQuadrantClick('daemi')"
+           ondragover="onDragOver(event)"
+           ondragleave="onDragLeave(event)"
+           ondrop="onDrop(event,'daemi')">
+        <div class="q-label">💬 Dæmi</div>
+        <div class="q-hint">Setning með orðinu</div>
+        <div class="q-answer" id="qa-daemi"></div>
+      </div>
+
+      <div class="quadrant" id="q-ekki_daemi"
+           onclick="onQuadrantClick('ekki_daemi')"
+           ondragover="onDragOver(event)"
+           ondragleave="onDragLeave(event)"
+           ondrop="onDrop(event,'ekki_daemi')">
+        <div class="q-label">🚫 Andheiti / Ekki dæmi</div>
+        <div class="q-hint">Hvað passar ekki?</div>
+        <div class="q-answer" id="qa-ekki_daemi"></div>
+      </div>
+
+    </div>
+
+    <!-- Cards tray -->
+    <div class="tray-label">
+      🃏 <strong>Smelltu</strong> á spjald til að velja, <strong>smelltu</strong> síðan á rúðu til að setja:
+    </div>
+    <div class="cards-tray" id="g-tray"></div>
+
+  </div>
+
+  <!-- COMPLETE SCREEN -->
+  <div class="screen" id="screen-complete">
+    <div class="complete-wrap">
+      <span class="big-icon"  id="c-icon">🏆</span>
+      <div class="final-score" id="c-score">0</div>
+      <div class="score-sub"   id="c-sub"></div>
+      <h2 id="c-title"></h2>
+      <p  id="c-msg"></p>
+      <div class="complete-actions">
+        <button class="btn-primary"   onclick="startGame()">Spila aftur 🔄</button>
+        <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── SCRIPT ─────────────────────────────────────────────────────────── -->
+<script>
+/* ── DATA ───────────────────────────────────────────────────────────────── */
+const DATA = [
+  {
+    category: '⚽ Úr viðtali við þjálfarann',
+    target_word: 'Seigla',
+    quadrants: {
+      skilgreining: {
+        correct:    'Að halda áfram og gefast ekki upp þótt eitthvað sé mjög erfitt.',
+        distractor: 'Að hlaupa mjög hratt yfir knattspyrnuvöllinn.'
+      },
+      eiginleikar: {
+        correct:    'Krefst hugrekkis, þolinmæði og mikils styrks.',
+        distractor: 'Er eitthvað sem maður getur keypt í íþróttabúð.'
+      },
+      daemi: {
+        correct:    'Íslenska liðið sýndi mikla seiglu þegar það skoraði sigurmark á síðustu mínútunni.',
+        distractor: 'Dómarinn flautaði leikinn af.'
+      },
+      ekki_daemi: {
+        correct:    'Að labba fúll af vellinum af því maður er að tapa.',
+        distractor: 'Að mæta alltaf á æfingar þótt það rigni.'
+      }
+    }
+  },
+  {
+    category: '📱 Jafnaldrar og samskipti',
+    target_word: 'Orðrómur',
+    quadrants: {
+      skilgreining: {
+        correct:    'Óstaðfest saga eða kjaftasaga sem gengur á milli fólks.',
+        distractor: 'Opinber og sönn fréttatilkynning frá lögreglunni.'
+      },
+      eiginleikar: {
+        correct:    'Fer oft hratt um netið og er ekki alltaf satt.',
+        distractor: 'Er alltaf skrifað niður í skólabækur.'
+      },
+      daemi: {
+        correct:    'Það var mikill orðrómur á TikTok um að besti leikmaðurinn væri að hætta.',
+        distractor: 'Ég las bók um sögu Íslands.'
+      },
+      ekki_daemi: {
+        correct:    'Staðreyndir sem allir geta sannað að séu réttar.',
+        distractor: 'Að hvísla einhverju leyndarmáli að vini sínum.'
+      }
+    }
+  },
+  {
+    category: '🏛️ Fréttirnar',
+    target_word: 'Krefjandi',
+    quadrants: {
+      skilgreining: {
+        correct:    'Eitthvað sem reynir mikið á mann, er erfitt og tekur orku.',
+        distractor: 'Eitthvað sem er mjög ódýrt og auðvelt að fá.'
+      },
+      eiginleikar: {
+        correct:    'Lætur mann stundum svitna og þurfa að hugsa mikið.',
+        distractor: 'Gerist alltaf á hverjum morgni.'
+      },
+      daemi: {
+        correct:    'Þetta var mjög krefjandi æfing og allir voru þreyttir á eftir.',
+        distractor: 'Ég borðaði pizzu og horfði á sjónvarpið.'
+      },
+      ekki_daemi: {
+        correct:    'Að liggja uppi í sófa og gera alls ekki neitt.',
+        distractor: 'Að læra flókna stærðfræði fyrir stórt próf.'
+      }
+    }
+  }
+];
+
+const QUADRANT_KEYS = ['skilgreining','eiginleikar','daemi','ekki_daemi'];
+
+const PRAISE_PER_Q = {
+  skilgreining: ['📖 Einmitt! Þú þekkir skilgreininguna!', '📖 Vel skilgreint! Rétt!'],
+  eiginleikar:  ['⭐ Snilld! Réttur eiginleiki!',           '⭐ Frábær! Þú veist hvernig þetta er!'],
+  daemi:        ['💬 Rétt dæmi! Vel gert!',                 '💬 Glæsilegt! Þú notar orðið rétt!'],
+  ekki_daemi:   ['🚫 Einmitt! Þetta passar ekki!',          '🚫 Rétt! Þú þekkir muninn!']
+};
+
+const WORD_PRAISE = [
+  { icon: '🏆', title: 'Fullkomið!' },
+  { icon: '🌟', title: 'Frábær!'   },
+  { icon: '🎉', title: 'Vel gert!' },
+  { icon: '⭐', title: 'Snilld!'   }
+];
+
+/* ── STATE ──────────────────────────────────────────────────────────────── */
+let wordIdx    = 0;
+let totalScore = 0;
+let wordScore  = 0;
+let placed     = {};          // quadrant key → true
+let selCard    = null;        // { el, targetQ }
+let dragData   = null;        // { el, targetQ }
+
+/* ── UTILS ──────────────────────────────────────────────────────────────── */
+const $   = id => document.getElementById(id);
+const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+
+function shuffle(a) {
+  const b = [...a];
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+}
+
+/* ── NAVIGATION ─────────────────────────────────────────────────────────── */
+function goHome() {
+  $('word-success').classList.remove('show');
+  clearSelection();
+  showScreen('screen-home');
+}
+
+function startGame() {
+  wordIdx    = 0;
+  totalScore = 0;
+  $('hdr-score').textContent = 0;
+  showScreen('screen-game');
+  loadWord();
+}
+
+/* ── LOAD WORD ──────────────────────────────────────────────────────────── */
+function loadWord() {
+  placed    = {};
+  wordScore = 0;
+  clearSelection();
+
+  const entry = DATA[wordIdx];
+
+  // Topbar
+  $('g-cat').textContent = entry.category;
+  $('g-prog-text').textContent = `${wordIdx + 1} / ${DATA.length}`;
+  $('g-dots').innerHTML = DATA.map((_, i) =>
+    `<div class="dot ${i < wordIdx ? 'done' : i === wordIdx ? 'current' : ''}"></div>`
+  ).join('');
+
+  // Target word
+  $('g-word').textContent = entry.target_word;
+
+  // Reset quadrants
+  QUADRANT_KEYS.forEach(k => {
+    const el = $('q-' + k);
+    el.classList.remove('filled');
+    $('qa-' + k).textContent = '';
+  });
+
+  // Build shuffled card list: 4 correct + 4 distractors
+  const cards = shuffle([
+    { text: entry.quadrants.skilgreining.correct,    targetQ: 'skilgreining' },
+    { text: entry.quadrants.skilgreining.distractor, targetQ: null },
+    { text: entry.quadrants.eiginleikar.correct,     targetQ: 'eiginleikar' },
+    { text: entry.quadrants.eiginleikar.distractor,  targetQ: null },
+    { text: entry.quadrants.daemi.correct,           targetQ: 'daemi' },
+    { text: entry.quadrants.daemi.distractor,        targetQ: null },
+    { text: entry.quadrants.ekki_daemi.correct,      targetQ: 'ekki_daemi' },
+    { text: entry.quadrants.ekki_daemi.distractor,   targetQ: null },
+  ]);
+
+  const tray = $('g-tray');
+  tray.innerHTML = '';
+  cards.forEach(c => {
+    const el = document.createElement('div');
+    el.className        = 'drag-card';
+    el.textContent      = c.text;
+    el.dataset.targetQ  = c.targetQ || '';
+    el.draggable        = true;
+
+    el.addEventListener('click', () => onCardClick(el, c.targetQ));
+
+    el.addEventListener('dragstart', e => {
+      dragData = { el, targetQ: c.targetQ };
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', '');
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      dragData = null;
+    });
+
+    tray.appendChild(el);
+  });
+}
+
+/* ── CARD SELECTION ─────────────────────────────────────────────────────── */
+function onCardClick(el, targetQ) {
+  if (el.classList.contains('dragging')) return;
+
+  // Toggle: clicking selected card deselects it
+  if (selCard && selCard.el === el) {
+    clearSelection();
+    return;
+  }
+
+  clearSelection();
+  selCard = { el, targetQ };
+  el.classList.add('selected');
+  document.body.classList.add('card-selected');
+}
+
+function clearSelection() {
+  if (selCard) selCard.el.classList.remove('selected');
+  selCard = null;
+  document.body.classList.remove('card-selected');
+}
+
+/* ── QUADRANT CLICK (tap-to-place) ──────────────────────────────────────── */
+function onQuadrantClick(qKey) {
+  if (!selCard) return;
+  if (placed[qKey]) return;
+  attemptPlace(selCard.el, selCard.targetQ, qKey);
+}
+
+/* ── DRAG-AND-DROP ───────────────────────────────────────────────────────── */
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  if (!e.currentTarget.classList.contains('filled'))
+    e.currentTarget.classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  // Only remove if we're truly leaving the quadrant (not a child element)
+  if (!e.currentTarget.contains(e.relatedTarget))
+    e.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(e, qKey) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!dragData) return;
+  if (placed[qKey]) return;
+  attemptPlace(dragData.el, dragData.targetQ, qKey);
+}
+
+/* ── CORE PLACEMENT LOGIC ───────────────────────────────────────────────── */
+function attemptPlace(cardEl, cardTargetQ, qKey) {
+  clearSelection();
+  cardEl.style.opacity = '';
+
+  if (cardTargetQ === qKey) {
+    /* ✅ CORRECT */
+    placed[qKey] = true;
+    wordScore  += 10;
+    totalScore += 10;
+    $('hdr-score').textContent = totalScore;
+
+    // Fill quadrant
+    const qEl = $('q-' + qKey);
+    $('qa-' + qKey).textContent = cardEl.textContent;
+    qEl.classList.add('filled');
+    // Pulse
+    void qEl.offsetWidth;
+    qEl.style.animation = 'none';
+    requestAnimationFrame(() => {
+      qEl.style.animation = '';
+      qEl.classList.add('pulse-once');
+      setTimeout(() => qEl.classList.remove('pulse-once'), 600);
+    });
+    qEl.style.boxShadow = '0 0 0 0 rgba(34,197,94,.55)';
+    qEl.style.animation = 'pulseBorder .55s ease forwards';
+    setTimeout(() => qEl.style.animation = '', 600);
+
+    // Remove card from tray
+    cardEl.remove();
+
+    // Praise
+    const msgs = PRAISE_PER_Q[qKey];
+    showPraise(msgs[Math.floor(Math.random() * msgs.length)]);
+
+    // All 4 done?
+    if (QUADRANT_KEYS.every(k => placed[k])) {
+      setTimeout(showWordSuccess, 700);
+    }
+
+  } else {
+    /* ❌ WRONG — silent snap-back, just a shake */
+    void cardEl.offsetWidth;
+    cardEl.classList.add('shake');
+    cardEl.addEventListener('animationend', () => cardEl.classList.remove('shake'), { once: true });
+  }
+}
+
+/* ── PRAISE TOAST ───────────────────────────────────────────────────────── */
+let praiseTimer = null;
+function showPraise(msg) {
+  const t = $('praise-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(praiseTimer);
+  praiseTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── WORD SUCCESS OVERLAY ────────────────────────────────────────────────── */
+function showWordSuccess() {
+  const entry  = DATA[wordIdx];
+  const isLast = wordIdx === DATA.length - 1;
+  const p      = rnd(WORD_PRAISE);
+
+  $('ws-icon').textContent  = p.icon;
+  $('ws-word').textContent  = entry.target_word;
+  $('ws-title').textContent = p.title + ' Þú skilur þetta orð!';
+  $('ws-pts').textContent   = `+${wordScore} stig — samtals ${totalScore} stig`;
+  $('ws-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta orð ▶';
+
+  $('word-success').classList.add('show');
+}
+
+function nextWord() {
+  $('word-success').classList.remove('show');
+  wordIdx++;
+  if (wordIdx >= DATA.length) showComplete();
+  else loadWord();
+}
+
+/* ── COMPLETE SCREEN ─────────────────────────────────────────────────────── */
+function showComplete() {
+  showScreen('screen-complete');
+  const max = DATA.length * 40;
+  const pct = Math.round(totalScore / max * 100);
+
+  let icon, title, msg;
+  if (pct === 100) {
+    icon='🏆'; title='Fullkomið!';
+    msg = 'Þú settir öll spjöld á réttan stað. Þú þekkir þessi orð mjög vel!';
+  } else if (pct >= 70) {
+    icon='⭐'; title='Mjög gott!';
+    msg = 'Þú skilur þessi orð vel. Prófaðu aftur til að fá fullkomnar 120 stigs!';
+  } else {
+    icon='💪'; title='Vel gert!';
+    msg = 'Þú ert að læra ný orð. Æfing skapar meistarann — prófaðu aftur!';
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = totalScore;
+  $('c-sub').textContent   = `stig af ${max} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+}
+</script>
+</body>
+</html>

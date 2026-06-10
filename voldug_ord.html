@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💪 Voldug Orð</title>
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────────────── */
+:root {
+  --bg:             #0c0c18;
+  --surface:        rgba(255,255,255,0.055);
+  --surface-hover:  rgba(255,255,255,0.09);
+  --border:         rgba(255,255,255,0.10);
+  --text:           #eff0f3;
+  --muted:          #7a7f99;
+
+  --gold:    #f5a623;
+  --green:   #22c55e;
+  --red:     #ef4444;
+  --blue:    #60a5fa;
+
+  --cat-football: #22c55e;
+  --cat-politics: #60a5fa;
+  --cat-tiktok:   #f472b6;
+
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-pill: 100px;
+
+  --shadow: 0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-green: 0 0 18px rgba(34,197,94,0.30);
+}
+
+/* ─── RESET ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(96,165,250,.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(244,114,182,.06) 0%, transparent 55%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
+#app-header {
+  width: 100%;
+  max-width: 700px;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 7px 18px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.score-chip .num { color: var(--gold); font-weight: 800; font-size: 1rem; }
+
+/* ─── MAIN ───────────────────────────────────────────────────────────────── */
+#app-main {
+  width: 100%;
+  max-width: 700px;
+  padding: 28px 20px 48px;
+  flex: 1;
+}
+
+/* ─── SCREENS ────────────────────────────────────────────────────────────── */
+.screen         { display: none; animation: fadeIn .25s ease; }
+.screen.active  { display: block; }
+
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes pop     { 0%,100% { transform: scale(1); } 40% { transform: scale(1.12); } }
+
+/* ─── HOME SCREEN ────────────────────────────────────────────────────────── */
+.home-hero {
+  text-align: center;
+  padding: 8px 0 32px;
+}
+.home-hero .hero-icon { font-size: 4rem; display: block; margin-bottom: 12px; }
+.home-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
+.home-hero p  { color: var(--muted); font-size: 1rem; }
+
+.cat-list { display: flex; flex-direction: column; gap: 14px; }
+
+.cat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-card:hover { background: var(--surface-hover); transform: translateY(-3px); box-shadow: var(--shadow); }
+.cat-card:active { transform: translateY(0); }
+
+.cat-card.cat-football { border-left: 4px solid var(--cat-football); }
+.cat-card.cat-politics  { border-left: 4px solid var(--cat-politics);  }
+.cat-card.cat-tiktok    { border-left: 4px solid var(--cat-tiktok);    }
+
+.cat-icon  { font-size: 2.8rem; flex-shrink: 0; }
+.cat-text h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 3px; }
+.cat-text p  { color: var(--muted); font-size: 0.88rem; }
+
+.cat-pill {
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 13px;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.cat-football .cat-pill { background: rgba(34,197,94,.15); color: var(--cat-football); }
+.cat-politics  .cat-pill { background: rgba(96,165,250,.15); color: var(--cat-politics);  }
+.cat-tiktok    .cat-pill { background: rgba(244,114,182,.15); color: var(--cat-tiktok);   }
+
+/* ─── GAME SCREEN ────────────────────────────────────────────────────────── */
+.game-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 9px 15px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.back-btn:hover { background: var(--surface-hover); }
+
+.cat-badge {
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 7px 15px;
+  border-radius: var(--r-pill);
+}
+.mode-football .cat-badge { background: rgba(34,197,94,.15); color: var(--cat-football); }
+.mode-politics  .cat-badge { background: rgba(96,165,250,.15); color: var(--cat-politics);  }
+.mode-tiktok    .cat-badge { background: rgba(244,114,182,.15); color: var(--cat-tiktok);   }
+
+/* Progress dots */
+.dots { display: flex; gap: 7px; margin-left: auto; }
+.dot {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .3s;
+}
+.dot.done    { background: var(--gold); }
+.dot.current { background: var(--text); transform: scale(1.4); }
+
+/* Sentence card */
+.sentence-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 28px 24px;
+  margin-bottom: 18px;
+}
+
+.card-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sentence-text {
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+.hl-word {
+  display: inline-block;
+  background: rgba(245,166,35,.18);
+  color: var(--gold);
+  border-radius: 7px;
+  padding: 2px 10px;
+  font-weight: 800;
+  border-bottom: 2.5px solid var(--gold);
+  cursor: default;
+  position: relative;
+}
+
+.hl-word::after {
+  content: '↓';
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: var(--gold);
+  opacity: .6;
+}
+
+/* Word cloud */
+.cloud-label {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.cloud-label strong { color: var(--gold); }
+
+.wordcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.w-btn {
+  padding: 13px 22px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.w-btn:hover:not(:disabled) {
+  border-color: rgba(255,255,255,.28);
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+}
+.w-btn.selected {
+  border-color: var(--gold);
+  background: rgba(245,166,35,.13);
+  color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-gold);
+}
+.w-btn.ok {
+  border-color: var(--green);
+  background: rgba(34,197,94,.12);
+  color: var(--green);
+  animation: pop .35s ease;
+}
+.w-btn.ok.chosen { box-shadow: var(--glow-green); }
+.w-btn.bad {
+  border-color: var(--red);
+  background: rgba(239,68,68,.10);
+  color: var(--red);
+  opacity: .75;
+}
+.w-btn.missed {
+  border-color: rgba(34,197,94,.35);
+  color: rgba(34,197,94,.55);
+  border-style: dashed;
+}
+.w-btn:disabled { cursor: default; transform: none !important; }
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--gold);
+  color: #0c0c18;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  letter-spacing: .2px;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-gold);
+}
+.btn-primary:disabled { opacity: .38; cursor: not-allowed; transform: none !important; }
+
+.btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  margin-top: 10px;
+}
+.btn-secondary:hover { background: var(--surface-hover); border-color: rgba(255,255,255,.25); }
+
+.btn-green {
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--green);
+  color: #0c0c18;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+  margin-top: 10px;
+  display: none;
+}
+.btn-green.show { display: block; animation: slideUp .3s ease; }
+.btn-green:hover { transform: translateY(-2px); box-shadow: var(--glow-green); }
+
+/* Feedback card */
+.feedback-card {
+  border-radius: var(--r-lg);
+  padding: 24px;
+  margin-bottom: 18px;
+  display: none;
+}
+.feedback-card.show { display: block; animation: slideUp .3s ease; }
+.feedback-card.success  { background: rgba(34,197,94,.07); border: 1px solid rgba(34,197,94,.25); }
+.feedback-card.retry    { background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.22); }
+
+.fb-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.fb-icon  { font-size: 2rem; }
+.fb-title { font-size: 1.15rem; font-weight: 800; }
+.feedback-card.success .fb-title { color: var(--green); }
+.feedback-card.retry   .fb-title { color: var(--red);   }
+
+.fb-body {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.upgraded {
+  background: rgba(34,197,94,.08);
+  border: 1px solid rgba(34,197,94,.2);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-style: italic;
+}
+.upgraded .power { color: var(--green); font-weight: 800; font-style: normal; }
+
+/* ─── COMPLETE SCREEN ────────────────────────────────────────────────────── */
+.complete-wrap {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.big-icon    { font-size: 5.5rem; display: block; margin-bottom: 18px; animation: pop .5s ease; }
+.final-score { font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.score-sub   { color: var(--muted); font-size: .95rem; margin: 6px 0 20px; }
+.complete-wrap h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 8px; }
+.complete-wrap p  { color: var(--muted); font-size: 1rem; line-height: 1.6; margin-bottom: 32px; max-width: 420px; margin-left: auto; margin-right: auto; }
+.complete-actions { display: flex; flex-direction: column; gap: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────────────────────────────── -->
+<header id="app-header">
+  <div class="logo">💪 Voldug Orð</div>
+  <div class="score-chip">⭐ <span class="num" id="hdr-score">0</span> stig</div>
+</header>
+
+<!-- ─── MAIN ───────────────────────────────────────────────────────────── -->
+<main id="app-main">
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="home-hero">
+      <span class="hero-icon">✏️</span>
+      <h1>Uppfærðu setninguna</h1>
+      <p>Veldu sterkara og nákvæmara orð í stað veika orðsins</p>
+    </div>
+    <div class="cat-list">
+      <div class="cat-card cat-football" onclick="startCat('football')">
+        <span class="cat-icon">⚽</span>
+        <div class="cat-text">
+          <h3>Fótbolti</h3>
+          <p>Leikmenn, leikir og þjálfarar</p>
+        </div>
+        <span class="cat-pill">3 setningar</span>
+      </div>
+      <div class="cat-card cat-politics" onclick="startCat('politics')">
+        <span class="cat-icon">🏛️</span>
+        <div class="cat-text">
+          <h3>Pólitík og Fréttir</h3>
+          <p>Alþingi, ráðherrar og forsetar</p>
+        </div>
+        <span class="cat-pill">3 setningar</span>
+      </div>
+      <div class="cat-card cat-tiktok" onclick="startCat('tiktok')">
+        <span class="cat-icon">📱</span>
+        <div class="cat-text">
+          <h3>TikTok og Daglegt líf</h3>
+          <p>Áhrifavaldar, trend og myndskeið</p>
+        </div>
+        <span class="cat-pill">3 setningar</span>
+      </div>
+    </div>
+    <div style="margin-top:20px; text-align:center;">
+      <a href="index.html" class="back-btn" style="text-decoration:none; color:inherit;">← Til baka í valmynd</a>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="game-topbar">
+      <button class="back-btn" onclick="goHome()">← Heim</button>
+      <span class="cat-badge" id="g-badge"></span>
+      <div class="dots" id="g-dots"></div>
+    </div>
+
+    <div class="sentence-card">
+      <div class="card-label">📝 Setningin</div>
+      <div class="sentence-text" id="g-sentence"></div>
+    </div>
+
+    <div class="cloud-label" id="g-cloud-label"></div>
+    <div class="wordcloud" id="g-wordcloud"></div>
+
+    <button class="btn-primary" id="g-submit" onclick="submitAnswer()" disabled>
+      Uppfæra setninguna ✏️
+    </button>
+
+    <div class="feedback-card" id="g-feedback">
+      <div class="fb-head">
+        <span class="fb-icon"  id="fb-icon"></span>
+        <span class="fb-title" id="fb-title"></span>
+      </div>
+      <p class="fb-body" id="fb-body"></p>
+      <div class="upgraded" id="fb-upgraded" style="display:none"></div>
+      <button class="btn-secondary" id="g-retry"  onclick="retryRound()" style="display:none">🔄 Reyndu aftur</button>
+      <button class="btn-green"     id="g-next"   onclick="nextRound()">Næsta ▶</button>
+    </div>
+  </div>
+
+  <!-- COMPLETE -->
+  <div class="screen" id="screen-complete">
+    <div class="complete-wrap">
+      <span class="big-icon"  id="c-icon">🏆</span>
+      <div class="final-score" id="c-score">0</div>
+      <div class="score-sub"   id="c-sub">stig í þessum flokki</div>
+      <h2 id="c-title"></h2>
+      <p  id="c-msg"></p>
+      <div class="complete-actions">
+        <button class="btn-primary"   id="c-replay" onclick="replayCat()"></button>
+        <button class="btn-secondary"               onclick="goHome()">← Velja annan flokk</button>
+        <a href="index.html" class="btn-secondary" style="display:block; text-align:center; text-decoration:none; color:inherit;">🏟️ Til baka í Þjálfunarbúðirnar</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── SCRIPT ─────────────────────────────────────────────────────────── -->
+<script>
+/* ── DATA ──────────────────────────────────────────────────────────────── */
+const DATA = {
+  football: {
+    name: 'Fótbolti', emoji: '⚽',
+    rounds: [
+      {
+        sentence: 'Þjálfarinn var mjög {glaður} eftir leikinn.',
+        overused: 'glaður',
+        power: ['ánægður','sáttur','kátur','hæstánægður'],
+        decoys: ['sár','leiður','pirraður']
+      },
+      {
+        sentence: 'Dómarinn tók mjög {vitlausa} ákvörðun í fyrri hálfleik.',
+        overused: 'vitlausa',
+        power: ['ranga','ósanngjarna','afleita'],
+        decoys: ['skemmtilega','fljóta','dásamlega']
+      },
+      {
+        sentence: 'Nýi framherjinn hljóp {hratt} upp völlinn.',
+        overused: 'hratt',
+        power: ['eldsnöggt','hraðbyri','sem örskot'],
+        decoys: ['hægt','varlega','rólega']
+      }
+    ]
+  },
+  politics: {
+    name: 'Pólitík og Fréttir', emoji: '🏛️',
+    rounds: [
+      {
+        sentence: 'Það var mikill {hávaði} í umræðunum á Alþingi í gær.',
+        overused: 'hávaði',
+        power: ['læti','uppnám','ágreiningur'],
+        decoys: ['þögn','rólegheit','sátt']
+      },
+      {
+        sentence: 'Forsetinn sagði að þetta væri {vont} mál fyrir Ísland.',
+        overused: 'vont',
+        power: ['alvarlegt','slæmt','skelfilegt'],
+        decoys: ['frábært','lítilvægt','skemmtilegt']
+      },
+      {
+        sentence: 'Stjórnmálamaðurinn vildi ekki svara {kaldur} spurningum blaðamannsins.',
+        overused: 'kaldur',
+        power: ['krefjandi','erfiðum','flóknum'],
+        decoys: ['hlýjum','skemmtilegum','auðveldum']
+      }
+    ]
+  },
+  tiktok: {
+    name: 'TikTok og Daglegt líf', emoji: '📱',
+    rounds: [
+      {
+        sentence: 'Margir áhrifavaldar eru alltaf að auglýsa eitthvað {dót}.',
+        overused: 'dót',
+        power: ['vörur','varning','fatnað'],
+        decoys: ['hljóð','vatn','dýr']
+      },
+      {
+        sentence: 'Þetta nýja "trend" á TikTok er alveg {skrítið}.',
+        overused: 'skrítið',
+        power: ['kexruglað','furðulegt','fáránlegt'],
+        decoys: ['eðlilegt','venjulegt','gáfulegt']
+      },
+      {
+        sentence: 'Ég var mjög {hissa} þegar ég sá þetta myndband.',
+        overused: 'hissa',
+        power: ['orðlaus','undrandi','forviða'],
+        decoys: ['tilbúinn','viðbúinn','rólegur']
+      }
+    ]
+  }
+};
+
+const PRAISE = [
+  ['🎯','Einmitt!',       'Þú valdir fullkomið orð. Setningin hljómar mun sterkari!'],
+  ['⭐','Vel gert!',       'Þetta er mun nákvæmara orð en „{ov}". Mjög gott!'],
+  ['🔥','Frábært val!',   '„{pw}" er voldugra orð. Þú ert að þróa mál þitt!'],
+  ['🌟','Snilld!',         'Þú valdir rétta orðið. Setningin er nú miklu sterkari!'],
+  ['💪','Þvílíkt snjallræði!', 'Þetta er einmitt það sem góðir rithöfundar gera!'],
+  ['✨','Frábær!',         '„{pw}" þýðir svipað og „{ov}" — en það er mun betra!']
+];
+
+const RETRY_MSG = [
+  'Þetta orð er það gagnstæða. Leitaðu að orði sem þýðir svipað og „{ov}".',
+  'Ekki alveg. Þetta orð er ekki góður staðgengill. Reyndu aftur! 💪',
+  'Nær! Leitaðu að orði sem lýsir sömu tilfinningu og „{ov}" — en betur.'
+];
+
+/* ── STATE ─────────────────────────────────────────────────────────────── */
+let activeCat   = null;
+let roundIdx    = 0;
+let totalScore  = 0;
+let roundScore  = 0;
+let chosenWord  = null;
+let attempts    = 0;
+let answered    = false;
+
+/* ── UTILS ─────────────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const rand = arr => arr[Math.floor(Math.random()*arr.length)];
+
+function shuffle(a) {
+  const b=[...a];
+  for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]; }
+  return b;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+}
+
+function renderSentence(tmpl, ov, replace=null) {
+  if(replace){
+    return tmpl
+      .replace(`{${ov}}`, `<span class="power">${replace}</span>`)
+      .replace(/[{}]/g,'');
+  }
+  return tmpl
+    .replace(`{${ov}}`, `<span class="hl-word">${ov}</span>`)
+    .replace(/[{}]/g,'');
+}
+
+/* ── NAV ────────────────────────────────────────────────────────────────── */
+function goHome() {
+  activeCat = null;
+  showScreen('screen-home');
+}
+
+function startCat(key) {
+  activeCat  = key;
+  roundIdx   = 0;
+  roundScore = 0;
+  showScreen('screen-game');
+  $('screen-game').className = 'screen active mode-'+key;
+  buildRound();
+}
+
+function replayCat() { startCat(activeCat); }
+
+/* ── ROUND ──────────────────────────────────────────────────────────────── */
+function buildRound() {
+  const cat   = DATA[activeCat];
+  const round = cat.rounds[roundIdx];
+  attempts    = 0;
+  answered    = false;
+  chosenWord  = null;
+
+  /* badge */
+  $('g-badge').textContent = cat.emoji + ' ' + cat.name;
+
+  /* dots */
+  $('g-dots').innerHTML = cat.rounds.map((_,i)=>
+    `<div class="dot ${i<roundIdx?'done':i===roundIdx?'current':''}"></div>`
+  ).join('');
+
+  /* sentence */
+  $('g-sentence').innerHTML = renderSentence(round.sentence, round.overused);
+
+  /* label */
+  $('g-cloud-label').innerHTML =
+    `🔍 Hvaða orð gæti komið í stað <strong>${round.overused}</strong>?`;
+
+  /* word cloud */
+  const words = shuffle([...round.power, ...round.decoys]);
+  $('g-wordcloud').innerHTML = words.map(w=>
+    `<button class="w-btn" data-word="${w}" onclick="pickWord(this,'${w}')">${w}</button>`
+  ).join('');
+
+  /* reset UI */
+  $('g-submit').disabled = true;
+  $('g-feedback').className = 'feedback-card';
+  $('g-retry').style.display  = 'none';
+  $('g-next').classList.remove('show');
+  $('fb-upgraded').style.display = 'none';
+}
+
+function pickWord(btn, word) {
+  if(answered) return;
+  document.querySelectorAll('.w-btn').forEach(b=>b.classList.remove('selected'));
+  chosenWord = word;
+  btn.classList.add('selected');
+  $('g-submit').disabled = false;
+}
+
+function submitAnswer() {
+  if(answered) return;
+  answered = true;
+  attempts++;
+
+  const round = DATA[activeCat].rounds[roundIdx];
+  const isOk  = round.power.includes(chosenWord);
+
+  /* reveal all */
+  document.querySelectorAll('.w-btn').forEach(btn=>{
+    btn.disabled = true;
+    const w = btn.dataset.word;
+    if(round.power.includes(w)){
+      btn.classList.add('ok');
+      if(w===chosenWord) btn.classList.add('chosen');
+      else               btn.classList.add('missed');
+    } else {
+      if(w===chosenWord) btn.classList.add('bad');
+    }
+  });
+
+  $('g-submit').disabled = true;
+
+  if(isOk){
+    const pts = attempts===1 ? 20 : 10;
+    roundScore += pts;
+    totalScore += pts;
+    $('hdr-score').textContent = totalScore;
+
+    const p = rand(PRAISE);
+    const pTitle = p[1];
+    const pMsg   = p[2].replace('{ov}', round.overused).replace('{pw}', chosenWord);
+
+    $('g-feedback').className  = 'feedback-card show success';
+    $('fb-icon').textContent   = p[0];
+    $('fb-title').textContent  = pTitle;
+    $('fb-body').textContent   = pMsg + ` (+${pts} stig)`;
+
+    const upgEl = $('fb-upgraded');
+    upgEl.innerHTML = renderSentence(round.sentence, round.overused, chosenWord);
+    upgEl.style.display = 'block';
+
+    $('g-retry').style.display = 'none';
+    $('g-next').classList.add('show');
+
+  } else {
+    const msg = rand(RETRY_MSG).replace('{ov}', round.overused);
+    $('g-feedback').className = 'feedback-card show retry';
+    $('fb-icon').textContent  = '🤔';
+    $('fb-title').textContent = 'Ekki alveg...';
+    $('fb-body').textContent  = msg;
+    $('fb-upgraded').style.display = 'none';
+    $('g-retry').style.display = 'block';
+    $('g-next').classList.remove('show');
+  }
+}
+
+function retryRound() { answered=false; buildRound(); }
+
+function nextRound() {
+  roundIdx++;
+  if(roundIdx >= DATA[activeCat].rounds.length) showComplete();
+  else buildRound();
+}
+
+/* ── COMPLETE ────────────────────────────────────────────────────────────── */
+function showComplete() {
+  showScreen('screen-complete');
+  const total  = DATA[activeCat].rounds.length * 20;
+  const pct    = Math.round(roundScore / total * 100);
+
+  let icon, title, msg;
+  if(pct===100){
+    icon='🏆'; title='Fullkomið!';
+    msg='Þú svaraðir öllu rétt í fyrstu tilraun. Þú ert orðasnjallur – haltu þessum orðum í huga!';
+  } else if(pct>=60){
+    icon='⭐'; title='Mjög gott!';
+    msg='Þú ert að þróa orðaforða þinn. Voldug orð gera mál þitt sterkara!';
+  } else {
+    icon='💪'; title='Haltu áfram!';
+    msg='Æfing skapar meistarann. Prófaðu aftur — þú munt fara betur næst!';
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = roundScore;
+  $('c-sub').textContent   = `stig af ${total} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+  $('c-replay').textContent = DATA[activeCat].emoji + ' Spila ' + DATA[activeCat].name + ' aftur';
+}
+</script>
+</body>
+</html>
