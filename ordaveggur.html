@@ -151,6 +151,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  touch-action: manipulation;
 }
 .tab-btn.active-gold {
   background: rgba(245,166,35,.15);
@@ -245,7 +246,7 @@ body {
   border-color: rgba(255,255,255,.18);
 }
 
-/* Gold variant (Orðin mín) */
+/* Gold variant */
 .flip-card.gold-card .card-front {
   border-left: 3px solid rgba(245,166,35,.5);
   background: rgba(245,166,35,.04);
@@ -257,7 +258,7 @@ body {
 .flip-card.gold-card .card-face-word { color: var(--gold); }
 .flip-card.gold-card .card-face-back { border-left: 3px solid rgba(245,166,35,.5); background: rgba(245,166,35,.06); }
 
-/* Purple variant (Skrítin orð) */
+/* Purple variant */
 .flip-card.purple-card .card-front {
   border-left: 3px solid rgba(167,139,250,.5);
   background: rgba(167,139,250,.04);
@@ -269,7 +270,7 @@ body {
 .flip-card.purple-card .card-face-word { color: var(--purple); }
 .flip-card.purple-card .card-face-back { border-left: 3px solid rgba(167,139,250,.5); background: rgba(167,139,250,.06); }
 
-/* Blue variant (Fréttaorð) */
+/* Blue variant */
 .flip-card.news-card .card-front {
   border-left: 3px solid rgba(96,165,250,.5);
   background: rgba(96,165,250,.04);
@@ -465,7 +466,7 @@ const DATA = {
   ]
 };
 
-/* ─── BUILD STATIC CARDS (gold / purple) ────────────────────────── */
+/* ─── BUILD STATIC CARDS ────────────────────────────────────────── */
 function buildCards(items, containerId, variant) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
@@ -497,4 +498,83 @@ function buildCards(items, containerId, variant) {
   });
 }
 
-/* ─── BUILD NEWS CARDS (from localStorage) ───────�
+/* ─── BUILD NEWS CARDS ──────────────────────────────────────────── */
+function buildFrettCards() {
+  const container = document.getElementById('grid-frett');
+  container.innerHTML = '';
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch {}
+
+  if (!saved.length) {
+    container.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:36px 20px;color:var(--muted);line-height:1.7;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">📰</div>
+        <div style="font-weight:700;margin-bottom:6px;">Engin fréttaorð ennþá</div>
+        <div style="font-size:.85rem;">Farðu í <strong style="color:var(--blue);">Frétt dagsins</strong> og smelltu á áhugaverð orð til að safna þeim hér.</div>
+        <br>
+        <a href="frett_dagsins.html" style="display:inline-block;margin-top:4px;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);border-radius:100px;padding:8px 20px;font-size:.85rem;font-weight:700;color:var(--blue);text-decoration:none;">📰 Fara í Frétt dagsins →</a>
+      </div>`;
+    return;
+  }
+
+  saved.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'flip-card news-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('ontouchstart', '');
+    card.innerHTML = `
+      <div class="flip-card-inner">
+        <div class="card-face card-front">
+          <span class="card-face-emoji">📰</span>
+          <span class="card-face-word">${item.word}</span>
+          <span class="card-face-hint">smelltu til að sjá</span>
+        </div>
+        <div class="card-face card-face-back">
+          <span class="card-back-close">↩ loka</span>
+          <div class="card-back-word">📰 ${item.word}</div>
+          <div class="card-back-def" style="font-size:.72rem;color:var(--muted);">${item.source || 'RÚV'} — ${item.savedAt || ''}</div>
+          <div class="card-back-example">${item.headline || ''}</div>
+        </div>
+      </div>`;
+    const toggle = () => card.classList.toggle('flipped');
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    container.appendChild(card);
+  });
+}
+
+/* ─── TABS ───────────────────────────────────────────────────────── */
+function switchTab(tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+
+  document.getElementById('tab-mine').className  = 'tab-btn' + (tab === 'mine'  ? ' active-gold'   : '');
+  document.getElementById('tab-fun').className   = 'tab-btn' + (tab === 'fun'   ? ' active-purple' : '');
+  document.getElementById('tab-frett').className = 'tab-btn' + (tab === 'frett' ? ' active-blue'   : '');
+
+  document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+
+  if (tab === 'frett') buildFrettCards();
+}
+
+/* ─── EXTRA CSS for blue active tab ─────────────────────────────── */
+const style = document.createElement('style');
+style.textContent = `.tab-btn.active-blue { background: rgba(96,165,250,.15); color: var(--blue); box-shadow: inset 0 0 0 1.5px rgba(96,165,250,.35); }`;
+document.head.appendChild(style);
+
+/* ─── INIT ───────────────────────────────────────────────────────── */
+buildCards(DATA.ordin_min,   'grid-mine', 'gold');
+buildCards(DATA.skritin_ord, 'grid-fun',  'purple');
+buildFrettCards();
+
+function updateBadge() {
+  let frettCount = 0;
+  try { frettCount = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]').length; } catch {}
+  const total = DATA.ordin_min.length + DATA.skritin_ord.length + frettCount;
+  document.getElementById('word-count-badge').textContent = `${total} orð`;
+}
+updateBadge();
+</script>
+</body>
+</html>
