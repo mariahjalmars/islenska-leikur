@@ -279,6 +279,7 @@ body {
   transition: all .2s;
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .w-btn:hover:not(:disabled) {
   border-color: rgba(255,255,255,.28);
@@ -439,7 +440,7 @@ body {
       <p>Veldu sterkara og nákvæmara orð í stað veika orðsins</p>
     </div>
     <div class="cat-list">
-      <div class="cat-card cat-football" onclick="startCat('football')" ontouchstart="">
+      <div class="cat-card cat-football" onclick="startCat('football')">
         <span class="cat-icon">⚽</span>
         <div class="cat-text">
           <h3>Fótbolti</h3>
@@ -447,7 +448,7 @@ body {
         </div>
         <span class="cat-pill">3 setningar</span>
       </div>
-      <div class="cat-card cat-politics" onclick="startCat('politics')" ontouchstart="">
+      <div class="cat-card cat-politics" onclick="startCat('politics')">
         <span class="cat-icon">🏛️</span>
         <div class="cat-text">
           <h3>Pólitík og Fréttir</h3>
@@ -455,7 +456,7 @@ body {
         </div>
         <span class="cat-pill">3 setningar</span>
       </div>
-      <div class="cat-card cat-tiktok" onclick="startCat('tiktok')" ontouchstart="">
+      <div class="cat-card cat-tiktok" onclick="startCat('tiktok')">
         <span class="cat-icon">📱</span>
         <div class="cat-text">
           <h3>TikTok og Daglegt líf</h3>
@@ -463,7 +464,7 @@ body {
         </div>
         <span class="cat-pill">3 setningar</span>
       </div>
-      <div class="cat-card cat-daglegt" onclick="startCat('daglegt')" ontouchstart="">
+      <div class="cat-card cat-daglegt" onclick="startCat('daglegt')">
         <span class="cat-icon">🗣️</span>
         <div class="cat-text">
           <h3>Daglegt líf og Skóli</h3>
@@ -788,4 +789,57 @@ function submitAnswer() {
     $('fb-body').textContent   = pMsg + ` (+${pts} stig)`;
 
     const upgEl = $('fb-upgraded');
-    upgEl.innerHTML = renderSentence(rou
+    upgEl.innerHTML = renderSentence(round.sentence, round.overused, chosenWord);
+    upgEl.style.display = 'block';
+
+    $('g-retry').style.display = 'none';
+    $('g-next').classList.add('show');
+
+  } else {
+    const msg = rand(RETRY_MSG).replace('{ov}', round.overused);
+    $('g-feedback').className = 'feedback-card show retry';
+    $('fb-icon').textContent  = '🤔';
+    $('fb-title').textContent = 'Ekki alveg...';
+    $('fb-body').textContent  = msg;
+    $('fb-upgraded').style.display = 'none';
+    $('g-retry').style.display = 'block';
+    $('g-next').classList.remove('show');
+  }
+}
+
+function retryRound() { answered=false; buildRound(); }
+
+function nextRound() {
+  roundIdx++;
+  if(roundIdx >= DATA[activeCat].rounds.length) showComplete();
+  else buildRound();
+}
+
+/* ── COMPLETE ────────────────────────────────────────────────────────────── */
+function showComplete() {
+  showScreen('screen-complete');
+  const total  = DATA[activeCat].rounds.length * 20;
+  const pct    = Math.round(roundScore / total * 100);
+
+  let icon, title, msg;
+  if(pct===100){
+    icon='🏆'; title='Fullkomið!';
+    msg='Þú svaraðir öllu rétt í fyrstu tilraun. Þú ert orðasnjallur – haltu þessum orðum í huga!';
+  } else if(pct>=60){
+    icon='⭐'; title='Mjög gott!';
+    msg='Þú ert að þróa orðaforða þinn. Voldug orð gera mál þitt sterkara!';
+  } else {
+    icon='💪'; title='Haltu áfram!';
+    msg='Æfing skapar meistarann. Prófaðu aftur — þú munt fara betur næst!';
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = roundScore;
+  $('c-sub').textContent   = `stig af ${total} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+  $('c-replay').textContent = DATA[activeCat].emoji + ' Spila ' + DATA[activeCat].name + ' aftur';
+}
+</script>
+</body>
+</html>
