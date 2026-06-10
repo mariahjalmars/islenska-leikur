@@ -217,7 +217,9 @@ body {
   cursor: pointer;
   transition: border-color .18s, background .18s, box-shadow .18s;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .drop-zone:hover {
   border-color: rgba(245,166,35,.6);
@@ -270,7 +272,9 @@ body {
   font-weight: 900;
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: transform .18s, border-color .18s, box-shadow .18s, background .18s, opacity .18s;
 }
 .piece:hover {
@@ -711,6 +715,7 @@ function renderBuildZone(p) {
   dropEl.innerHTML = '<span class="drop-hint">+ settu hér</span>';
 
   /* Click-to-place */
+  dropEl.setAttribute('ontouchstart', '');
   dropEl.addEventListener('click', attemptPlace);
 
   /* HTML5 drag-and-drop */
@@ -751,6 +756,7 @@ function renderPieces(p) {
     el.setAttribute('draggable', 'true');
 
     /* Tap-to-select */
+    el.setAttribute('ontouchstart', '');
     el.addEventListener('click', () => selectPiece(el));
 
     /* Drag start */
@@ -797,7 +803,4 @@ function attemptPlace() {
 
   /* Clear selection highlight */
   dz?.classList.remove('target-active');
-  selectedPiece.classList.remove('selected');
-
-  if (val === p.correct_part) {
-    /* ✅ CORRECT ──────────────────────────────────────────────�
+  selectedPiece.classList.remove('s
