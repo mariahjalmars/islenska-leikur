@@ -702,7 +702,6 @@ function renderBuildZone(p) {
   dropEl.className = 'drop-zone';
   dropEl.id = 'drop-zone';
   dropEl.innerHTML = '<span class="drop-hint">+ settu hér</span>';
-  dropEl.setAttribute('ontouchstart', '');
   dropEl.addEventListener('click', attemptPlace);
 
   dropEl.addEventListener('dragover', e => {
@@ -739,7 +738,6 @@ function renderPieces(p) {
     el.textContent = val;
     el.dataset.value = val;
     el.setAttribute('draggable', 'true');
-    el.setAttribute('ontouchstart', '');
 
     el.addEventListener('click', () => selectPiece(el));
 
