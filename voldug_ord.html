@@ -22,6 +22,7 @@
   --cat-football: #22c55e;
   --cat-politics: #60a5fa;
   --cat-tiktok:   #f472b6;
+  --cat-daglegt:  #f5a623;
 
   --r-sm:   10px;
   --r-md:   18px;
@@ -130,6 +131,7 @@ body {
 .cat-card.cat-football { border-left: 4px solid var(--cat-football); }
 .cat-card.cat-politics  { border-left: 4px solid var(--cat-politics);  }
 .cat-card.cat-tiktok    { border-left: 4px solid var(--cat-tiktok);    }
+.cat-card.cat-daglegt   { border-left: 4px solid var(--cat-daglegt);   }
 
 .cat-icon  { font-size: 2.8rem; flex-shrink: 0; }
 .cat-text h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 3px; }
@@ -147,6 +149,7 @@ body {
 .cat-football .cat-pill { background: rgba(34,197,94,.15); color: var(--cat-football); }
 .cat-politics  .cat-pill { background: rgba(96,165,250,.15); color: var(--cat-politics);  }
 .cat-tiktok    .cat-pill { background: rgba(244,114,182,.15); color: var(--cat-tiktok);   }
+.cat-daglegt   .cat-pill { background: rgba(245,166,35,.15);  color: var(--cat-daglegt);  }
 
 /* ─── GAME SCREEN ────────────────────────────────────────────────────────── */
 .game-topbar {
@@ -180,6 +183,7 @@ body {
 .mode-football .cat-badge { background: rgba(34,197,94,.15); color: var(--cat-football); }
 .mode-politics  .cat-badge { background: rgba(96,165,250,.15); color: var(--cat-politics);  }
 .mode-tiktok    .cat-badge { background: rgba(244,114,182,.15); color: var(--cat-tiktok);   }
+.mode-daglegt   .cat-badge { background: rgba(245,166,35,.15);  color: var(--cat-daglegt);  }
 
 /* Progress dots */
 .dots { display: flex; gap: 7px; margin-left: auto; }
@@ -457,6 +461,14 @@ body {
         </div>
         <span class="cat-pill">3 setningar</span>
       </div>
+      <div class="cat-card cat-daglegt" onclick="startCat('daglegt')">
+        <span class="cat-icon">🗣️</span>
+        <div class="cat-text">
+          <h3>Daglegt líf og Skóli</h3>
+          <p>Vinir, bekkurinn og samfélagið</p>
+        </div>
+        <span class="cat-pill">5 setningar</span>
+      </div>
     </div>
     <div style="margin-top:20px; text-align:center;">
       <a href="index.html" class="back-btn" style="text-decoration:none; color:inherit;">← Til baka í valmynd</a>
@@ -583,6 +595,41 @@ const DATA = {
         overused: 'hissa',
         power: ['orðlaus','undrandi','forviða'],
         decoys: ['tilbúinn','viðbúinn','rólegur']
+      }
+    ]
+  },
+  daglegt: {
+    name: 'Daglegt líf og Skóli', emoji: '🗣️',
+    rounds: [
+      {
+        sentence: 'Nýi strákurinn í bekknum er mjög {glaður}.',
+        overused: 'glaður',
+        power: ['hæstánægður','kátur','sæll'],
+        decoys: ['leiður','pirraður','reiður']
+      },
+      {
+        sentence: 'Hundurinn hennar ömmu er mjög {sætur}.',
+        overused: 'sætur',
+        power: ['krúttlegur','dúllulegur','fríður'],
+        decoys: ['ljótur','hættulegur','stór']
+      },
+      {
+        sentence: 'Forsetinn er mjög {klár} kona.',
+        overused: 'klár',
+        power: ['snjöll','vitur','vel gefin'],
+        decoys: ['heimsk','löt','hávær']
+      },
+      {
+        sentence: 'Hún mætir alltaf á réttum tíma og er mjög {góð} nemandi.',
+        overused: 'góð',
+        power: ['samviskusöm','iðin','dugleg'],
+        decoys: ['slæm','leiðinleg','gálaus']
+      },
+      {
+        sentence: 'Það var {skemmtilegt} af þeim að gera svona grín að honum á netinu.',
+        overused: 'skemmtilegt',
+        power: ['hæðnislegt','kaldhæðið','kvikindislegt'],
+        decoys: ['fallegt','jákvætt','fyndið']
       }
     ]
   }
@@ -743,53 +790,4 @@ function submitAnswer() {
     upgEl.style.display = 'block';
 
     $('g-retry').style.display = 'none';
-    $('g-next').classList.add('show');
-
-  } else {
-    const msg = rand(RETRY_MSG).replace('{ov}', round.overused);
-    $('g-feedback').className = 'feedback-card show retry';
-    $('fb-icon').textContent  = '🤔';
-    $('fb-title').textContent = 'Ekki alveg...';
-    $('fb-body').textContent  = msg;
-    $('fb-upgraded').style.display = 'none';
-    $('g-retry').style.display = 'block';
-    $('g-next').classList.remove('show');
-  }
-}
-
-function retryRound() { answered=false; buildRound(); }
-
-function nextRound() {
-  roundIdx++;
-  if(roundIdx >= DATA[activeCat].rounds.length) showComplete();
-  else buildRound();
-}
-
-/* ── COMPLETE ────────────────────────────────────────────────────────────── */
-function showComplete() {
-  showScreen('screen-complete');
-  const total  = DATA[activeCat].rounds.length * 20;
-  const pct    = Math.round(roundScore / total * 100);
-
-  let icon, title, msg;
-  if(pct===100){
-    icon='🏆'; title='Fullkomið!';
-    msg='Þú svaraðir öllu rétt í fyrstu tilraun. Þú ert orðasnjallur – haltu þessum orðum í huga!';
-  } else if(pct>=60){
-    icon='⭐'; title='Mjög gott!';
-    msg='Þú ert að þróa orðaforða þinn. Voldug orð gera mál þitt sterkara!';
-  } else {
-    icon='💪'; title='Haltu áfram!';
-    msg='Æfing skapar meistarann. Prófaðu aftur — þú munt fara betur næst!';
-  }
-
-  $('c-icon').textContent  = icon;
-  $('c-score').textContent = roundScore;
-  $('c-sub').textContent   = `stig af ${total} mögulegum`;
-  $('c-title').textContent = title;
-  $('c-msg').textContent   = msg;
-  $('c-replay').textContent = DATA[activeCat].emoji + ' Spila ' + DATA[activeCat].name + ' aftur';
-}
-</script>
-</body>
-</html>
+    
