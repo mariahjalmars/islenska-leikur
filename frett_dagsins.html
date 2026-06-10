@@ -360,9 +360,9 @@ body {
 
   <!-- CATEGORY TABS -->
   <div class="tabs">
-    <button class="tab-btn active" id="tab-innlent" onclick="switchFeed('innlent')">🗞️ Innlent</button>
-    <button class="tab-btn"        id="tab-sport"   onclick="switchFeed('sport')">⚽ Íþróttir</button>
-    <button class="tab-btn"        id="tab-erlent"  onclick="switchFeed('erlent')">🌍 Erlent</button>
+    <button class="tab-btn active" id="tab-innlent" onclick="switchFeed('innlent')">🗞️ Fréttir</button>
+    <button class="tab-btn"        id="tab-sport"   onclick="switchFeed('sport')">⚽ Fótbolti</button>
+    <button class="tab-btn"        id="tab-erlent"  onclick="switchFeed('erlent')">🎵 Lífið</button>
   </div>
 
   <!-- PRAISE BANNER -->
@@ -378,7 +378,7 @@ body {
   <div id="article-area">
     <div class="state-box" id="loading-box">
       <div class="spinner"></div>
-      <div class="state-title">Sæki fréttir frá RÚV…</div>
+      <div class="state-title">Sæki fréttir…</div>
       <div class="state-sub">Þetta tekur sekúndu</div>
     </div>
   </div>
@@ -392,9 +392,9 @@ body {
 const STORAGE_KEY = 'islenska_frett_ord';
 
 const FEEDS = {
-  innlent: { url: 'https://www.ruv.is/rss/innlent', label: 'RÚV – Innlent' },
-  sport:   { url: 'https://www.ruv.is/rss/sport',   label: 'RÚV – Íþróttir' },
-  erlent:  { url: 'https://www.ruv.is/rss/erlent',  label: 'RÚV – Erlent'   }
+  innlent: { url: 'https://www.visir.is/rss/frettir', label: 'Vísir – Fréttir'  },
+  sport:   { url: 'https://www.fotbolti.net/rss.php',  label: 'Fótbolti.net'     },
+  erlent:  { url: 'https://www.visir.is/rss/lifid',    label: 'Vísir – Lífið'    }
 };
 
 const PROXIES = [
@@ -549,7 +549,7 @@ function showLoading() {
   document.getElementById('article-area').innerHTML = `
     <div class="state-box" id="loading-box">
       <div class="spinner"></div>
-      <div class="state-title">Sæki fréttir frá RÚV…</div>
+      <div class="state-title">Sæki fréttir…</div>
       <div class="state-sub">Þetta tekur sekúndu</div>
     </div>`;
 }
@@ -634,7 +634,7 @@ async function loadFeed() {
   } catch (err) {
     showError(
       'Ekki tókst að sækja fréttir',
-      'Athugaðu nettenginguna og reyndu aftur. RÚV gæti verið tímabundið óaðgengilegt.'
+      'Athugaðu nettenginguna og reyndu aftur. Vefsíðan gæti verið tímabundið óaðgengileg.'
     );
   }
 }
@@ -645,3 +645,4 @@ loadFeed();
 </script>
 </body>
 </html>
+  
