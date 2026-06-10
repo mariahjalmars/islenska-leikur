@@ -440,19 +440,24 @@ function updateBadge() {
   document.getElementById('saved-badge').textContent = `${count} orð ✅`;
 }
 
-/* ─── RSS FETCH (via rss2json) ───────────────────────────────────── */
+/* ─── RSS FETCH (via allorigins CORS proxy + DOMParser) ─────────── */
 async function fetchFeed(feedUrl) {
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=8`;
-  const res = await fetch(apiUrl, { signal: AbortSignal.timeout(10000) });
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
   if (!res.ok) throw new Error('Villa við að sækja fréttir');
   const data = await res.json();
-  if (data.status !== 'ok') throw new Error('Ekki tókst að sækja fréttir');
-  return data.items
+  if (!data.contents) throw new Error('Ekki tókst að sækja fréttir');
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(data.contents, 'text/xml');
+  const items  = Array.from(doc.querySelectorAll('item'));
+  if (!items.length) throw new Error('Engar fréttir fundust í straumi');
+  return items
+    .slice(0, 8)
     .map(item => ({
-      title:   cleanText(item.title || 'Frétt'),
-      desc:    cleanText(item.description || item.content || ''),
-      pubDate: formatDate(item.pubDate || ''),
-      link:    item.link || ''
+      title:   cleanText(item.querySelector('title')?.textContent   || 'Frétt'),
+      desc:    cleanText(item.querySelector('description')?.textContent || ''),
+      pubDate: formatDate(item.querySelector('pubDate')?.textContent   || ''),
+      link:    (item.querySelector('link')?.nextSibling?.textContent || '').trim()
     }))
     .filter(a => a.desc.length > 40)
     .slice(0, 5);
