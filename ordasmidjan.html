@@ -330,6 +330,7 @@ body {
   box-shadow: var(--glow-green);
   transition: transform .18s, box-shadow .18s;
   display: none;
+  touch-action: manipulation;
 }
 .btn-next.visible {
   display: inline-block;
@@ -399,6 +400,7 @@ body {
   box-shadow: var(--glow-gold);
   transition: transform .18s, box-shadow .18s;
   animation: fadeUp .4s .1s ease both;
+  touch-action: manipulation;
 }
 .btn-start:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(245,166,35,.4); }
 
@@ -491,7 +493,7 @@ body {
     <span class="home-meta-badge">⚽ Fótbolti</span>
     <span class="home-meta-badge">🏛️ Pólitík</span>
     <span class="home-meta-badge">📱 TikTok</span>
-    <span class="home-meta-badge">4 spurningar</span>
+    <span class="home-meta-badge">8 spurningar</span>
     <span class="home-meta-badge">Enginn teljari ⏱️✗</span>
   </div>
   <button class="btn-start" onclick="startGame()">Byrja ▶</button>
@@ -506,7 +508,7 @@ body {
   <div class="topbar">
     <button class="btn-back" onclick="window.location.href='index.html'">← Til baka</button>
     <span class="topbar-title">🔨 Orðasmiðjan</span>
-    <span class="progress-badge" id="progress-badge">1 / 4</span>
+    <span class="progress-badge" id="progress-badge">1 / 8</span>
   </div>
 
   <!-- Category badge -->
@@ -639,7 +641,7 @@ const PUZZLES = [
 
 /* ─── STATE ──────────────────────────────────────────────────────── */
 let currentIndex  = 0;
-let selectedPiece = null;   // currently tapped piece element
+let selectedPiece = null;
 let roundDone     = false;
 
 /* ─── HELPERS ────────────────────────────────────────────────────── */
@@ -667,58 +669,42 @@ function renderRound() {
   roundDone     = false;
   selectedPiece = null;
 
-  /* Progress */
   $('progress-badge').textContent = `${currentIndex + 1} / ${PUZZLES.length}`;
-
-  /* Category */
   $('category-badge').textContent = p.category;
-
-  /* Sentence */
   $('sentence-card').innerHTML =
     p.sentence.replace('______',
       '<span class="sentence-blank" id="sentence-blank">______</span>');
 
-  /* Hide praise + next */
   $('praise-banner').style.display = 'none';
   $('btn-next').classList.remove('visible');
 
-  /* Section label for tray */
   $('pieces-section-label').textContent =
     p.is_prefix ? '🧩 Veldu rétt forskeyti' : '🧩 Veldu rétta endingu';
 
-  /* Build zone */
   renderBuildZone(p);
-
-  /* Pieces tray */
   renderPieces(p);
 }
 
-/* ── Build zone (root block + drop zone) ── */
+/* ── Build zone ── */
 function renderBuildZone(p) {
   const zone = $('build-zone');
   zone.innerHTML = '';
 
-  /* Strip trailing/leading dash for display, then re-add as indicator */
   const rootCore = p.root_word.replace(/^-|-$/g, '');
   const rootDisplay = p.is_prefix ? '-' + rootCore : rootCore + '-';
 
-  /* Root block */
   const rootEl = document.createElement('div');
   rootEl.className = 'root-block';
   rootEl.id = 'root-block';
   rootEl.innerHTML = rootDisplay + '<span class="root-label">rót</span>';
 
-  /* Drop zone */
   const dropEl = document.createElement('div');
   dropEl.className = 'drop-zone';
   dropEl.id = 'drop-zone';
   dropEl.innerHTML = '<span class="drop-hint">+ settu hér</span>';
-
-  /* Click-to-place */
   dropEl.setAttribute('ontouchstart', '');
   dropEl.addEventListener('click', attemptPlace);
 
-  /* HTML5 drag-and-drop */
   dropEl.addEventListener('dragover', e => {
     e.preventDefault();
     if (!roundDone) dropEl.classList.add('target-active');
@@ -734,7 +720,6 @@ function renderBuildZone(p) {
     if (el) { selectedPiece = el; attemptPlace(); }
   });
 
-  /* Prefix: drop zone BEFORE root; suffix: drop zone AFTER root */
   if (p.is_prefix) {
     zone.appendChild(dropEl);
     zone.appendChild(rootEl);
@@ -754,16 +739,13 @@ function renderPieces(p) {
     el.textContent = val;
     el.dataset.value = val;
     el.setAttribute('draggable', 'true');
-
-    /* Tap-to-select */
     el.setAttribute('ontouchstart', '');
+
     el.addEventListener('click', () => selectPiece(el));
 
-    /* Drag start */
     el.addEventListener('dragstart', e => {
       e.dataTransfer.setData('text/plain', val);
       setTimeout(() => el.classList.add('is-dragging'), 0);
-      /* auto-select for drop handler */
       selectedPiece = el;
     });
     el.addEventListener('dragend', () => el.classList.remove('is-dragging'));
@@ -776,7 +758,6 @@ function renderPieces(p) {
 function selectPiece(el) {
   if (roundDone) return;
 
-  /* Clicking the same piece again → deselect */
   if (selectedPiece === el) {
     el.classList.remove('selected');
     selectedPiece = null;
@@ -784,13 +765,10 @@ function selectPiece(el) {
     return;
   }
 
-  /* Deselect old */
   if (selectedPiece) selectedPiece.classList.remove('selected');
 
   selectedPiece = el;
   el.classList.add('selected');
-
-  /* Pulse drop zone as a hint */
   $('drop-zone')?.classList.add('target-active');
 }
 
@@ -801,6 +779,59 @@ function attemptPlace() {
   const val = selectedPiece.dataset.value;
   const dz  = $('drop-zone');
 
-  /* Clear selection highlight */
   dz?.classList.remove('target-active');
-  selectedPiece.classList.remove('s
+  selectedPiece.classList.remove('selected');
+
+  if (val === p.correct_part) {
+    roundDone = true;
+    selectedPiece.classList.add('gone');
+
+    dz.classList.add('correct');
+    dz.innerHTML = `<span class="placed-piece">${val}</span>`;
+
+    setTimeout(() => {
+      const blank = $('sentence-blank');
+      if (blank) {
+        blank.textContent = p.completed_word;
+        blank.classList.add('filled');
+      }
+    }, 650);
+
+    setTimeout(() => {
+      $('praise-text').textContent = p.praise;
+      $('praise-banner').style.display = 'flex';
+      const btn = $('btn-next');
+      btn.textContent = (currentIndex + 1 < PUZZLES.length)
+        ? 'Næsta setning ▶'
+        : 'Sjá niðurstöður 🏆';
+      btn.classList.add('visible');
+    }, 1250);
+
+    selectedPiece = null;
+
+  } else {
+    const el = selectedPiece;
+    selectedPiece = null;
+
+    el.classList.add('snap-back');
+    el.addEventListener('animationend',
+      () => el.classList.remove('snap-back'), { once: true });
+  }
+}
+
+function nextRound() {
+  currentIndex++;
+  if (currentIndex >= PUZZLES.length) {
+    const wordsEl = $('done-words');
+    wordsEl.innerHTML = PUZZLES
+      .map(p => `<span class="done-word">✅ ${p.completed_word}</span>`)
+      .join('');
+    showScreen('screen-done');
+  } else {
+    showScreen('screen-game');
+    renderRound();
+  }
+}
+</script>
+</body>
+</html>
