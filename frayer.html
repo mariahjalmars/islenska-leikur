@@ -470,7 +470,7 @@ body.card-selected .quadrant:not(.filled):hover {
     <div class="frayer-grid">
 
       <div class="quadrant" id="q-skilgreining"
-           onclick="onQuadrantClick('skilgreining')" ontouchstart=""
+           onclick="onQuadrantClick('skilgreining')"
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'skilgreining')">
@@ -480,7 +480,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-eiginleikar"
-           onclick="onQuadrantClick('eiginleikar')" ontouchstart=""
+           onclick="onQuadrantClick('eiginleikar')"
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'eiginleikar')">
@@ -490,7 +490,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-daemi"
-           onclick="onQuadrantClick('daemi')" ontouchstart=""
+           onclick="onQuadrantClick('daemi')"
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'daemi')">
@@ -500,7 +500,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-ekki_daemi"
-           onclick="onQuadrantClick('ekki_daemi')" ontouchstart=""
+           onclick="onQuadrantClick('ekki_daemi')"
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'ekki_daemi')">
@@ -764,7 +764,6 @@ function loadWord() {
     el.textContent      = c.text;
     el.dataset.targetQ  = c.targetQ || '';
     el.draggable        = true;
-    el.setAttribute('ontouchstart', '');
 
     el.addEventListener('click', () => onCardClick(el, c.targetQ));
 
