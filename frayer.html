@@ -112,6 +112,7 @@ body {
   transition: all .2s;
   text-decoration: none;
   text-align: center;
+  touch-action: manipulation;
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-gold); }
 
@@ -130,6 +131,7 @@ body {
   transition: all .2s;
   text-decoration: none;
   text-align: center;
+  touch-action: manipulation;
 }
 .btn-secondary:hover { background: var(--surface-hover); border-color: rgba(255,255,255,.25); }
 
@@ -146,6 +148,7 @@ body {
   transition: background .15s;
   text-decoration: none;
   display: inline-block;
+  touch-action: manipulation;
 }
 .back-btn:hover { background: var(--surface-hover); }
 
@@ -240,7 +243,9 @@ body {
   flex-direction: column;
   gap: 8px;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   position: relative;
 }
 
@@ -330,7 +335,9 @@ body.card-selected .quadrant:not(.filled):hover {
   transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
   max-width: 380px;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .drag-card:hover {
   border-color: rgba(255,255,255,.28);
@@ -492,7 +499,7 @@ body.card-selected .quadrant:not(.filled):hover {
     <div class="frayer-grid">
 
       <div class="quadrant" id="q-skilgreining"
-           onclick="onQuadrantClick('skilgreining')"
+           onclick="onQuadrantClick('skilgreining')" ontouchstart=""
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'skilgreining')">
@@ -502,7 +509,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-eiginleikar"
-           onclick="onQuadrantClick('eiginleikar')"
+           onclick="onQuadrantClick('eiginleikar')" ontouchstart=""
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'eiginleikar')">
@@ -512,7 +519,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-daemi"
-           onclick="onQuadrantClick('daemi')"
+           onclick="onQuadrantClick('daemi')" ontouchstart=""
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'daemi')">
@@ -522,7 +529,7 @@ body.card-selected .quadrant:not(.filled):hover {
       </div>
 
       <div class="quadrant" id="q-ekki_daemi"
-           onclick="onQuadrantClick('ekki_daemi')"
+           onclick="onQuadrantClick('ekki_daemi')" ontouchstart=""
            ondragover="onDragOver(event)"
            ondragleave="onDragLeave(event)"
            ondrop="onDrop(event,'ekki_daemi')">
@@ -716,9 +723,9 @@ const WORD_PRAISE = [
 let wordIdx    = 0;
 let totalScore = 0;
 let wordScore  = 0;
-let placed     = {};          // quadrant key → true
-let selCard    = null;        // { el, targetQ }
-let dragData   = null;        // { el, targetQ }
+let placed     = {};
+let selCard    = null;
+let dragData   = null;
 
 /* ── UTILS ──────────────────────────────────────────────────────────────── */
 const $   = id => document.getElementById(id);
@@ -761,24 +768,20 @@ function loadWord() {
 
   const entry = DATA[wordIdx];
 
-  // Topbar
   $('g-cat').textContent = entry.category;
   $('g-prog-text').textContent = `${wordIdx + 1} / ${DATA.length}`;
   $('g-dots').innerHTML = DATA.map((_, i) =>
     `<div class="dot ${i < wordIdx ? 'done' : i === wordIdx ? 'current' : ''}"></div>`
   ).join('');
 
-  // Target word
   $('g-word').textContent = entry.target_word;
 
-  // Reset quadrants
   QUADRANT_KEYS.forEach(k => {
     const el = $('q-' + k);
     el.classList.remove('filled');
     $('qa-' + k).textContent = '';
   });
 
-  // Build shuffled card list: 4 correct + 4 distractors
   const cards = shuffle([
     { text: entry.quadrants.skilgreining.correct,    targetQ: 'skilgreining' },
     { text: entry.quadrants.skilgreining.distractor, targetQ: null },
@@ -800,6 +803,7 @@ function loadWord() {
     el.draggable        = true;
 
     el.addEventListener('click', () => onCardClick(el, c.targetQ));
+    el.addEventListener('touchend', (e) => { e.preventDefault(); onCardClick(el, c.targetQ); });
 
     el.addEventListener('dragstart', e => {
       dragData = { el, targetQ: c.targetQ };
@@ -820,7 +824,6 @@ function loadWord() {
 function onCardClick(el, targetQ) {
   if (el.classList.contains('dragging')) return;
 
-  // Toggle: clicking selected card deselects it
   if (selCard && selCard.el === el) {
     clearSelection();
     return;
@@ -854,7 +857,6 @@ function onDragOver(e) {
 }
 
 function onDragLeave(e) {
-  // Only remove if we're truly leaving the quadrant (not a child element)
   if (!e.currentTarget.contains(e.relatedTarget))
     e.currentTarget.classList.remove('drag-over');
 }
@@ -873,17 +875,14 @@ function attemptPlace(cardEl, cardTargetQ, qKey) {
   cardEl.style.opacity = '';
 
   if (cardTargetQ === qKey) {
-    /* ✅ CORRECT */
     placed[qKey] = true;
     wordScore  += 10;
     totalScore += 10;
     $('hdr-score').textContent = totalScore;
 
-    // Fill quadrant
     const qEl = $('q-' + qKey);
     $('qa-' + qKey).textContent = cardEl.textContent;
     qEl.classList.add('filled');
-    // Pulse
     void qEl.offsetWidth;
     qEl.style.animation = 'none';
     requestAnimationFrame(() => {
@@ -895,20 +894,20 @@ function attemptPlace(cardEl, cardTargetQ, qKey) {
     qEl.style.animation = 'pulseBorder .55s ease forwards';
     setTimeout(() => qEl.style.animation = '', 600);
 
-    // Remove card from tray
     cardEl.remove();
 
-    // Praise
     const msgs = PRAISE_PER_Q[qKey];
     showPraise(msgs[Math.floor(Math.random() * msgs.length)]);
 
-    // All 4 done?
     if (QUADRANT_KEYS.every(k => placed[k])) {
       setTimeout(showWordSuccess, 700);
     }
 
   } else {
-    /* ❌ WRONG — silent snap-back, just a shake */
     void cardEl.offsetWidth;
     cardEl.classList.add('shake');
-    cardEl.a
+    cardEl.addEventListener('animationend', () => cardEl.classList.remove('shake'), { once: true });
+  }
+}
+
+/* ── PRAISE TOAST �
