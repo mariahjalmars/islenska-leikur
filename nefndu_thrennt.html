@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Nefndu Þrennt</title>
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --red:    #ef4444;
+  --blue:   #60a5fa;
+  --pink:   #f472b6;
+  --purple: #a78bfa;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-pill: 100px;
+  --shadow:      0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:   0 0 18px rgba(245,166,35,0.30);
+  --glow-green:  0 0 18px rgba(34,197,94,0.30);
+  --glow-purple: 0 0 18px rgba(167,139,250,0.28);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(167,139,250,.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(96,165,250,.06) 0%, transparent 55%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── HEADER ──────────────────────────────────────────────────────────── */
+#app-header {
+  width: 100%;
+  max-width: 680px;
+  padding: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--purple);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.score-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 7px 18px;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.score-chip .num { color: var(--gold); font-weight: 800; font-size: 1rem; }
+
+/* ─── MAIN ────────────────────────────────────────────────────────────── */
+#app-main {
+  width: 100%;
+  max-width: 680px;
+  padding: 24px 20px 64px;
+  flex: 1;
+}
+
+/* ─── SCREENS ─────────────────────────────────────────────────────────── */
+.screen        { display: none; }
+.screen.active { display: block; animation: fadeIn .25s ease; }
+
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes pop     { 0%,100%{transform:scale(1)} 40%{transform:scale(1.13)} }
+@keyframes bounce  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+/* ─── HOME ────────────────────────────────────────────────────────────── */
+.home-hero {
+  text-align: center;
+  padding: 8px 0 32px;
+}
+.home-hero .hero-icon { font-size: 4rem; display: block; margin-bottom: 14px; }
+.home-hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.home-hero p  { color: var(--muted); font-size: 1rem; line-height: 1.65; max-width: 420px; margin: 0 auto; }
+
+.home-meta {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 18px 0 32px;
+}
+.home-meta-badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.home-actions { max-width: 360px; margin: 0 auto; }
+
+/* ─── BUTTONS ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: block; width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--purple);
+  color: #100822;
+  font-size: 1.1rem; font-weight: 800;
+  cursor: pointer; font-family: inherit;
+  transition: all .2s;
+  text-align: center; text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--glow-purple); }
+
+.btn-green {
+  display: block; width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--green);
+  color: #051205;
+  font-size: 1.1rem; font-weight: 800;
+  cursor: pointer; font-family: inherit;
+  transition: all .2s;
+  text-align: center;
+  margin-top: 14px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  animation: slideUp .35s ease;
+}
+.btn-green:hover { transform: translateY(-2px); box-shadow: var(--glow-green); }
+
+.btn-secondary {
+  display: block; width: 100%;
+  padding: 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  transition: all .2s;
+  text-align: center; text-decoration: none;
+  margin-top: 10px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-secondary:hover { background: var(--surface-hover); border-color: rgba(255,255,255,.25); }
+
+.back-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 9px 15px;
+  color: var(--text);
+  font-size: .9rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  transition: background .15s;
+  text-decoration: none;
+  display: inline-block;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.back-btn:hover { background: var(--surface-hover); }
+
+.skip-btn {
+  background: none; border: none;
+  color: var(--muted);
+  font-size: .88rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  padding: 10px 0;
+  display: block; width: 100%; text-align: center;
+  margin-top: 8px;
+  transition: color .15s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.skip-btn:hover { color: var(--text); }
+
+/* ─── GAME TOP BAR ───────────────────────────────────────────────────── */
+.game-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.prompt-badge {
+  background: rgba(167,139,250,.12);
+  border: 1px solid rgba(167,139,250,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: .82rem; font-weight: 700;
+  color: var(--purple);
+}
+.progress-dots { display: flex; gap: 6px; margin-left: auto; }
+.pdot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .3s;
+}
+.pdot.done    { background: var(--gold); }
+.pdot.current { background: var(--text); transform: scale(1.4); }
+
+/* ─── PROMPT CARD ────────────────────────────────────────────────────── */
+.prompt-card {
+  background: var(--surface);
+  border: 1px solid rgba(167,139,250,.25);
+  border-left: 4px solid var(--purple);
+  border-radius: var(--r-lg);
+  padding: 28px 24px 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.prompt-icon  { font-size: 3rem; display: block; margin-bottom: 14px; }
+.prompt-text  {
+  font-size: 1.35rem; font-weight: 800;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.prompt-hint  { font-size: .82rem; color: var(--muted); }
+
+/* ─── SECTION LABEL ──────────────────────────────────────────────────── */
+.section-label {
+  font-size: .72rem; font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ─── INPUT FIELDS ───────────────────────────────────────────────────── */
+.inputs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 4px 16px 4px 8px;
+  transition: border-color .2s, background .2s;
+}
+.input-row:focus-within {
+  border-color: rgba(167,139,250,.5);
+  background: rgba(167,139,250,.05);
+}
+.input-row.filled {
+  border-color: rgba(34,197,94,.35);
+  background: rgba(34,197,94,.05);
+}
+
+.input-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(167,139,250,.15);
+  border: 1px solid rgba(167,139,250,.25);
+  color: var(--purple);
+  font-size: .88rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, border-color .2s;
+}
+.input-row.filled .input-num {
+  background: rgba(34,197,94,.20);
+  border-color: rgba(34,197,94,.35);
+  color: var(--green);
+}
+
+.word-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 1.05rem; font-weight: 600;
+  font-family: inherit;
+  padding: 14px 0;
+  caret-color: var(--purple);
+}
+.word-input::placeholder { color: var(--muted); font-weight: 400; }
+
+.input-check {
+  font-size: 1.1rem;
+  opacity: 0;
+  transition: opacity .2s;
+  flex-shrink: 0;
+}
+.input-row.filled .input-check { opacity: 1; }
+
+/* ─── KLÁRA BUTTON ───────────────────────────────────────────────────── */
+#klara-btn {
+  display: block; width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--purple);
+  color: #100822;
+  font-size: 1.15rem; font-weight: 900;
+  cursor: pointer; font-family: inherit;
+  transition: all .25s;
+  opacity: .38;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: .3px;
+}
+#klara-btn.ready {
+  opacity: 1;
+  box-shadow: var(--glow-purple);
+  animation: bounce 1.4s ease infinite;
+}
+#klara-btn.ready:hover { transform: translateY(-3px); }
+
+/* ─── ROUND SUCCESS OVERLAY ──────────────────────────────────────────── */
+#round-success {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(12,12,24,.92);
+  backdrop-filter: blur(10px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+#round-success.show { display: flex; animation: fadeIn .3s ease; }
+
+.rs-box {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--r-lg);
+  padding: 36px 28px 28px;
+  max-width: 440px; width: 100%;
+  text-align: center;
+}
+.rs-icon  { font-size: 4.5rem; display: block; margin-bottom: 14px; animation: pop .5s ease; }
+.rs-praise{ font-size: 1.5rem; font-weight: 900; color: var(--green); margin-bottom: 16px; }
+
+.rs-answers {
+  background: rgba(34,197,94,.07);
+  border: 1px solid rgba(34,197,94,.2);
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.rs-answer-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 0;
+  font-size: .95rem; font-weight: 600;
+  color: var(--text);
+}
+.rs-answer-item + .rs-answer-item { border-top: 1px solid rgba(255,255,255,.06); }
+.rs-check { font-size: 1rem; flex-shrink: 0; }
+
+.rs-pts { font-size: .85rem; color: var(--muted); margin-bottom: 4px; }
+
+/* ─── COMPLETE SCREEN ────────────────────────────────────────────────── */
+.complete-wrap {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.big-icon    { font-size: 5.5rem; display: block; margin-bottom: 18px; animation: pop .6s ease; }
+.final-score { font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.score-sub   { color: var(--muted); font-size: .95rem; margin: 6px 0 20px; }
+.complete-wrap h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 10px; }
+.complete-wrap p  {
+  color: var(--muted); font-size: 1rem; line-height: 1.65;
+  margin-bottom: 32px; max-width: 420px;
+  margin-left: auto; margin-right: auto;
+}
+.complete-actions { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
+
+/* ─── CONFETTI LAYER ─────────────────────────────────────────────────── */
+#confetti-layer {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 299;
+  overflow: hidden;
+}
+.conf {
+  position: absolute;
+  top: -20px;
+  width: 10px; height: 14px;
+  border-radius: 3px;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .prompt-text { font-size: 1.15rem; }
+  .word-input  { font-size: .95rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── CONFETTI ───────────────────────────────────────────────────────── -->
+<div id="confetti-layer"></div>
+
+<!-- ─── ROUND SUCCESS ──────────────────────────────────────────────────── -->
+<div id="round-success">
+  <div class="rs-box">
+    <span class="rs-icon"   id="rs-icon">🎉</span>
+    <div  class="rs-praise" id="rs-praise">Geggjað!</div>
+    <div  class="rs-answers" id="rs-answers"></div>
+    <div  class="rs-pts"    id="rs-pts"></div>
+    <button class="btn-green" id="rs-next-btn" onclick="nextPrompt()"></button>
+  </div>
+</div>
+
+<!-- ─── HEADER ────────────────────────────────────────────────────────── -->
+<header id="app-header">
+  <div class="logo">🧠 Nefndu Þrennt</div>
+  <div class="score-chip">⭐ <span class="num" id="hdr-score">0</span> stig</div>
+</header>
+
+<!-- ─── MAIN ──────────────────────────────────────────────────────────── -->
+<main id="app-main">
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="home-hero">
+      <span class="hero-icon">🧠</span>
+      <h1>Nefndu Þrennt</h1>
+      <p>Þú færð flokk og þarft að nefna þrjú dæmi úr honum. Enginn teljari — taktu þér tíma!</p>
+      <div class="home-meta">
+        <span class="home-meta-badge">⚽ Fótbolti</span>
+        <span class="home-meta-badge">🌍 Landafræði</span>
+        <span class="home-meta-badge">📱 TikTok</span>
+        <span class="home-meta-badge">🏛️ Pólitík</span>
+        <span class="home-meta-badge">10 spurningar</span>
+        <span class="home-meta-badge">Enginn teljari ⏱️✗</span>
+      </div>
+    </div>
+    <div class="home-actions">
+      <button class="btn-primary" onclick="startGame()">Byrja leikinn ▶</button>
+      <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="game-topbar">
+      <button class="back-btn" onclick="goHome()">← Heim</button>
+      <span class="prompt-badge" id="g-prompt-badge">1 / 10</span>
+      <div class="progress-dots" id="g-prompt-dots"></div>
+    </div>
+
+    <div class="prompt-card" id="g-prompt-card">
+      <span class="prompt-icon" id="g-icon">🧠</span>
+      <div class="prompt-text" id="g-text"></div>
+      <div class="prompt-hint" id="g-hint"></div>
+    </div>
+
+    <div class="section-label">✏️ Skrifaðu þrjú orð eða dæmi</div>
+
+    <div class="inputs-list">
+      <div class="input-row" id="row-0">
+        <div class="input-num">1</div>
+        <input class="word-input" id="inp-0" type="text" placeholder="Fyrsta orðið…"
+               autocomplete="off" autocorrect="off" spellcheck="false"
+               oninput="onInput(0)" onkeydown="onKey(event,0)">
+        <span class="input-check">✅</span>
+      </div>
+      <div class="input-row" id="row-1">
+        <div class="input-num">2</div>
+        <input class="word-input" id="inp-1" type="text" placeholder="Annað orðið…"
+               autocomplete="off" autocorrect="off" spellcheck="false"
+               oninput="onInput(1)" onkeydown="onKey(event,1)">
+        <span class="input-check">✅</span>
+      </div>
+      <div class="input-row" id="row-2">
+        <div class="input-num">3</div>
+        <input class="word-input" id="inp-2" type="text" placeholder="Þriðja orðið…"
+               autocomplete="off" autocorrect="off" spellcheck="false"
+               oninput="onInput(2)" onkeydown="onKey(event,2)">
+        <span class="input-check">✅</span>
+      </div>
+    </div>
+
+    <button id="klara-btn" onclick="klara()" disabled>Klára! 🎉</button>
+    <button class="skip-btn" onclick="skipPrompt()">Sleppa þessum →</button>
+  </div>
+
+  <!-- COMPLETE -->
+  <div class="screen" id="screen-complete">
+    <div class="complete-wrap">
+      <span class="big-icon"   id="c-icon">🏆</span>
+      <div class="final-score" id="c-score">0</div>
+      <div class="score-sub"   id="c-sub"></div>
+      <h2 id="c-title"></h2>
+      <p  id="c-msg"></p>
+      <div class="complete-actions">
+        <button class="btn-primary" onclick="startGame()">Spila aftur 🔄</button>
+        <a href="index.html" class="btn-secondary">← Til baka í valmynd</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── SCRIPT ────────────────────────────────────────────────────────── -->
+<script>
+/* ── PROMPTS ─────────────────────────────────────────────────────────── */
+const ALL_PROMPTS = [
+  {
+    icon: '⚽',
+    text: 'Nefndu þrjá fræga knattspyrnumenn',
+    hint: 't.d. Messi, Ronaldo, Mbappe'
+  },
+  {
+    icon: '🌍',
+    text: 'Nefndu þrjú lönd í Evrópu',
+    hint: 't.d. Frakkland, Þýskaland, Spánn'
+  },
+  {
+    icon: '📱',
+    text: 'Nefndu þrjár samfélagsmiðlar',
+    hint: 't.d. TikTok, Instagram, YouTube'
+  },
+  {
+    icon: '🏛️',
+    text: 'Nefndu þrjá íslenska stjórnmálaflokka',
+    hint: 't.d. Sjálfstæðisflokkurinn'
+  },
+  {
+    icon: '⚽',
+    text: 'Nefndu þrjár frægar knattspyrnuliðir',
+    hint: 't.d. Real Madrid, Barcelona, Liverpool'
+  },
+  {
+    icon: '🌎',
+    text: 'Nefndu þrjú lönd í Suður-Ameríku',
+    hint: 't.d. Brasilía, Argentína, Kólumbía'
+  },
+  {
+    icon: '🏅',
+    text: 'Nefndu þrjár íþróttir á Ólympíuleikunum',
+    hint: 't.d. sund, hlaupaíþróttir, körfubolti'
+  },
+  {
+    icon: '🗺️',
+    text: 'Nefndu þrjú lönd í Afríku',
+    hint: 't.d. Marokkó, Nígería, Suður-Afríka'
+  },
+  {
+    icon: '🌏',
+    text: 'Nefndu þrjú lönd í Asíu',
+    hint: 't.d. Japan, Kína, Indland'
+  },
+  {
+    icon: '📹',
+    text: 'Nefndu þrjár tegundir af TikTok-efni',
+    hint: 't.d. dansefni, gamanefni, fræðslumyndskeið'
+  }
+];
+
+const ROUND_ICONS   = ['🎉','🏆','⭐','🌟','💪','🔥','👏','🎯'];
+const ROUND_PRAISES = [
+  'Geggjað! Þrjú orð!',
+  'Þetta var frábært!',
+  'Vel gert! Snilld!',
+  'Þú ert snjall!',
+  'Þetta var flott!',
+  'Þrjú orð — á einni mínútu!'
+];
+
+const CONF_COLORS = ['#f5a623','#22c55e','#60a5fa','#f472b6','#a78bfa','#fb7185','#34d399'];
+
+/* ── STATE ───────────────────────────────────────────────────────────── */
+let prompts      = [];
+let promptIdx    = 0;
+let totalScore   = 0;
+let skippedCount = 0;
+
+/* ── UTILS ───────────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── CONFETTI ────────────────────────────────────────────────────────── */
+function fireConfetti(count) {
+  const layer = $('confetti-layer');
+  layer.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf';
+    el.style.left     = Math.random() * 100 + 'vw';
+    el.style.background = rnd(CONF_COLORS);
+    el.style.width    = (8 + Math.random() * 8) + 'px';
+    el.style.height   = (10 + Math.random() * 10) + 'px';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay   = (Math.random() * .8) + 's';
+    el.style.borderRadius     = Math.random() > .5 ? '50%' : '3px';
+    layer.appendChild(el);
+  }
+  setTimeout(() => { layer.innerHTML = ''; }, 3500);
+}
+
+/* ── GAME FLOW ───────────────────────────────────────────────────────── */
+function goHome() {
+  $('round-success').classList.remove('show');
+  showScreen('screen-home');
+}
+
+function startGame() {
+  totalScore   = 0;
+  skippedCount = 0;
+  prompts      = shuffle(ALL_PROMPTS);
+  promptIdx    = 0;
+  $('hdr-score').textContent = 0;
+  showScreen('screen-game');
+  loadPrompt();
+}
+
+function loadPrompt() {
+  const p = prompts[promptIdx];
+
+  $('g-prompt-badge').textContent = `${promptIdx + 1} / ${prompts.length}`;
+  $('g-prompt-dots').innerHTML    = prompts.map((_, i) =>
+    `<div class="pdot ${i < promptIdx ? 'done' : i === promptIdx ? 'current' : ''}"></div>`
+  ).join('');
+
+  $('g-icon').textContent = p.icon;
+  $('g-text').textContent = p.text;
+  $('g-hint').textContent = p.hint;
+
+  // Clear inputs
+  [0,1,2].forEach(i => {
+    const inp = $(`inp-${i}`);
+    const row = $(`row-${i}`);
+    inp.value = '';
+    row.classList.remove('filled');
+  });
+  updateKlara();
+
+  // Focus first input after a short delay (avoids keyboard pop on mobile)
+  setTimeout(() => $('inp-0').focus(), 200);
+}
+
+/* ── INPUT HANDLING ──────────────────────────────────────────────────── */
+function onInput(idx) {
+  const inp = $(`inp-${idx}`);
+  const row = $(`row-${idx}`);
+  row.classList.toggle('filled', inp.value.trim().length > 0);
+  updateKlara();
+}
+
+function onKey(e, idx) {
+  if (e.key === 'Enter' || e.key === 'Tab') {
+    e.preventDefault();
+    if (idx < 2) {
+      $(`inp-${idx + 1}`).focus();
+    } else {
+      const btn = $('klara-btn');
+      if (btn.classList.contains('ready')) klara();
+    }
+  }
+}
+
+function updateKlara() {
+  const allFilled = [0,1,2].every(i => $(`inp-${i}`).value.trim().length > 0);
+  const btn = $('klara-btn');
+  btn.disabled = !allFilled;
+  btn.classList.toggle('ready', allFilled);
+}
+
+/* ── KLÁRA ───────────────────────────────────────────────────────────── */
+function klara() {
+  const btn = $('klara-btn');
+  if (!btn.classList.contains('ready')) return;
+
+  const answers = [0,1,2].map(i => $(`inp-${i}`).value.trim());
+  const pts = 30;
+  totalScore += pts;
+  $('hdr-score').textContent = totalScore;
+
+  fireConfetti(45);
+
+  const icon   = rnd(ROUND_ICONS);
+  const praise = rnd(ROUND_PRAISES);
+  const isLast = promptIdx === prompts.length - 1;
+
+  $('rs-icon').textContent   = icon;
+  $('rs-praise').textContent = praise;
+  $('rs-pts').textContent    = `+${pts} stig — samtals ${totalScore} stig`;
+  $('rs-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta ▶';
+
+  // Show their answers
+  $('rs-answers').innerHTML = answers.map(a =>
+    `<div class="rs-answer-item"><span class="rs-check">✅</span>${a}</div>`
+  ).join('');
+
+  $('round-success').classList.add('show');
+}
+
+/* ── SKIP ────────────────────────────────────────────────────────────── */
+function skipPrompt() {
+  skippedCount++;
+  promptIdx++;
+  if (promptIdx >= prompts.length) {
+    showComplete();
+  } else {
+    loadPrompt();
+  }
+}
+
+/* ── NEXT PROMPT ──────────────────────────────────────────────────────── */
+function nextPrompt() {
+  $('round-success').classList.remove('show');
+  promptIdx++;
+  if (promptIdx >= prompts.length) {
+    showComplete();
+  } else {
+    loadPrompt();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+/* ── COMPLETE ────────────────────────────────────────────────────────── */
+function showComplete() {
+  showScreen('screen-complete');
+  fireConfetti(80);
+
+  const done = prompts.length - skippedCount;
+  const max  = prompts.length * 30;
+
+  let icon, title, msg;
+  if (skippedCount === 0) {
+    icon  = '🏆';
+    title = 'Algjörlega geggjað!';
+    msg   = 'Þú kláraðir öll flokka án þess að sleppa neinu! Þú ert snillingur í að finna orð!';
+  } else if (done >= prompts.length * 0.7) {
+    icon  = '⭐';
+    title = 'Mjög vel gert!';
+    msg   = `Þú kláraðir ${done} af ${prompts.length} flokkum. Frábærlega gert — haltu áfram að æfa!`;
+  } else {
+    icon  = '💪';
+    title = 'Vel gert!';
+    msg   = `Þú kláraðir ${done} flokka. Orðaforðinn þinn er að vaxa — prófaðu aftur!`;
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = totalScore;
+  $('c-sub').textContent   = `stig af ${max} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+}
+</script>
+</body>
+</html>
