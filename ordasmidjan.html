@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔨 Orðasmiðjan</title>
+<style>
+/* ─── DESIGN TOKENS (identical across all games) ──────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --red:    #ef4444;
+  --blue:   #60a5fa;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-pill: 100px;
+  --shadow:     0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-green: 0 0 18px rgba(34,197,94,0.30);
+  --glow-blue:  0 0 18px rgba(96,165,250,0.28);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 25%, rgba(245,166,35,.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(96,165,250,.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%,  rgba(34,197,94,.05)  0%, transparent 50%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── SCREENS ────────────────────────────────────────────────────── */
+.screen {
+  width: 100%;
+  max-width: 660px;
+  padding: 0 20px 60px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+.screen.active { display: flex; }
+
+/* ─── TOP BAR ────────────────────────────────────────────────────── */
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0 20px;
+  gap: 12px;
+}
+.btn-back {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 8px 18px;
+  color: var(--muted);
+  font-size: .85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: color .18s, border-color .18s;
+}
+.btn-back:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+
+.topbar-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.progress-badge {
+  background: rgba(245,166,35,.12);
+  border: 1px solid rgba(245,166,35,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ─── CATEGORY BADGE ─────────────────────────────────────────────── */
+.category-badge {
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 7px 18px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 20px;
+  letter-spacing: .3px;
+  animation: fadeUp .3s ease both;
+}
+
+/* ─── SENTENCE CARD ──────────────────────────────────────────────── */
+.sentence-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 28px;
+  margin-bottom: 28px;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  text-align: center;
+  animation: fadeUp .35s .05s ease both;
+}
+
+.sentence-blank {
+  display: inline-block;
+  min-width: 130px;
+  border-bottom: 3px solid var(--gold);
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 0 10px 2px;
+  transition: color .5s ease, border-color .5s ease, letter-spacing .3s ease;
+  cursor: default;
+}
+.sentence-blank.filled {
+  border-bottom-color: var(--green);
+  color: var(--green);
+  letter-spacing: 0;
+  animation: pop .45s ease;
+}
+
+/* ─── SECTION LABELS ─────────────────────────────────────────────── */
+.section-label {
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  align-self: flex-start;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── WORD BUILDING ZONE ─────────────────────────────────────────── */
+.build-zone {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  min-height: 86px;
+  animation: fadeUp .35s .1s ease both;
+}
+
+.root-block {
+  background: rgba(96,165,250,.10);
+  border: 2px solid rgba(96,165,250,.3);
+  border-radius: var(--r-md);
+  padding: 18px 26px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--blue);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.root-label {
+  display: block;
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: rgba(96,165,250,.5);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.drop-zone {
+  min-width: 120px;
+  min-height: 70px;
+  background: rgba(245,166,35,.06);
+  border: 2.5px dashed rgba(245,166,35,.4);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: .8rem;
+  font-weight: 600;
+  color: rgba(245,166,35,.5);
+  cursor: pointer;
+  transition: border-color .18s, background .18s, box-shadow .18s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.drop-zone:hover {
+  border-color: rgba(245,166,35,.6);
+  background: rgba(245,166,35,.09);
+}
+.drop-zone.target-active {
+  border-color: var(--gold);
+  border-style: solid;
+  background: rgba(245,166,35,.12);
+  box-shadow: var(--glow-gold);
+  animation: pulseBorder 1.2s ease infinite;
+}
+.drop-zone.correct {
+  background: rgba(34,197,94,.14);
+  border: 2.5px solid var(--green);
+  box-shadow: var(--glow-green);
+  cursor: default;
+  animation: none;
+}
+.drop-zone .drop-hint {
+  font-size: .75rem;
+  color: rgba(245,166,35,.45);
+  pointer-events: none;
+}
+.drop-zone .placed-piece {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--green);
+  animation: pop .4s ease;
+  pointer-events: none;
+}
+
+/* ─── PIECES TRAY ─────────────────────────────────────────────────── */
+.pieces-tray {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 28px;
+  animation: fadeUp .35s .15s ease both;
+}
+
+.piece {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 16px 30px;
+  font-size: 1.25rem;
+  font-weight: 900;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s, border-color .18s, box-shadow .18s, background .18s, opacity .18s;
+}
+.piece:hover {
+  background: var(--surface-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.piece:active { transform: translateY(-1px) scale(.97); }
+.piece.selected {
+  border-color: var(--gold);
+  box-shadow: var(--glow-gold);
+  background: rgba(245,166,35,.10);
+  transform: translateY(-4px) scale(1.06);
+}
+.piece[draggable="true"]:active { cursor: grabbing; }
+.piece.is-dragging { opacity: .45; transform: none; }
+.piece.gone { display: none; }
+
+/* snap-back: gentle return to tray */
+@keyframes snapBack {
+  0%   { transform: scale(1.1) translateY(-6px); }
+  55%  { transform: scale(.97) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.piece.snap-back { animation: snapBack .45s cubic-bezier(.4,0,.2,1); }
+
+/* ─── PRAISE BANNER ───────────────────────────────────────────────── */
+.praise-banner {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.06));
+  border: 1.5px solid rgba(34,197,94,.30);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  animation: fadeUp .4s ease;
+}
+.praise-icon { font-size: 2rem; flex-shrink: 0; }
+.praise-text { font-size: 1rem; font-weight: 700; color: var(--green); line-height: 1.45; }
+
+/* ─── NEXT BUTTON ─────────────────────────────────────────────────── */
+.btn-next {
+  background: var(--green);
+  color: #051205;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 16px 44px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--glow-green);
+  transition: transform .18s, box-shadow .18s;
+  display: none;
+}
+.btn-next.visible {
+  display: inline-block;
+  animation: fadeUp .35s ease;
+}
+.btn-next:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34,197,94,.4); }
+.btn-next:active { transform: translateY(-1px); }
+
+/* ─── HOME SCREEN ─────────────────────────────────────────────────── */
+#screen-home {
+  text-align: center;
+  padding-top: 56px;
+  gap: 0;
+}
+.home-top {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 24px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 660px;
+}
+.home-icon { font-size: 5rem; margin-bottom: 18px; animation: pop .5s ease; }
+.home-title {
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #f5a623 0%, #ffe082 55%, #f5a623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 14px;
+}
+.home-desc {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 400px;
+  margin: 0 auto 36px;
+}
+.home-meta {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.home-meta-badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 6px 16px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.btn-start {
+  background: linear-gradient(135deg, #f5a623, #e09217);
+  color: #1a0e00;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 18px 52px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--glow-gold);
+  transition: transform .18s, box-shadow .18s;
+  animation: fadeUp .4s .1s ease both;
+}
+.btn-start:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(245,166,35,.4); }
+
+/* ─── SUCCESS SCREEN ──────────────────────────────────────────────── */
+#screen-done {
+  text-align: center;
+  padding-top: 60px;
+  gap: 16px;
+}
+.done-icon { font-size: 5.5rem; animation: pop .55s ease; }
+.done-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f5a623, #ffe082, #f5a623);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.done-sub { color: var(--muted); font-size: 1rem; margin-bottom: 16px; }
+.done-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.done-word {
+  background: rgba(34,197,94,.12);
+  border: 1px solid rgba(34,197,94,.25);
+  border-radius: var(--r-pill);
+  padding: 8px 20px;
+  font-weight: 800;
+  color: var(--green);
+  font-size: 1rem;
+}
+.btn-home {
+  background: linear-gradient(135deg, #f5a623, #e09217);
+  color: #1a0e00;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 16px 44px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--glow-gold);
+  transition: transform .18s;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+.btn-home:hover { transform: translateY(-3px); }
+
+/* ─── ANIMATIONS ──────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  0%   { transform: scale(.8); opacity: 0; }
+  65%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: var(--glow-gold); }
+  50%       { box-shadow: 0 0 28px rgba(245,166,35,.55); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .sentence-card { font-size: 1rem; padding: 20px 16px; }
+  .root-block    { font-size: 1.25rem; padding: 14px 18px; }
+  .piece         { font-size: 1.05rem; padding: 14px 22px; }
+  .build-zone    { gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     HOME SCREEN
+══════════════════════════════════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div style="width:100%;display:flex;justify-content:flex-start;padding:24px 0 0;">
+    <a href="index.html" class="btn-back">← Til baka í valmynd</a>
+  </div>
+  <div class="home-icon">🔨</div>
+  <h1 class="home-title">Orðasmiðjan</h1>
+  <p class="home-desc">Settu saman forskeyti og viðsteyti við rót orðsins — og fylltu inn í setninguna rétt!</p>
+  <div class="home-meta">
+    <span class="home-meta-badge">⚽ Fótbolti</span>
+    <span class="home-meta-badge">🏛️ Pólitík</span>
+    <span class="home-meta-badge">📱 TikTok</span>
+    <span class="home-meta-badge">4 spurningar</span>
+    <span class="home-meta-badge">Enginn teljari ⏱️✗</span>
+  </div>
+  <button class="btn-start" onclick="startGame()">Byrja ▶</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     GAME SCREEN
+══════════════════════════════════════════════════════════════════ -->
+<div id="screen-game" class="screen">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <button class="btn-back" onclick="window.location.href='index.html'">← Til baka</button>
+    <span class="topbar-title">🔨 Orðasmiðjan</span>
+    <span class="progress-badge" id="progress-badge">1 / 4</span>
+  </div>
+
+  <!-- Category badge -->
+  <div class="category-badge" id="category-badge">⚽ Fótbolti</div>
+
+  <!-- Sentence card -->
+  <div class="sentence-card" id="sentence-card">
+    Hleður...
+  </div>
+
+  <!-- Praise banner (hidden until correct) -->
+  <div class="praise-banner" id="praise-banner" style="display:none;">
+    <span class="praise-icon">🌟</span>
+    <span class="praise-text" id="praise-text"></span>
+  </div>
+
+  <!-- Word Building Zone -->
+  <div class="section-label">🧱 Orðasmíð — smelltu á endinguna og settu hana hér</div>
+  <div class="build-zone" id="build-zone"></div>
+
+  <!-- Pieces tray -->
+  <div class="section-label" id="pieces-section-label">🧩 Veldu rétta endingu</div>
+  <div class="pieces-tray" id="pieces-tray"></div>
+
+  <!-- Next button (hidden until correct) -->
+  <button class="btn-next" id="btn-next" onclick="nextRound()">Næsta setning ▶</button>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SUCCESS SCREEN
+══════════════════════════════════════════════════════════════════ -->
+<div id="screen-done" class="screen">
+  <div class="done-icon">🏆</div>
+  <h1 class="done-title">Frábært!</h1>
+  <p class="done-sub">Þú kláraðir alla Orðasmiðjuna! Þessi orð lærðirðu:</p>
+  <div class="done-words" id="done-words"></div>
+  <a href="index.html" class="btn-home">← Til baka í valmynd</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ─── DATABASE ───────────────────────────────────────────────────── */
+const PUZZLES = [
+  {
+    category:       "⚽ Fótbolti (Viðsteyti / Suffix)",
+    sentence:       "Eftir leikinn var þjálfarinn miklu ______ en í gær.",
+    root_word:      "glað-",
+    correct_part:   "ari",
+    distractors:    ["ur", "astur", "lega"],
+    completed_word: "glaðari",
+    praise:         "Frábært! Rétt beygt — þetta er Miðstig (comparative).",
+    is_prefix:      false
+  },
+  {
+    category:       "🏛️ Pólitík og Fréttir (Forskeyti / Prefix)",
+    sentence:       "Dómarinn dæmdi markið af því það var ______.",
+    root_word:      "-löglegt",
+    correct_part:   "ó",
+    distractors:    ["mis", "all", "van"],
+    completed_word: "ólöglegt",
+    praise:         "Rétt! Forskeytið 'ó-' snýr merkingu orðsins við.",
+    is_prefix:      true
+  },
+  {
+    category:       "📱 Samfélagsmiðlar (Samsett orð / Compound)",
+    sentence:       "Hann er með mjög marga ______ á TikTok.",
+    root_word:      "fylgj-",
+    correct_part:   "endur",
+    distractors:    ["ari", "ing", "arar"],
+    completed_word: "fylgjendur",
+    praise:         "Vel gert! Rétt fleirtala — fylgjendur.",
+    is_prefix:      false
+  },
+  {
+    category:       "⚽ Fótbolti (Viðsteyti / Suffix)",
+    sentence:       "Þessi leikmaður er mjög ______.",
+    root_word:      "ó-dug-",
+    correct_part:   "legur",
+    distractors:    ["ari", "lega", "astur"],
+    completed_word: "óduglegur",
+    praise:         "Nákvæmlega! Þú sást réttu endinguna.",
+    is_prefix:      false
+  }
+];
+
+/* ─── STATE ──────────────────────────────────────────────────────── */
+let currentIndex  = 0;
+let selectedPiece = null;   // currently tapped piece element
+let roundDone     = false;
+
+/* ─── HELPERS ────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - .5);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── GAME FLOW ──────────────────────────────────────────────────── */
+function startGame() {
+  currentIndex = 0;
+  showScreen('screen-game');
+  renderRound();
+}
+
+function renderRound() {
+  const p = PUZZLES[currentIndex];
+  roundDone     = false;
+  selectedPiece = null;
+
+  /* Progress */
+  $('progress-badge').textContent = `${currentIndex + 1} / ${PUZZLES.length}`;
+
+  /* Category */
+  $('category-badge').textContent = p.category;
+
+  /* Sentence */
+  $('sentence-card').innerHTML =
+    p.sentence.replace('______',
+      '<span class="sentence-blank" id="sentence-blank">______</span>');
+
+  /* Hide praise + next */
+  $('praise-banner').style.display = 'none';
+  $('btn-next').classList.remove('visible');
+
+  /* Section label for tray */
+  $('pieces-section-label').textContent =
+    p.is_prefix ? '🧩 Veldu rétt forskeyti' : '🧩 Veldu rétta endingu';
+
+  /* Build zone */
+  renderBuildZone(p);
+
+  /* Pieces tray */
+  renderPieces(p);
+}
+
+/* ── Build zone (root block + drop zone) ── */
+function renderBuildZone(p) {
+  const zone = $('build-zone');
+  zone.innerHTML = '';
+
+  /* Strip trailing/leading dash for display, then re-add as indicator */
+  const rootCore = p.root_word.replace(/^-|-$/g, '');
+  const rootDisplay = p.is_prefix ? '-' + rootCore : rootCore + '-';
+
+  /* Root block */
+  const rootEl = document.createElement('div');
+  rootEl.className = 'root-block';
+  rootEl.id = 'root-block';
+  rootEl.innerHTML = rootDisplay + '<span class="root-label">rót</span>';
+
+  /* Drop zone */
+  const dropEl = document.createElement('div');
+  dropEl.className = 'drop-zone';
+  dropEl.id = 'drop-zone';
+  dropEl.innerHTML = '<span class="drop-hint">+ settu hér</span>';
+
+  /* Click-to-place */
+  dropEl.addEventListener('click', attemptPlace);
+
+  /* HTML5 drag-and-drop */
+  dropEl.addEventListener('dragover', e => {
+    e.preventDefault();
+    if (!roundDone) dropEl.classList.add('target-active');
+  });
+  dropEl.addEventListener('dragleave', () => dropEl.classList.remove('target-active'));
+  dropEl.addEventListener('drop', e => {
+    e.preventDefault();
+    dropEl.classList.remove('target-active');
+    if (roundDone) return;
+    const val = e.dataTransfer.getData('text/plain');
+    const el  = [...$('pieces-tray').children]
+                  .find(c => c.dataset.value === val && !c.classList.contains('gone'));
+    if (el) { selectedPiece = el; attemptPlace(); }
+  });
+
+  /* Prefix: drop zone BEFORE root; suffix: drop zone AFTER root */
+  if (p.is_prefix) {
+    zone.appendChild(dropEl);
+    zone.appendChild(rootEl);
+  } else {
+    zone.appendChild(rootEl);
+    zone.appendChild(dropEl);
+  }
+}
+
+/* ── Pieces tray ── */
+function renderPieces(p) {
+  const tray = $('pieces-tray');
+  tray.innerHTML = '';
+  shuffle([p.correct_part, ...p.distractors]).forEach(val => {
+    const el = document.createElement('div');
+    el.className = 'piece';
+    el.textContent = val;
+    el.dataset.value = val;
+    el.setAttribute('draggable', 'true');
+
+    /* Tap-to-select */
+    el.addEventListener('click', () => selectPiece(el));
+
+    /* Drag start */
+    el.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', val);
+      setTimeout(() => el.classList.add('is-dragging'), 0);
+      /* auto-select for drop handler */
+      selectedPiece = el;
+    });
+    el.addEventListener('dragend', () => el.classList.remove('is-dragging'));
+
+    tray.appendChild(el);
+  });
+}
+
+/* ─── INTERACTION ────────────────────────────────────────────────── */
+function selectPiece(el) {
+  if (roundDone) return;
+
+  /* Clicking the same piece again → deselect */
+  if (selectedPiece === el) {
+    el.classList.remove('selected');
+    selectedPiece = null;
+    $('drop-zone')?.classList.remove('target-active');
+    return;
+  }
+
+  /* Deselect old */
+  if (selectedPiece) selectedPiece.classList.remove('selected');
+
+  selectedPiece = el;
+  el.classList.add('selected');
+
+  /* Pulse drop zone as a hint */
+  $('drop-zone')?.classList.add('target-active');
+}
+
+function attemptPlace() {
+  if (!selectedPiece || roundDone) return;
+
+  const p   = PUZZLES[currentIndex];
+  const val = selectedPiece.dataset.value;
+  const dz  = $('drop-zone');
+
+  /* Clear selection highlight */
+  dz?.classList.remove('target-active');
+  selectedPiece.classList.remove('selected');
+
+  if (val === p.correct_part) {
+    /* ✅ CORRECT ──────────────────────────────────────────────── */
+    roundDone = true;
+    selectedPiece.classList.add('gone');
+
+    /* Drop zone turns green with the placed piece */
+    dz.classList.add('correct');
+    dz.innerHTML = `<span class="placed-piece">${val}</span>`;
+
+    /* After 650ms: fill in the sentence blank */
+    setTimeout(() => {
+      const blank = $('sentence-blank');
+      if (blank) {
+        blank.textContent = p.completed_word;
+        blank.classList.add('filled');
+      }
+    }, 650);
+
+    /* After 1.2s: show praise + next button */
+    setTimeout(() => {
+      $('praise-text').textContent = p.praise;
+      $('praise-banner').style.display = 'flex';
+      const btn = $('btn-next');
+      btn.textContent = (currentIndex + 1 < PUZZLES.length)
+        ? 'Næsta setning ▶'
+        : 'Sjá niðurstöður 🏆';
+      btn.classList.add('visible');
+    }, 1250);
+
+    selectedPiece = null;
+
+  } else {
+    /* ❌ WRONG — gentle snap back, no red, no modal ──────────── */
+    const el = selectedPiece;
+    selectedPiece = null;
+
+    el.classList.add('snap-back');
+    el.addEventListener('animationend',
+      () => el.classList.remove('snap-back'), { once: true });
+  }
+}
+
+function nextRound() {
+  currentIndex++;
+  if (currentIndex >= PUZZLES.length) {
+    /* Build completed-words display */
+    const wordsEl = $('done-words');
+    wordsEl.innerHTML = PUZZLES
+      .map(p => `<span class="done-word">✅ ${p.completed_word}</span>`)
+      .join('');
+    showScreen('screen-done');
+  } else {
+    showScreen('screen-game');
+    renderRound();
+  }
+}
+</script>
+</body>
+</html>
