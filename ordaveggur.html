@@ -456,7 +456,11 @@ const DATA = {
     { word: "Dordingull",   emoji: "🕷️", definition: "Lítil kónguló — eða notað um skrítna manneskju. Hljómar mjög skemmtilega!", example: "Það var lítill dordingull úti í horni." },
     { word: "Rúsínubolla",  emoji: "🍞", definition: "Sætabrauð með rúsínum — en líka notað sem krúttlegt gælunafn.", example: "Komdu hingað, litla rúsínubolla!" },
     { word: "Kexruglaður",  emoji: "🤪", definition: "Algjörlega ruglaður eða galinn. Skemmtilegt slangur.", example: "Dómarinn er algjörlega kexruglaður að dæma þetta!" },
-    { word: "Þátttaka",     emoji: "✋", definition: "Að taka þátt. Skrítin stafsetning — þrjú T í röð!", example: "Þátttaka í fótboltamótinu var frábær." }
+    { word: "Þátttaka",     emoji: "✋", definition: "Að taka þátt. Skrítin stafsetning — þrjú T í röð!", example: "Þátttaka í fótboltamótinu var frábær." },
+    { word: "Hjartasár",    emoji: "💔", definition: "Að vera mjög sár eða leiður yfir einhverju — djúp tilfinning.", example: "Hann fékk stórt hjartasár þegar hundurinn hans dó." },
+    { word: "Svanasöngur",  emoji: "🦢", definition: "Síðasta verkið eða frammistaðan hjá einhverjum áður en hann hættir.", example: "Þessi síðasti leikur var algjör svanasöngur hjá fótboltamanninum." },
+    { word: "Staksteinar",  emoji: "🪨", definition: "Stórir steinar sem standa einir og sér. Skemmtileg stuðlun — S og T!", example: "Úti á túninu voru stórir staksteinar." },
+    { word: "Gúggla",       emoji: "🔍", definition: "Að fletta einhverju upp á netinu. Nýtt íslenskt slangur!", example: "Ég þurfti að gúggla hvar landið var á kortinu." }
   ]
 };
 
@@ -492,17 +496,4 @@ function buildCards(items, containerId, variant) {
 }
 
 /* ─── BUILD NEWS CARDS (from localStorage) ──────────────────────── */
-function buildFrettCards() {
-  const container = document.getElementById('grid-frett');
-  container.innerHTML = '';
-  let saved = [];
-  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch {}
-
-  if (!saved.length) {
-    container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:36px 20px;color:var(--muted);line-height:1.7;">
-        <div style="font-size:2.5rem;margin-bottom:12px;">📰</div>
-        <div style="font-weight:700;margin-bottom:6px;">Engin fréttaorð ennþá</div>
-        <div style="font-size:.85rem;">Farðu í <strong style="color:var(--blue);">Frétt dagsins</strong> og smelltu á áhugaverð orð til að safna þeim hér.</div>
-        <br>
-        <a href="frett_dagsins.html" style="display:inline-block;margin-top:4px;background:rgba(96
+function buildFrett
