@@ -627,6 +627,72 @@ const DATA = [
         distractor: 'Að læra flókna stærðfræði fyrir stórt próf.'
       }
     }
+  },
+  {
+    category: '🏛️ Samfélagið og Fréttir',
+    target_word: 'Hávær',
+    quadrants: {
+      skilgreining: {
+        correct:    'Einhver eða eitthvað sem heyrist mikið í eða hefur mikil læti.',
+        distractor: 'Eitthvað sem er mjög litað og bjart.'
+      },
+      eiginleikar: {
+        correct:    'Hávaðasamur, hvellur eða háróma.',
+        distractor: 'Getur flogið mjög hratt í loftinu.'
+      },
+      daemi: {
+        correct:    'Innbrotsþjófurinn var svo hávær að allir vöknuðu við lætin.',
+        distractor: 'Ég sat og las bók í algerri þögn.'
+      },
+      ekki_daemi: {
+        correct:    'Lágvær, hljóður, þögull og stilltur.',
+        distractor: 'Flugvél sem tekur á loft.'
+      }
+    }
+  },
+  {
+    category: '🗣️ Samskipti (Flókin orð)',
+    target_word: 'Augljóst',
+    quadrants: {
+      skilgreining: {
+        correct:    'Eitthvað sem er mjög skýrt og allir sjá eða skilja strax.',
+        distractor: 'Eitthvað sem er falið eða týnt.'
+      },
+      eiginleikar: {
+        correct:    'Þarf ekki að útskýra mikið og blasir við öllum.',
+        distractor: 'Er oft lokað inni í skáp.'
+      },
+      daemi: {
+        correct:    'Það var augljóst að hann var að ljúga því hann roðnaði allur.',
+        distractor: 'Ég þurfti að nota stækkunargler til að finna það.'
+      },
+      ekki_daemi: {
+        correct:    'Flókið, falið, óljóst eða dulið.',
+        distractor: 'Skilti sem stendur á miðri götu.'
+      }
+    }
+  },
+  {
+    category: '🏛️ Stjórnmál',
+    target_word: 'Hernaðarbandalag',
+    quadrants: {
+      skilgreining: {
+        correct:    'Samningur milli margra landa um að hjálpa og verja hvert annað í stríði.',
+        distractor: 'Hópur fólks sem spilar á hljóðfæri saman.'
+      },
+      eiginleikar: {
+        correct:    'Inniheldur hermenn, vopn og sameiginlega vörn.',
+        distractor: 'Er alltaf bara eitt land sem berjast eitt síns liðs.'
+      },
+      daemi: {
+        correct:    'NATO er stærsta hernaðarbandalag í heimi og Ísland er í því.',
+        distractor: 'Landið ákvað að berjast eitt síns liðs gegn öllum.'
+      },
+      ekki_daemi: {
+        correct:    'Friðarsamkomulag eða hlutleysi í stríðsmálum.',
+        distractor: 'Sameinuðu þjóðirnar vinna að mannréttindum.'
+      }
+    }
   }
 ];
 
@@ -845,66 +911,4 @@ function attemptPlace(cardEl, cardTargetQ, qKey) {
     /* ❌ WRONG — silent snap-back, just a shake */
     void cardEl.offsetWidth;
     cardEl.classList.add('shake');
-    cardEl.addEventListener('animationend', () => cardEl.classList.remove('shake'), { once: true });
-  }
-}
-
-/* ── PRAISE TOAST ───────────────────────────────────────────────────────── */
-let praiseTimer = null;
-function showPraise(msg) {
-  const t = $('praise-toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(praiseTimer);
-  praiseTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-/* ── WORD SUCCESS OVERLAY ────────────────────────────────────────────────── */
-function showWordSuccess() {
-  const entry  = DATA[wordIdx];
-  const isLast = wordIdx === DATA.length - 1;
-  const p      = rnd(WORD_PRAISE);
-
-  $('ws-icon').textContent  = p.icon;
-  $('ws-word').textContent  = entry.target_word;
-  $('ws-title').textContent = p.title + ' Þú skilur þetta orð!';
-  $('ws-pts').textContent   = `+${wordScore} stig — samtals ${totalScore} stig`;
-  $('ws-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta orð ▶';
-
-  $('word-success').classList.add('show');
-}
-
-function nextWord() {
-  $('word-success').classList.remove('show');
-  wordIdx++;
-  if (wordIdx >= DATA.length) showComplete();
-  else loadWord();
-}
-
-/* ── COMPLETE SCREEN ─────────────────────────────────────────────────────── */
-function showComplete() {
-  showScreen('screen-complete');
-  const max = DATA.length * 40;
-  const pct = Math.round(totalScore / max * 100);
-
-  let icon, title, msg;
-  if (pct === 100) {
-    icon='🏆'; title='Fullkomið!';
-    msg = 'Þú settir öll spjöld á réttan stað. Þú þekkir þessi orð mjög vel!';
-  } else if (pct >= 70) {
-    icon='⭐'; title='Mjög gott!';
-    msg = 'Þú skilur þessi orð vel. Prófaðu aftur til að fá fullkomnar 120 stigs!';
-  } else {
-    icon='💪'; title='Vel gert!';
-    msg = 'Þú ert að læra ný orð. Æfing skapar meistarann — prófaðu aftur!';
-  }
-
-  $('c-icon').textContent  = icon;
-  $('c-score').textContent = totalScore;
-  $('c-sub').textContent   = `stig af ${max} mögulegum`;
-  $('c-title').textContent = title;
-  $('c-msg').textContent   = msg;
-}
-</script>
-</body>
-</html>
+    cardEl.a
