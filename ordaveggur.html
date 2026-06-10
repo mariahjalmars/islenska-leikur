@@ -476,7 +476,6 @@ function buildCards(items, containerId, variant) {
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', `Orðspjald: ${item.word}`);
     card.setAttribute('tabindex', '0');
-    card.setAttribute('ontouchstart', '');
     card.innerHTML = `
       <div class="flip-card-inner">
         <div class="card-face card-front">
@@ -522,7 +521,6 @@ function buildFrettCards() {
     card.className = 'flip-card news-card';
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
-    card.setAttribute('ontouchstart', '');
     card.innerHTML = `
       <div class="flip-card-inner">
         <div class="card-face card-front">
