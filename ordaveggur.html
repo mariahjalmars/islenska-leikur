@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧱 Orðaveggurinn</title>
+<style>
+/* ─── DESIGN TOKENS (identical across all games) ──────────────────── */
+:root {
+  --bg:            #0c0c18;
+  --surface:       rgba(255,255,255,0.055);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border:        rgba(255,255,255,0.10);
+  --text:          #eff0f3;
+  --muted:         #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --blue:   #60a5fa;
+  --pink:   #f472b6;
+  --purple: #a78bfa;
+  --r-sm:   10px;
+  --r-md:   18px;
+  --r-lg:   24px;
+  --r-xl:   32px;
+  --r-pill: 100px;
+  --shadow:     0 8px 40px rgba(0,0,0,0.45);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-blue:  0 0 18px rgba(96,165,250,0.28);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%,  rgba(245,166,35,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%,  rgba(167,139,250,.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%,  rgba(96,165,250,.04) 0%, transparent 70%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── WRAPPER ────────────────────────────────────────────────────── */
+.wrapper {
+  width: 100%;
+  max-width: 720px;
+  padding: 0 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── TOP BAR ────────────────────────────────────────────────────── */
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0 20px;
+  gap: 12px;
+}
+.btn-back {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 8px 18px;
+  color: var(--muted);
+  font-size: .85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: color .18s, border-color .18s;
+}
+.btn-back:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+
+.topbar-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), #ffe082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.word-count-badge {
+  background: rgba(167,139,250,.12);
+  border: 1px solid rgba(167,139,250,.25);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--purple);
+  white-space: nowrap;
+}
+
+/* ─── HERO ───────────────────────────────────────────────────────── */
+.hero {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeUp .4s ease both;
+}
+.hero-icon { font-size: 3.5rem; margin-bottom: 10px; display: block; }
+.hero-title {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #f5a623 0%, #ffe082 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+.hero-desc {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* ─── TABS ───────────────────────────────────────────────────────── */
+.tabs {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px;
+  margin-bottom: 32px;
+  animation: fadeUp .4s .05s ease both;
+}
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 12px 16px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .2s, color .2s, box-shadow .2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-btn.active-gold {
+  background: rgba(245,166,35,.15);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 1.5px rgba(245,166,35,.35);
+}
+.tab-btn.active-purple {
+  background: rgba(167,139,250,.15);
+  color: var(--purple);
+  box-shadow: inset 0 0 0 1.5px rgba(167,139,250,.35);
+}
+.tab-btn:not(.active-gold):not(.active-purple):hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+/* ─── SECTION PANEL ──────────────────────────────────────────────── */
+.panel { display: none; width: 100%; }
+.panel.active { display: block; }
+
+/* ─── SECTION HEADER ─────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.section-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.section-icon.gold   { background: rgba(245,166,35,.12); }
+.section-icon.purple { background: rgba(167,139,250,.12); }
+
+.section-title { font-size: 1.15rem; font-weight: 800; }
+.section-desc  { font-size: .82rem; color: var(--muted); margin-top: 2px; }
+
+/* ─── CARD GRID ──────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* ─── FLIP CARD ──────────────────────────────────────────────────── */
+.flip-card {
+  height: 170px;
+  perspective: 900px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.flip-card-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+}
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* shared face styles */
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-xl);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 18px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ── FRONT ── */
+.card-front {
+  background: var(--surface);
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  transition: border-color .2s, background .2s;
+}
+.flip-card:hover .card-front {
+  background: var(--surface-hover);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Gold variant (Orðin mín) */
+.flip-card.gold-card .card-front {
+  border-left: 3px solid rgba(245,166,35,.5);
+  background: rgba(245,166,35,.04);
+}
+.flip-card.gold-card:hover .card-front {
+  background: rgba(245,166,35,.08);
+  border-left-color: var(--gold);
+}
+.flip-card.gold-card .card-face-word { color: var(--gold); }
+.flip-card.gold-card .card-face-back { border-left: 3px solid rgba(245,166,35,.5); background: rgba(245,166,35,.06); }
+
+/* Purple variant (Skrítin orð) */
+.flip-card.purple-card .card-front {
+  border-left: 3px solid rgba(167,139,250,.5);
+  background: rgba(167,139,250,.04);
+}
+.flip-card.purple-card:hover .card-front {
+  background: rgba(167,139,250,.08);
+  border-left-color: var(--purple);
+}
+.flip-card.purple-card .card-face-word { color: var(--purple); }
+.flip-card.purple-card .card-face-back { border-left: 3px solid rgba(167,139,250,.5); background: rgba(167,139,250,.06); }
+
+.card-face-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+.card-face-word {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -.3px;
+}
+.card-face-hint {
+  font-size: .7rem;
+  color: var(--muted);
+  letter-spacing: .4px;
+}
+
+/* ── BACK ── */
+.card-face-back {
+  transform: rotateY(180deg);
+  background: var(--surface);
+  justify-content: space-between;
+}
+.card-back-word {
+  font-size: .85rem;
+  font-weight: 900;
+  letter-spacing: -.2px;
+  margin-bottom: 6px;
+}
+.card-back-def {
+  font-size: .78rem;
+  color: var(--text);
+  line-height: 1.5;
+  flex: 1;
+  overflow: hidden;
+}
+.card-back-example {
+  font-size: .72rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 6px;
+}
+.card-back-close {
+  position: absolute;
+  top: 10px; right: 12px;
+  font-size: .65rem;
+  color: var(--muted);
+  letter-spacing: .4px;
+}
+
+/* ─── EMPTY STATE ─────────────────────────────────────────────────── */
+.empty-state {
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.7;
+}
+.empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+/* ─── ANIMATIONS ──────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  0%   { transform: scale(.85); opacity: 0; }
+  65%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Stagger card entrance */
+.flip-card { animation: fadeUp .35s ease both; }
+.flip-card:nth-child(1) { animation-delay: .05s; }
+.flip-card:nth-child(2) { animation-delay: .10s; }
+.flip-card:nth-child(3) { animation-delay: .15s; }
+.flip-card:nth-child(4) { animation-delay: .20s; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .flip-card  { height: 155px; }
+  .tab-btn    { font-size: .8rem; padding: 10px 10px; }
+}
+@media (max-width: 340px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ─── TOP BAR ─────────────────────────────────────────────────── -->
+  <div class="topbar">
+    <a href="index.html" class="btn-back">← Til baka í valmynd</a>
+    <span class="topbar-title">🧱 Orðaveggurinn</span>
+    <span class="word-count-badge" id="word-count-badge">8 orð</span>
+  </div>
+
+  <!-- ─── HERO ────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <span class="hero-icon">🧱</span>
+    <h1 class="hero-title">Orðaveggurinn</h1>
+    <p class="hero-desc">Smelltu á orðspjald til að sjá skilgreininguna og dæmissetningu. Engin prófun — bara skoðaðu!</p>
+  </div>
+
+  <!-- ─── TABS ────────────────────────────────────────────────────── -->
+  <div class="tabs">
+    <button class="tab-btn active-gold" id="tab-mine"    onclick="switchTab('mine')">
+      ⭐ Orðin mín
+    </button>
+    <button class="tab-btn"              id="tab-fun"     onclick="switchTab('fun')">
+      🤪 Skrítin orð
+    </button>
+  </div>
+
+  <!-- ─── PANEL: ORÐIN MÍN ────────────────────────────────────────── -->
+  <div class="panel active" id="panel-mine">
+    <div class="section-header">
+      <div class="section-icon gold">⭐</div>
+      <div>
+        <div class="section-title">Orðin mín</div>
+        <div class="section-desc">Orð sem þú hefur þjálfað í leikunum</div>
+      </div>
+    </div>
+    <div class="card-grid" id="grid-mine"></div>
+  </div>
+
+  <!-- ─── PANEL: SKRÍTIN ORÐ ──────────────────────────────────────── -->
+  <div class="panel" id="panel-fun">
+    <div class="section-header">
+      <div class="section-icon purple">🤪</div>
+      <div>
+        <div class="section-title">Skrítin og skemmtileg orð</div>
+        <div class="section-desc">Óvenjuleg og fyndinn orð í íslensku</div>
+      </div>
+    </div>
+    <div class="card-grid" id="grid-fun"></div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+/* ─── DATABASE ───────────────────────────────────────────────────── */
+const DATA = {
+  ordin_min: [
+    {
+      word:       "Seigla",
+      emoji:      "💪",
+      definition: "Að gefast ekki upp þótt eitthvað sé erfitt.",
+      example:    "Liðið sýndi mikla seiglu í leiknum."
+    },
+    {
+      word:       "Krefjandi",
+      emoji:      "🏋️",
+      definition: "Eitthvað sem reynir mikið á mann.",
+      example:    "Þetta var mjög krefjandi stærðfræðidæmi."
+    },
+    {
+      word:       "Orðrómur",
+      emoji:      "💬",
+      definition: "Kjaftasaga sem gengur á milli fólks en er ekki staðfest.",
+      example:    "Það var orðrómur á TikTok um nýja skólareglu."
+    },
+    {
+      word:       "Hæstánægður",
+      emoji:      "😄",
+      definition: "Mjög glaður og sáttur.",
+      example:    "Þjálfarinn var hæstánægður með sigurinn."
+    }
+  ],
+  skritin_ord: [
+    {
+      word:       "Dordingull",
+      emoji:      "🕷️",
+      definition: "Lítil kónguló — eða notað um skrítna manneskju. Hljómar mjög skemmtilega!",
+      example:    "Það var lítill dordingull úti í horni."
+    },
+    {
+      word:       "Rúsínubolla",
+      emoji:      "🍞",
+      definition: "Sætabrauð með rúsínum — en líka notað sem krúttlegt gælunafn.",
+      example:    "Komdu hingað, litla rúsínubolla!"
+    },
+    {
+      word:       "Kexruglaður",
+      emoji:      "🤪",
+      definition: "Algjörlega ruglaður eða galinn. Skemmtilegt slangur.",
+      example:    "Dómarinn er algjörlega kexruglaður að dæma þetta!"
+    },
+    {
+      word:       "Þátttaka",
+      emoji:      "✋",
+      definition: "Að taka þátt. Skrítin stafsetning — þrjú T í röð!",
+      example:    "Þátttaka í fótboltamótinu var frábær."
+    }
+  ]
+};
+
+/* ─── BUILD CARDS ────────────────────────────────────────────────── */
+function buildCards(items, containerId, variant) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = `flip-card ${variant}-card`;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `Orðspjald: ${item.word}`);
+    card.setAttribute('tabindex', '0');
+
+    card.innerHTML = `
+      <div class="flip-card-inner">
+        <!-- FRONT -->
+        <div class="card-face card-front">
+          <span class="card-face-emoji">${item.emoji}</span>
+          <span class="card-face-word">${item.word}</span>
+          <span class="card-face-hint">smelltu til að sjá</span>
+        </div>
+        <!-- BACK -->
+        <div class="card-face card-face-back">
+          <span class="card-back-close">↩ loka</span>
+          <div class="card-back-word">${item.emoji} ${item.word}</div>
+          <div class="card-back-def">${item.definition}</div>
+          <div class="card-back-example">"${item.example}"</div>
+        </div>
+      </div>
+    `;
+
+    /* Click or Enter to flip */
+    const toggle = () => card.classList.toggle('flipped');
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+
+    container.appendChild(card);
+  });
+}
+
+/* ─── TABS ───────────────────────────────────────────────────────── */
+function switchTab(tab) {
+  /* Panels */
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + (tab === 'mine' ? 'mine' : 'fun')).classList.add('active');
+
+  /* Tab buttons */
+  const btnMine = document.getElementById('tab-mine');
+  const btnFun  = document.getElementById('tab-fun');
+  btnMine.className = 'tab-btn' + (tab === 'mine' ? ' active-gold' : '');
+  btnFun.className  = 'tab-btn' + (tab === 'fun'  ? ' active-purple' : '');
+
+  /* Close any open cards when switching tabs */
+  document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+
+  /* Re-animate cards in new panel */
+  const activeGrid = tab === 'mine' ? 'grid-mine' : 'grid-fun';
+  document.querySelectorAll(`#${activeGrid} .flip-card`).forEach((c, i) => {
+    c.style.animationDelay = `${i * .05}s`;
+    c.style.animation = 'none';
+    void c.offsetWidth; /* reflow */
+    c.style.animation = '';
+  });
+}
+
+/* ─── INIT ───────────────────────────────────────────────────────── */
+buildCards(DATA.ordin_min,    'grid-mine', 'gold');
+buildCards(DATA.skritin_ord,  'grid-fun',  'purple');
+
+/* Update badge */
+const total = DATA.ordin_min.length + DATA.skritin_ord.length;
+document.getElementById('word-count-badge').textContent = `${total} orð`;
+</script>
+</body>
+</html>
