@@ -360,9 +360,9 @@ body {
 
   <!-- CATEGORY TABS -->
   <div class="tabs">
-    <button class="tab-btn active" id="tab-innlent" onclick="switchFeed('innlent')">🗞️ Fréttir</button>
-    <button class="tab-btn"        id="tab-sport"   onclick="switchFeed('sport')">⚽ Fótbolti</button>
-    <button class="tab-btn"        id="tab-erlent"  onclick="switchFeed('erlent')">🎵 Lífið</button>
+    <button class="tab-btn active" id="tab-innlent" onclick="switchFeed('innlent')">🗞️ Innlent</button>
+    <button class="tab-btn"        id="tab-sport"   onclick="switchFeed('sport')">⚽ Íþróttir</button>
+    <button class="tab-btn"        id="tab-erlent"  onclick="switchFeed('erlent')">📰 Vísir</button>
   </div>
 
   <!-- PRAISE BANNER -->
@@ -392,15 +392,10 @@ body {
 const STORAGE_KEY = 'islenska_frett_ord';
 
 const FEEDS = {
-  innlent: { url: 'https://www.visir.is/rss/frettir', label: 'Vísir – Fréttir'  },
-  sport:   { url: 'https://www.fotbolti.net/rss.php',  label: 'Fótbolti.net'     },
-  erlent:  { url: 'https://www.visir.is/rss/lifid',    label: 'Vísir – Lífið'    }
+  innlent: { url: 'https://www.mbl.is/feeds/innlent/', label: 'mbl.is – Innlent'   },
+  sport:   { url: 'https://www.mbl.is/feeds/sport/',   label: 'mbl.is – Íþróttir'  },
+  erlent:  { url: 'https://www.visir.is/rss/frettir',  label: 'Vísir – Fréttir'    }
 };
-
-const PROXIES = [
-  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
-];
 
 const PRAISE_PHRASES = [
   "Frábært val! „{}" er komið á Orðavegginn þinn! 🎉",
@@ -445,39 +440,28 @@ function updateBadge() {
   document.getElementById('saved-badge').textContent = `${count} orð ✅`;
 }
 
-/* ─── RSS FETCH ──────────────────────────────────────────────────── */
-async function fetchWithProxy(feedUrl) {
-  for (const makeProxy of PROXIES) {
-    try {
-      const proxyUrl = makeProxy(feedUrl);
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) continue;
-      const data = await res.json().catch(() => null);
-      if (!data) continue;
-      /* allorigins wraps in { contents: "..." } */
-      const xmlStr = data.contents ?? data;
-      if (typeof xmlStr === 'string' && xmlStr.includes('<item')) return xmlStr;
-    } catch { /* try next proxy */ }
-  }
-  throw new Error('Ekki tókst að sækja fréttir');
-}
-
-function parseRSS(xmlStr) {
-  const doc  = new DOMParser().parseFromString(xmlStr, 'text/xml');
-  const items = [...doc.querySelectorAll('item')].slice(0, 4);
-  return items.map(item => ({
-    title:   cleanText(item.querySelector('title')?.textContent || 'Frétt'),
-    desc:    cleanText(item.querySelector('description')?.textContent || ''),
-    pubDate: formatDate(item.querySelector('pubDate')?.textContent || ''),
-    link:    item.querySelector('link')?.textContent?.trim() || ''
-  })).filter(a => a.desc.length > 40);
+/* ─── RSS FETCH (via rss2json) ───────────────────────────────────── */
+async function fetchFeed(feedUrl) {
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=8`;
+  const res = await fetch(apiUrl, { signal: AbortSignal.timeout(10000) });
+  if (!res.ok) throw new Error('Villa við að sækja fréttir');
+  const data = await res.json();
+  if (data.status !== 'ok') throw new Error('Ekki tókst að sækja fréttir');
+  return data.items
+    .map(item => ({
+      title:   cleanText(item.title || 'Frétt'),
+      desc:    cleanText(item.description || item.content || ''),
+      pubDate: formatDate(item.pubDate || ''),
+      link:    item.link || ''
+    }))
+    .filter(a => a.desc.length > 40)
+    .slice(0, 5);
 }
 
 function cleanText(str) {
-  /* Strip CDATA and HTML tags, decode entities */
-  const s = str.replace(/<!\[CDATA\[|\]\]>/g, '').trim();
+  /* Strip HTML tags and decode entities */
   const div = document.createElement('div');
-  div.innerHTML = s;
+  div.innerHTML = str.replace(/<!\[CDATA\[|\]\]>/g, '').trim();
   return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
 }
 
@@ -627,8 +611,7 @@ function switchFeed(feed) {
 async function loadFeed() {
   showLoading();
   try {
-    const xmlStr = await fetchWithProxy(FEEDS[currentFeed].url);
-    articles = parseRSS(xmlStr);
+    articles = await fetchFeed(FEEDS[currentFeed].url);
     currentIdx = 0;
     renderArticles();
   } catch (err) {
@@ -645,4 +628,4 @@ loadFeed();
 </script>
 </body>
 </html>
-  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
