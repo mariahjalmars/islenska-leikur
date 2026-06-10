@@ -440,27 +440,18 @@ function updateBadge() {
   document.getElementById('saved-badge').textContent = `${count} orð ✅`;
 }
 
-/* ─── RSS FETCH (via allorigins CORS proxy + DOMParser) ─────────── */
-async function fetchFeed(feedUrl) {
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
-  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
-  if (!res.ok) throw new Error('Villa við að sækja fréttir');
-  const data = await res.json();
-  if (!data.contents) throw new Error('Ekki tókst að sækja fréttir');
-  const parser = new DOMParser();
-  const doc    = parser.parseFromString(data.contents, 'text/xml');
-  const items  = Array.from(doc.querySelectorAll('item'));
-  if (!items.length) throw new Error('Engar fréttir fundust í straumi');
-  return items
-    .slice(0, 8)
-    .map(item => ({
-      title:   cleanText(item.querySelector('title')?.textContent   || 'Frétt'),
-      desc:    cleanText(item.querySelector('description')?.textContent || ''),
-      pubDate: formatDate(item.querySelector('pubDate')?.textContent   || ''),
-      link:    (item.querySelector('link')?.nextSibling?.textContent || '').trim()
-    }))
-    .filter(a => a.desc.length > 40)
-    .slice(0, 5);
+/* ─── NEWS FETCH (from same-origin data/news.json, auto-refreshed by GitHub Action) ── */
+let _newsCache = null;
+async function fetchFeed(feedKey) {
+  if (!_newsCache) {
+    const res = await fetch('data/news.json?t=' + Date.now(), { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('Villa við að sækja fréttir');
+    _newsCache = await res.json();
+  }
+  const feed = _newsCache[feedKey];
+  if (!feed || !feed.ok || !feed.items || !feed.items.length)
+    throw new Error('Engar fréttir fundust');
+  return feed.items;
 }
 
 function cleanText(str) {
@@ -616,7 +607,7 @@ function switchFeed(feed) {
 async function loadFeed() {
   showLoading();
   try {
-    articles = await fetchFeed(FEEDS[currentFeed].url);
+    articles = await fetchFeed(currentFeed);
     currentIdx = 0;
     renderArticles();
   } catch (err) {
