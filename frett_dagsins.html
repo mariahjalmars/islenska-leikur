@@ -444,13 +444,20 @@ function updateBadge() {
 let _newsCache = null;
 async function fetchFeed(feedKey) {
   if (!_newsCache) {
-    const res = await fetch('data/news.json?t=' + Date.now(), { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('Villa við að sækja fréttir');
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 8000);
+    let res;
+    try {
+      res = await fetch('data/news.json?t=' + Date.now(), { signal: ctrl.signal });
+    } finally {
+      clearTimeout(tid);
+    }
+    if (!res.ok) throw new Error('HTTP villa: ' + res.status);
     _newsCache = await res.json();
   }
   const feed = _newsCache[feedKey];
   if (!feed || !feed.ok || !feed.items || !feed.items.length)
-    throw new Error('Engar fréttir fundust');
+    throw new Error('Engar fréttir fundust í gagnaskrá');
   return feed.items;
 }
 
@@ -613,7 +620,7 @@ async function loadFeed() {
   } catch (err) {
     showError(
       'Ekki tókst að sækja fréttir',
-      'Athugaðu nettenginguna og reyndu aftur. Vefsíðan gæti verið tímabundið óaðgengileg.'
+      (err && err.message ? err.message + ' — ' : '') + 'Athugaðu nettenginguna og reyndu aftur.'
     );
   }
 }
