@@ -146,7 +146,7 @@ body {
 
 /* ─── SECTION LABELS ─────────────────────────────────────────────── */
 .section-label {
-  font-size: .75rem;
+  font-size: .875rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -475,6 +475,21 @@ body {
   .piece         { font-size: 1.05rem; padding: 14px 22px; }
   .build-zone    { gap: 8px; }
 }
+.tts-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tts-btn:hover { border-color: var(--gold); color: var(--gold); }
 </style>
 </head>
 <body>
@@ -553,6 +568,15 @@ body {
      SCRIPT
 ══════════════════════════════════════════════════════════════════ -->
 <script>
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'is-IS';
+  u.rate = 0.88;
+  window.speechSynthesis.speak(u);
+}
+
 'use strict';
 
 /* ─── DATABASE ───────────────────────────────────────────────────── */
