@@ -792,6 +792,7 @@ function renderRound() {
   $('praise-banner').style.display = 'none';
   $('btn-next').classList.remove('visible');
 
+  $('pieces-section-label').style.display = '';
   $('pieces-section-label').textContent =
     p.is_prefix ? '🧩 Veldu rétt forskeyti' : '🧩 Veldu rétta endingu';
 
@@ -912,6 +913,9 @@ function attemptPlace() {
     setTimeout(() => {
       $('praise-text').textContent = p.praise;
       $('praise-banner').style.display = 'flex';
+      // Hide remaining distractor pieces and label
+      [...$('pieces-tray').children].forEach(c => { c.style.display = 'none'; });
+      $('pieces-section-label').style.display = 'none';
       const btn = $('btn-next');
       btn.textContent = (currentIndex + 1 < PUZZLES.length)
         ? 'Næsta setning ▶'
