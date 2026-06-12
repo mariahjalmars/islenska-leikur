@@ -1,111 +1,165 @@
 {
   "innlent": {
-    "label": "mbl.is – Innlent",
+    "label": "mbl.is - Innlent",
     "items": [
       {
-        "title": "Prófin ekki heildstætt mat",
-        "desc": "Niðurstöður grunnskóla í nýju stöðu- og framvinduprófi matsferils voru birtar foreldrum og forráðamönnum í síðustu viku. Að sögn Þórdísar Jónu Sigurðardóttur, forstjóra Miðstöðvar menntunar og skólaþjónustu (MMS), gengu prófin afar vel.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/06/10/profin_ekki_heildstaett_mat/"
+        "title": "Subway auglýsir verð í evrum",
+        "desc": "Auglýsingin er öll á ensku.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/subway_auglysir_verd_i_evrum/"
       },
       {
-        "title": "Vegferðin í höndum þjóðarinnar",
-        "desc": "„Það er bjart úti, sumar í loftinu og margt sem gengur vel. Mér heyrist formaður sjálfstæðisflokksins vera kominn með hausinn út til Brussel.“",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/06/10/vegferdin_i_hondum_thjodarinnar/"
+        "title": "Samfélag sem gaman er að tilheyra",
+        "desc": "Fjölbreytt dagskrá verður í Hrunamannahreppi um helgina, þar sem þess verður minnst að sveitarfélagið er orðið 1150 ára. Frá landnámi Íslands hefur hreppurinn verið skýrt landfræðilega afmarkaður; það er svæðið í Árnessýslu sem er milli Hvítár og Stóru-Laxár og þaðan inn til jökla",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/samfelag_sem_gaman_er_ad_tilheyra/"
       },
       {
-        "title": "Evran ekki töfralausn",
-        "desc": "„Við vitum hvað þarf að gera til að ná niður vöxtum og verðbólgu. Það hefur ekkert með krónuna að gera og evran leysir ekki þennan vanda. Hún er engin töfralausn,“ sagði Guðrún í ræðu sinni.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/06/10/evran_ekki_tofralausn/"
+        "title": "Íbúðaverð hækkaði um 103% á tíu árum",
+        "desc": "Íbúðaverð á Íslandi hækkaði um 166% að nafnvirði og um 103% að raunvirði á árabilinu 2015-2025. Þetta kemur fram í aprílskýrslu Húsnæðis- og mannvirkjastofnunar (HMS), þar sem fjallað er um þróun húsnæðisverðs í Evrópu, en skýrslan var unnin af Eurostat.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/ibudaverd_haekkadi_um_103_prosent_a_tiu_arum/"
       },
       {
-        "title": "Getur ekkert sagt um tímasetningu þingloka",
-        "desc": "Formenn þingflokka á Alþingi hafa undanfarna daga fundað um þinglok að sögn Þórunnar Sveinbjarnardóttur forseta Alþingis. Þingið sé enn innan starfsáætlunar.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/06/10/getur_ekkert_sagt_um_timasetningu_thingloka/"
+        "title": "Skerða um 1% í þorski og 20% í ýsu",
+        "desc": "Hafrannsóknastofnun leggur til að hámarksaflamark í þorski fyrir næsta fiskveiðiár verði ekki meira en 201.674 tonn. Þetta er annað árið í röð sem ráðgjöf í þorski lækkar. Loðnuráðgjöf hækkar verulega, eða um 81%",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/200milur/frettir/2026/06/12/skerda_um_1_prosent_i_thorski_og_20_prosent_i_ysu/"
       },
       {
-        "title": "Vísindamenn frá NASA rannsaka almyrkvann",
-        "desc": "Hópur vísindamanna frá bandarísku geimvísindastofnuninni, NASA, er nú staddur hér á landi í tengslum við almyrkvann á sólu sem verður þann 12. ágúst næstkomandi.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/06/10/visindamenn_fra_nasa_rannsaka_almyrkvann/"
+        "title": "Samkomulag á lokametrunum",
+        "desc": "Samkomulag um þinglok er á lokametrunum",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/samkomulag_a_lokametrunum/"
+      },
+      {
+        "title": "Gjaldtaka hefjist ekki fyrr en að ári",
+        "desc": "Ekki lá ljóst fyrir í gær hvort frumvarp háskólaráðherra um heimild opinberra háskóla til að innheimta skólagjöld af nemendum með ríkisfang utan EES verður lögfest fyrir þinglok.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/gjaldtaka_hefjist_ekki_fyrr_en_ad_ari/"
+      },
+      {
+        "title": "Aðalmeðferð í Edition-málinu hefst í dag",
+        "desc": "Aðalmeðferð í máli Ming Ting Mancel hefst í Héraðsdómi Reykjavíkur í dag.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/adalmedferd_i_edition_malinu_hefst_i_dag/"
+      },
+      {
+        "title": "Grindvíkingar boða til mótmæla fyrir utan Alþingishúsið",
+        "desc": "Grindvíkingar og stuðningsmenn þeirra hafa boðað til friðsælla mótmæla fyrir utan Alþinghúsið klukkan 12 í dag.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/06/12/grindvikingar_boda_til_motmaela_fyrir_utan_althingi/"
       }
     ],
     "ok": true
   },
   "sport": {
-    "label": "mbl.is – Íþróttir",
+    "label": "mbl.is - Ithrottir",
     "items": [
       {
-        "title": "Messi bætti enn eitt metið gegn Íslandi",
-        "desc": "Snillingurinn Lionel Messi sló enn eitt metið á ferlinum í 3:0-sigri Argentínu á Íslandi í vináttulandsleik þjóðanna í Alabama í Bandaríkjunum í nótt.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/06/10/messi_baetti_enn_eitt_metid_gegn_islandi/"
+        "title": "Lofar að flúra á sig andlit þjálfarans ef Spánn vinnur HM",
+        "desc": "Spænski landsliðsmaðurinn Marc Cucurella hefur lofað að fá húðflúr af andliti Luis de la Fuente, þjálfara Spánar, ef liðið vinnur heimsmeistaramótið í sumar.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/06/12/lofar_ad_flura_a_sig_andlit_thjalfarans_ef_spann_vi/"
       },
       {
-        "title": "Manchester United vill 35 ára markvörð",
-        "desc": "Enska knattspyrnufélagið Manchester United vill fá velska markvörðurinn Karl Darlow í sínar raðir í sumar en hann rennur út úr samning hjá Leeds 1. júlí.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/sport/enski/2026/06/10/manchester_united_vill_35_ara_markvord/"
+        "title": "Bjóða í leikmann Tottenham",
+        "desc": "Enska úrvalsdeildarfélagið Brighton hefur boðið 30 milljónir punda í Luka Vuskovic, leikmann Tottenham. The Athletic greinir frá.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/06/12/bjoda_i_leikmann_tottenham/"
       },
       {
-        "title": "Gæti farið frá Fram",
-        "desc": "Hanknattleiksmarkvörðurinn Breki Hrafn Árnason gæti verið á förum frá Fram í sumar.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/sport/handbolti/2026/06/10/gaeti_farid_fra_fram/"
+        "title": "Mikill liðsstyrkur á Skagann",
+        "desc": "Króatíski körfuboltamaðurinn Igor Maric er genginn til liðs við ÍA frá Val. Hann mun einnig gegna hlutverki aðstoðarþjálfara liðsins.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/korfubolti/2026/06/12/mikill_lidsstyrkur_a_skagann/"
       },
       {
-        "title": "Manchester City bauð yfir 17 milljarða",
-        "desc": "Enska knattspyrnufélagið Manchester City bauð Nottingham Forest 106 milljónir punda fyrir enska landsliðsmanninn Elliot Anderson.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/sport/enski/2026/06/10/manchester_city_baud_yfir_17_milljarda/"
+        "title": "Haaland mætti óvænt á íshokkíleik skömmu fyrir HM",
+        "desc": "Knattspyrnumaðurinn Erling Haaland og liðsfélagar hans í norska landsliðinu skelltu sér á fimmta leik í úrslitaviðureign Vegas Golden Knights og Carolina Hurricanes í NHL-deildinni í íshokkí í nótt.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/06/12/haaland_maetti_ovaent_a_ishokkileik_skommu_fyrir_hm/"
       },
       {
-        "title": "Messi tjáir sig um samskiptin við Daníel",
-        "desc": "Landsliðsmaðurinn Daníel Tristan Guðjohnsen faðmaði argentínska knattspyrnusnillinginn Lionel Messi eftir vináttuleik þjóðanna í Bandaríkjunum í nótt.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/06/10/messi_tjair_sig_um_samskiptin_vid_daniel/"
+        "title": "Elísabet meistari í annað sinn",
+        "desc": "Frjálsíþróttakonan Elísabet Rut Rúnarsdóttir varð í nótt bandarískur háskólameistari í sleggjukasti kvenna á NCAA-meistaramótinu í Oregon í Bandaríkjunum í nótt.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/frettir/2026/06/12/elisabet_meistari_i_annad_sinn/"
+      },
+      {
+        "title": "Íhugar að rifta samningi viku eftir undirritun",
+        "desc": "Enski knattspyrnumaðurinn Kieran Trippier er að íhuga að rifta samningi sínum við Wolves eftir brotthvarf Rob Edwards sem stjóra liðsins.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/06/12/ihugar_ad_rifta_samningi_viku_eftir_undirritun/"
+      },
+      {
+        "title": "Götur nefndar í höfuðið á goðsögnum",
+        "desc": "Knattspyrnugoðsagnirnar Thierry Henry og Pelé hafa fengið götur í New York-borg nefndar eftir sér í aðdraganda heimsmeistaramótsins.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/06/12/gotur_nefndar_i_hofudid_a_godsognum/"
+      },
+      {
+        "title": "Kominn í starf hjá Tindastóli",
+        "desc": "Ísak Máni Wíum hefur verið ráðinn aðstoðarþjálfari karlaliðs Tindastóls í körfubolta.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.mbl.is/sport/korfubolti/2026/06/12/kominn_i_starf_hja_tindastoli/"
       }
     ],
     "ok": true
   },
   "erlent": {
-    "label": "Vísir – Fréttir",
+    "label": "Visir - Frettir",
     "items": [
       {
-        "title": "„Er eitt­hvað til sem heitir Ís­lendingur?“",
-        "desc": "Snorri Másson, varaformaður Miðflokksins, fór hörðum orðum um ríkisstjórn Kristrúnar Frostadóttur sem hafi skilað brostnum væntingum, stórvesnandi efnahagsástandi og snúið sér að Evrópusambandinu þrátt fyrir vaxandi atvinnuleysi. Íslendingar séu ekki útskiptanlegar einingar. Hann sakar ráðherra um alræðistilburði í nafni mannréttinda.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.visir.is/g/20262895924d/-er-eitthvad-til-sem-heitir-islendingur-"
+        "title": "Borgin afþakkar risaeðlubein",
+        "desc": "Borgarráð samþykkti í gær að afþakka hluta úr beinagrind af risaeðlu sem samtökin Leap Lab vildu gefa borginni. Með gjöfinni fylgir töluverður kostnaður.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896620d/borgin-afthakkar-risaedlubein"
       },
       {
-        "title": "„Ríkis­stjórnin getur ekki flúið eigin vand­ræði inn í Evrópu­sam­bandið“",
-        "desc": "Guðrún Hafsteinsdóttir formaður Sjálfstæðisflokksins segir ríkisstjórnina afvegaleiða með áherslu sinni á Evrópusambandsaðild. Evran sé engin töfralausn og ríkisstjórninni færi betur að horfa sér nær og taka til í ríkisfjármálunum.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.visir.is/g/20262895927d/-rikisstjornin-getur-ekki-fluid-eigin-vandraedi-inn-i-evropusambandid-"
+        "title": "Stríðið í Úkraínu orðið lengra en fyrri heimsstyrjöldin",
+        "desc": "Innrás Rússa í Úkraínu, sé hún talin hafa byrjað þann 24. febrúar 2022, hefur nú staðið yfir lengur en fyrri heimsstyrjöldin. Í gær hafði innrásin staðið yfir í 1.569 daga eða rúmlega fjögur ár og þrjá mánuði en ráðamenn í Rússlandi töldu upprunalega að Úkraína myndi falla í þeirra hendur á nokkrum dögum.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896586d/stridid-i-ukrainu-ordid-lengra-en-fyrri-heimsstyrjoldin"
       },
       {
-        "title": "Í beinni: Eld­hús­dags­um­ræður á Al­þingi",
-        "desc": "Almennar stjórnmálaumræður (eldhúsdagsumræður) fara fram á Alþingi í kvöld og verða sendar út í beinu streymi á Vísi. Útsendingin hefst klukkan 19:40.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.visir.is/g/20262895878d/i-beinni-eldhusdagsumraedur-a-althingi"
+        "title": "Segja brottfararstöð ekki samrýmast Barnasáttmálanum",
+        "desc": "Íslandsdeild Amnesty International telur nýsamþykkt lög um brottfararstöð áhyggjuefni fyrir mannréttindavernd hérlendis. Samtökin sendu frá sér yfirlýsingu varðandi samþykkt laganna í dag.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896575d/segja-brottfararstod-ekki-samrymast-barnasattmalanum"
       },
       {
-        "title": "Stur­laugur nýr bæjar­stjóri Akranessbæjar",
-        "desc": "Sturlaugur Haraldsson hefur verið ráðinn sem bæjarstjóri Akraneskaupstaðar. Tillaga þess efnis var samþykkt á fyrsta fundi nýrrar bæjarstjórnar.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.visir.is/g/20262895880d/sturlaugur-nyr-baejarstjori-akranessbaejar"
+        "title": "Frostbitnir Frónbúar kætast í dag",
+        "desc": "Spáð er blíðskaparveðri sunnan- og vestantil á landinu í dag. Samkvæmt spá Veðurstofunnar mun hiti ná nítján gráðum í Reykjavík síðdegis.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896582d/frostbitnir-fronbuar-kaetast-i-dag"
       },
       {
-        "title": "Evrópu­met í verð­hækkunum og víg­búnaðar­kapp­hlaup",
-        "desc": "Matvara hefur hækkað meira á Íslandi en annars staðar í Evrópu undanfarin fimm ár, samkvæmt greiningu Samkeppniseftirlitsins. Framkvæmdastjóri Samtaka verslunar og þjónustu segir stjórnvöld geta gert mun meira til að bregðast við þróuninni.",
-        "pubDate": "10. jún 2026",
-        "link": "https://www.visir.is/g/20262895860d/evropumet-i-verdhaekkunum-og-vigbunadarkapphlaup"
+        "title": "Segir Icelandair krefjast meiri vinnu fyrir lægri laun",
+        "desc": "Flugmaður hjá Icelandair segir nýtt tilboð félagsins í kjaradeilu við flugmenn fela í sér meira vinnuálag, minni vernd í kringum hvíld og launalækkanir. Hann segir deiluna ekki snúast um kröfu flugmanna um hærri laun, heldur hvort þeir geti yfirhöfuð ráðið við álagið til lengri tíma.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896563d/segir-icelandair-krefjast-meiri-vinnu-fyrir-laegri-laun"
+      },
+      {
+        "title": "Logi sker hlaðvarpara úr snöru Fjölmiðlanefndar",
+        "desc": "Vinna er hafin innan menningar-, nýsköpunar- og háskólaráðuneytisins við að breyta lögum um fjölmiðla. Ein helsta fyrirhugaða breytingin er að hlaðvörp verða ekki lengur skráningarskyld sem fjölmiðlar. Þannig virðast hlaðvarparar hafa unnið stríðið við Fjölmiðlanefnd, sem geisað hefur um nokkur misseri.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896566d/logi-sker-hladvarpara-ur-snoru-fjolmidlanefndar"
+      },
+      {
+        "title": "Búið að semja um þinglok",
+        "desc": "Formenn þingflokka komust að samkomulagi seint í gærkvöldi um hvaða mál verði afgreidd áður en Alþingi fer í sumarfrí. Þing heldur áfram eftir helgi.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896580d/buid-ad-semja-um-thinglok"
+      },
+      {
+        "title": "Sakfellingu fyrir að nauðga sofandi kærustu snúið við í Landsrétti",
+        "desc": "Landsréttur sýknaði ungan mann sem var ákærður fyrir að nauðga kærustu sinni á meðan hún svaf. Maðurinn hafði verið dæmdur í tveggja og hálfs árs fangelsi í héraði.",
+        "pubDate": "12. jún. 2026",
+        "link": "https://www.visir.is/g/20262896542d/sakfellingu-fyrir-ad-naudga-sofandi-kaerustu-snuid-vid-i-landsretti"
       }
     ],
     "ok": true
   },
-  "updated": "2026-06-10T20:58:34Z"
+  "updated": "2026-06-12T11:06:44.846Z"
 }
