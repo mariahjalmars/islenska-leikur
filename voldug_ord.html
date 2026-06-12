@@ -470,7 +470,7 @@ body {
           <h3>Daglegt líf og Skóli</h3>
           <p>Vinir, bekkurinn og samfélagið</p>
         </div>
-        <span class="cat-pill">5 setningar</span>
+        <span class="cat-pill">8 setningar</span>
       </div>
     </div>
     <div style="margin-top:20px; text-align:center;">
@@ -635,26 +635,23 @@ const DATA = {
         decoys: ['fallegt','jákvætt','fyndið']
       },
       {
-    "category": "🗣️ Nákvæm orð",
-    "sentence": "Gaurinn í búðinni hjálpaði mér að finna skóna.",
-    "overused_word": "Gaurinn",
-    "power_words": ["Afgreiðslumaðurinn", "Starfsmaðurinn", "Sölumaðurinn"],
-    "distractors": ["Kallinn", "Hluturinn", "Dæmið"]
-  },
-  {
-    "category": "🧩 Samtengingar",
-    "sentence": "Ég kom ekki á æfingu út af því ég var veikur.",
-    "overused_word": "út af því",
-    "power_words": ["vegna þess að", "sökum þess að", "þar sem"],
-    "distractors": ["og", "en", "þá"]
-  },
-  {
-    "category": "🏫 Skólinn",
-    "sentence": "Hún mætir alltaf á réttum tíma og er mjög góð.",
-    "overused_word": "góð",
-    "power_words": ["samviskusöm", "ábyrg", "iðin"],
-    "distractors": ["fyndin", "skemmtileg", "hröð"]
-  }
+        sentence: '{Gaurinn} í búðinni hjálpaði mér að finna skóna.',
+        overused: 'Gaurinn',
+        power: ['Afgreiðslumaðurinn','Starfsmaðurinn','Sölumaðurinn'],
+        decoys: ['Kallinn','Hluturinn','Dæmið']
+      },
+      {
+        sentence: 'Ég kom ekki á æfingu {út af því} ég var veikur.',
+        overused: 'út af því',
+        power: ['vegna þess að','sökum þess að','þar sem'],
+        decoys: ['og','en','þá']
+      },
+      {
+        sentence: 'Hún er mjög {góð} stúlka sem hjálpar öllum.',
+        overused: 'góð',
+        power: ['samviskusöm','ábyrg','hjálpsamur'],
+        decoys: ['fyndin','skemmtileg','hröð']
+      }
     ]
   }
 };
@@ -752,7 +749,7 @@ function buildRound() {
   /* word cloud */
   const words = shuffle([...round.power, ...round.decoys]);
   $('g-wordcloud').innerHTML = words.map(w=>
-    `<button class="w-btn" data-word="${w}" onclick="pickWord(this,'${w}')">${w}</button>`
+    `<button class="w-btn" data-word="${w}" onclick="pickWord(this,'${w.replace(/'/g,"\\\'")}')">${w}</button>`
   ).join('');
 
   /* reset UI */
