@@ -219,7 +219,7 @@ body {
 }
 .progress-dots { display: flex; gap: 6px; margin-left: auto; }
 .pdot {
-  width: 10px; height: 10px;
+  width: 16px; height: 16px;
   border-radius: 50%;
   background: var(--border);
   transition: all .3s;
@@ -445,6 +445,21 @@ body {
   .opt-btn { font-size: .88rem; padding: 12px 14px; }
   .feature-card { padding: 14px 16px; }
 }
+.tts-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tts-btn:hover { border-color: var(--gold); color: var(--gold); }
 </style>
 </head>
 <body>
@@ -532,6 +547,15 @@ body {
 
 <!-- ─── SCRIPT ────────────────────────────────────────────────────────── -->
 <script>
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'is-IS';
+  u.rate = 0.88;
+  window.speechSynthesis.speak(u);
+}
+
 /* ── DATA ────────────────────────────────────────────────────────────── */
 const DATA = [
   {
