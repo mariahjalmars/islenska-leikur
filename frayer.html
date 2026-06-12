@@ -861,7 +861,7 @@ function loadWord() {
 
   const tray = $('g-tray');
   tray.innerHTML = '';
-  cards.forEach(c => {
+  cards.forEach((c, idx) => {
     const el = document.createElement('div');
     el.className        = 'drag-card';
     el.textContent      = c.text;
