@@ -190,7 +190,7 @@ body {
 /* Progress dots */
 .dots { display: flex; gap: 7px; margin-left: auto; }
 .dot {
-  width: 11px; height: 11px;
+  width: 16px; height: 16px;
   border-radius: 50%;
   background: var(--border);
   transition: all .3s;
@@ -208,7 +208,7 @@ body {
 }
 
 .card-label {
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -408,6 +408,23 @@ body {
 }
 .upgraded .power { color: var(--green); font-weight: 800; font-style: normal; }
 
+/* ─── TTS BUTTON ──────────────────────────────────────────────────────────── */
+.tts-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tts-btn:hover { border-color: var(--gold); color: var(--gold); }
+
 /* ─── COMPLETE SCREEN ────────────────────────────────────────────────────── */
 .complete-wrap {
   text-align: center;
@@ -438,6 +455,9 @@ body {
       <span class="hero-icon">✏️</span>
       <h1>Uppfærðu setninguna</h1>
       <p>Veldu sterkara og nákvæmara orð í stað veika orðsins</p>
+    </div>
+    <div style="background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.2);border-radius:14px;padding:14px 18px;margin-bottom:24px;font-size:0.95rem;color:#c0c4d4;line-height:1.6;">
+      💡 <strong style="color:var(--gold)">Hvernig:</strong> Smelltu á flokk, lestu setninguna og veldu það orð sem passar best í staðinn.
     </div>
     <div class="cat-list">
       <div class="cat-card cat-football" onclick="startCat('football')">
@@ -487,7 +507,10 @@ body {
     </div>
 
     <div class="sentence-card">
-      <div class="card-label">📝 Setningin</div>
+      <div class="card-label" style="justify-content:space-between;">
+        <span>📝 Setningin</span>
+        <button class="tts-btn" onclick="speakSentence()" title="Hlusta">🔊 Hlusta</button>
+      </div>
       <div class="sentence-text" id="g-sentence"></div>
     </div>
 
@@ -671,6 +694,21 @@ const RETRY_MSG = [
   'Nær! Leitaðu að orði sem lýsir sömu tilfinningu og „{ov}" — en betur.'
 ];
 
+/* ── TTS ────────────────────────────────────────────────────────────────── */
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'is-IS';
+  u.rate = 0.88;
+  window.speechSynthesis.speak(u);
+}
+
+function speakSentence() {
+  const el = document.getElementById('g-sentence');
+  if (el) speak(el.innerText);
+}
+
 /* ── STATE ─────────────────────────────────────────────────────────────── */
 let activeCat   = null;
 let roundIdx    = 0;
@@ -815,49 +853,4 @@ function submitAnswer() {
 
   } else {
     const msg = rand(RETRY_MSG).replace('{ov}', round.overused);
-    $('g-feedback').className = 'feedback-card show retry';
-    $('fb-icon').textContent  = '🤔';
-    $('fb-title').textContent = 'Ekki alveg...';
-    $('fb-body').textContent  = msg;
-    $('fb-upgraded').style.display = 'none';
-    $('g-retry').style.display = 'block';
-    $('g-next').classList.remove('show');
-  }
-}
-
-function retryRound() { answered=false; buildRound(); }
-
-function nextRound() {
-  roundIdx++;
-  if(roundIdx >= DATA[activeCat].rounds.length) showComplete();
-  else buildRound();
-}
-
-/* ── COMPLETE ────────────────────────────────────────────────────────────── */
-function showComplete() {
-  showScreen('screen-complete');
-  const total  = DATA[activeCat].rounds.length * 20;
-  const pct    = Math.round(roundScore / total * 100);
-
-  let icon, title, msg;
-  if(pct===100){
-    icon='🏆'; title='Fullkomið!';
-    msg='Þú svaraðir öllu rétt í fyrstu tilraun. Þú ert orðasnjallur – haltu þessum orðum í huga!';
-  } else if(pct>=60){
-    icon='⭐'; title='Mjög gott!';
-    msg='Þú ert að þróa orðaforða þinn. Voldug orð gera mál þitt sterkara!';
-  } else {
-    icon='💪'; title='Haltu áfram!';
-    msg='Æfing skapar meistarann. Prófaðu aftur — þú munt fara betur næst!';
-  }
-
-  $('c-icon').textContent  = icon;
-  $('c-score').textContent = roundScore;
-  $('c-sub').textContent   = `stig af ${total} mögulegum`;
-  $('c-title').textContent = title;
-  $('c-msg').textContent   = msg;
-  $('c-replay').textContent = DATA[activeCat].emoji + ' Spila ' + DATA[activeCat].name + ' aftur';
-}
-</script>
-</body>
-</html>
+    $('g-feedback').className = 'feedback-card show retry
