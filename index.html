@@ -6,111 +6,176 @@
 <title>🏟️ Þjálfunarbúðirnar</title>
 <style>
 :root {
-  --bg: #0c0c18; --surface: rgba(255,255,255,0.055);
-  --surface-hover: rgba(255,255,255,0.09); --border: rgba(255,255,255,0.10);
-  --text: #eff0f3; --muted: #7a7f99;
-  --gold: #f5a623; --green: #22c55e; --red: #ef4444; --blue: #60a5fa; --pink: #f472b6;
-  --r-sm: 10px; --r-md: 18px; --r-lg: 24px; --r-xl: 32px; --r-pill: 100px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.45);
-  --glow-gold: 0 0 24px rgba(245,166,35,0.30);
-  --glow-green: 0 0 24px rgba(34,197,94,0.28);
-  --glow-blue: 0 0 24px rgba(96,165,250,0.28);
+  --bg: #0c0c18;
+  --surface: rgba(255,255,255,0.06);
+  --surface-hover: rgba(255,255,255,0.10);
+  --border: rgba(255,255,255,0.10);
+  --text: #eff0f3;
+  --muted: #7a7f99;
+  --gold:   #f5a623;
+  --green:  #22c55e;
+  --blue:   #60a5fa;
+  --pink:   #f472b6;
+  --purple: #a78bfa;
+  --orange: #fb923c;
+  --r-lg: 22px;
+  --r-xl: 28px;
 }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; }
+
 body {
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse at 10% 20%, rgba(245,166,35,.07) 0%, transparent 50%),
-    radial-gradient(ellipse at 90% 80%, rgba(96,165,250,.07) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, rgba(244,114,182,.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 10% 10%, rgba(245,166,35,.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 90%, rgba(96,165,250,.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(167,139,250,.04) 0%, transparent 60%);
   min-height: 100vh;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  color: var(--text); display: flex; flex-direction: column; align-items: center;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.wrapper { width: 100%; max-width: 680px; padding: 36px 20px 60px; display: flex; flex-direction: column; align-items: center; gap: 0; }
-.hero { text-align: center; margin-bottom: 44px; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.25);
-  border-radius: var(--r-pill); padding: 6px 18px;
-  font-size: .8rem; font-weight: 700; color: var(--gold);
-  letter-spacing: .6px; text-transform: uppercase; margin-bottom: 20px;
+
+.wrapper {
+  width: 100%;
+  max-width: 720px;
+  padding: 40px 20px 60px;
 }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeUp .4s ease both;
+}
+.hero-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
 .hero h1 {
-  font-size: clamp(2.2rem, 6vw, 3rem); font-weight: 900;
-  letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 10px;
   background: linear-gradient(135deg, #f5a623 0%, #ffe082 55%, #f5a623 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.65; max-width: 420px; margin: 0 auto; }
+.hero p { color: var(--muted); font-size: 1rem; line-height: 1.6; }
+
+/* ── SECTION LABEL ── */
 .section-label {
-  width: 100%; font-size: .75rem; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1.2px; color: var(--muted); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 10px;
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.game-list { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+
+/* ── GAME GRID ── */
+.game-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
 .game-card {
-  display: flex; align-items: center; gap: 20px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-xl); padding: 22px 24px;
-  text-decoration: none; color: var(--text); cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 28px 16px 24px;
+  text-decoration: none;
+  color: var(--text);
+  cursor: pointer;
   transition: transform .22s ease, box-shadow .22s ease, background .18s, border-color .18s;
-  position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  animation: fadeUp .35s ease both;
 }
+
 .game-card::before {
-  content: ''; position: absolute; inset: 0; border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,.03) 0%, transparent 60%);
-  pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
 }
-.game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); background: var(--surface-hover); }
-.game-card:active { transform: translateY(-1px); }
-.game-card.card-power       { border-left: 4px solid var(--green); }
-.game-card.card-frayer      { border-left: 4px solid var(--blue); }
-.game-card.card-ordasmidjan { border-left: 4px solid var(--gold); }
-.game-card.card-sfa         { border-left: 4px solid var(--pink); }
-.game-card.card-nefndu      { border-left: 4px solid #a78bfa; }
-.game-card:hover.card-power       { box-shadow: 0 8px 40px rgba(34,197,94,.18); }
-.game-card:hover.card-frayer      { box-shadow: 0 8px 40px rgba(96,165,250,.18); }
-.game-card:hover.card-ordasmidjan { box-shadow: 0 8px 40px rgba(245,166,35,.18); }
-.game-card:hover.card-sfa         { box-shadow: 0 8px 40px rgba(244,114,182,.18); }
-.game-card:hover.card-nefndu      { box-shadow: 0 8px 40px rgba(167,139,250,.18); }
-.card-icon-wrap { width: 62px; height: 62px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
-.card-power       .card-icon-wrap { background: rgba(34,197,94,.12); }
-.card-frayer      .card-icon-wrap { background: rgba(96,165,250,.12); }
-.card-ordasmidjan .card-icon-wrap { background: rgba(245,166,35,.12); }
-.card-sfa         .card-icon-wrap { background: rgba(244,114,182,.12); }
-.card-nefndu      .card-icon-wrap { background: rgba(167,139,250,.12); }
-.card-body { flex: 1; min-width: 0; }
-.card-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-desc  { font-size: .88rem; color: var(--muted); line-height: 1.45; }
-.card-status { flex-shrink: 0; font-size: .75rem; font-weight: 700; padding: 5px 13px; border-radius: var(--r-pill); white-space: nowrap; }
-.status-ready { background: rgba(34,197,94,.12); color: var(--green); }
-.status-soon  { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border); }
-.card-arrow { font-size: 1.1rem; color: var(--muted); flex-shrink: 0; transition: transform .2s; }
-.game-card:hover .card-arrow { transform: translateX(4px); color: var(--text); }
-.game-card.disabled { opacity: .55; cursor: default; pointer-events: none; }
-.score-band { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-.score-band .band-icon  { font-size: 2rem; }
-.score-band .band-text  { flex: 1; }
-.score-band .band-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 2px; }
-.score-band .band-val   { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
-.footer { margin-top: 8px; color: var(--muted); font-size: .8rem; text-align: center; line-height: 1.6; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-.hero       { animation: fadeUp .4s ease both; }
-.game-list  { animation: fadeUp .4s .1s ease both; }
-.score-band { animation: fadeUp .4s .2s ease both; }
-.game-card:nth-child(1) { animation: fadeUp .35s .12s ease both; }
-.game-card:nth-child(2) { animation: fadeUp .35s .20s ease both; }
-.game-card:nth-child(3) { animation: fadeUp .35s .28s ease both; }
-.game-card:nth-child(4) { animation: fadeUp .35s .36s ease both; }
-.game-card:nth-child(5) { animation: fadeUp .35s .44s ease both; }
-@media (max-width: 480px) {
-  .card-icon-wrap { width: 50px; height: 50px; font-size: 1.7rem; border-radius: 14px; }
-  .card-title  { font-size: 1.05rem; }
-  .game-card   { padding: 18px 16px; gap: 14px; }
-  .card-status { display: none; }
+
+.game-card:hover {
+  transform: translateY(-5px);
+  background: var(--surface-hover);
+}
+
+.card-c1::before { background: var(--green); }
+.card-c2::before { background: var(--blue); }
+.card-c3::before { background: var(--gold); }
+.card-c4::before { background: var(--pink); }
+.card-c5::before { background: var(--purple); }
+.card-c6::before { background: var(--blue); }
+.card-c7::before { background: var(--orange); }
+
+.card-c1:hover { box-shadow: 0 8px 40px rgba(34,197,94,.18); border-color: rgba(34,197,94,.25); }
+.card-c2:hover { box-shadow: 0 8px 40px rgba(96,165,250,.18); border-color: rgba(96,165,250,.25); }
+.card-c3:hover { box-shadow: 0 8px 40px rgba(245,166,35,.18); border-color: rgba(245,166,35,.25); }
+.card-c4:hover { box-shadow: 0 8px 40px rgba(244,114,182,.18); border-color: rgba(244,114,182,.25); }
+.card-c5:hover { box-shadow: 0 8px 40px rgba(167,139,250,.18); border-color: rgba(167,139,250,.25); }
+.card-c6:hover { box-shadow: 0 8px 40px rgba(96,165,250,.18); border-color: rgba(96,165,250,.25); }
+.card-c7:hover { box-shadow: 0 8px 40px rgba(251,146,60,.18); border-color: rgba(251,146,60,.25); }
+
+.card-icon { font-size: 3rem; line-height: 1; }
+.card-title { font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
+.card-desc  { font-size: .82rem; color: var(--muted); line-height: 1.45; }
+
+/* ── TOOLS GRID (2 wide cards) ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.game-card:nth-child(1) { animation-delay: .05s; }
+.game-card:nth-child(2) { animation-delay: .10s; }
+.game-card:nth-child(3) { animation-delay: .15s; }
+.game-card:nth-child(4) { animation-delay: .20s; }
+.game-card:nth-child(5) { animation-delay: .25s; }
+.game-card:nth-child(6) { animation-delay: .30s; }
+.game-card:nth-child(7) { animation-delay: .35s; }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 440px) {
+  .game-grid, .tools-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .game-card { padding: 22px 12px 18px; }
+  .card-icon { font-size: 2.5rem; }
+  .card-title { font-size: .95rem; }
+  .card-desc  { font-size: .78rem; }
 }
 </style>
 </head>
@@ -118,105 +183,67 @@ body {
 <div class="wrapper">
 
   <div class="hero">
-    <div class="hero-badge">🏟️ Orðaþjálfun</div>
+    <span class="hero-emoji">🏟️</span>
     <h1>Þjálfunarbúðirnar</h1>
-    <p>Veldu leik til að þjálfa íslenskt mál — orðaforða, beyging og málfræði.</p>
+    <p>Veldu leik til að þjálfa íslenskt mál</p>
   </div>
 
   <div class="section-label">🎮 Leikirnir</div>
 
-  <div class="game-list">
+  <div class="game-grid">
 
-    <a class="game-card card-power" href="voldug_ord.html">
-      <div class="card-icon-wrap">💪</div>
-      <div class="card-body">
-        <div class="card-title">Voldug Orð</div>
-        <div class="card-desc">Uppfærðu setningar með sterkari og nákvæmari orðum</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c1" href="voldug_ord.html">
+      <div class="card-icon">💪</div>
+      <div class="card-title">Voldug Orð</div>
+      <div class="card-desc">Skipta veikum orðum út fyrir sterkari</div>
     </a>
 
-    <a class="game-card card-frayer" href="frayer.html">
-      <div class="card-icon-wrap">📰</div>
-      <div class="card-body">
-        <div class="card-title">Frayer News Desk</div>
-        <div class="card-desc">Kynntu þér ný orð — skilgreining, dæmi og eiginleikar</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c2" href="frayer.html">
+      <div class="card-icon">📰</div>
+      <div class="card-title">Frayer News Desk</div>
+      <div class="card-desc">Kynntu þér ný orð í dýpt</div>
     </a>
 
-    <a class="game-card card-ordasmidjan" href="ordasmidjan.html">
-      <div class="card-icon-wrap">🔨</div>
-      <div class="card-body">
-        <div class="card-title">Orðasmiðjan</div>
-        <div class="card-desc">Settu saman forskeyti og viðsteyti til að mynda rétt orðmyndir</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c3" href="ordasmidjan.html">
+      <div class="card-icon">🔨</div>
+      <div class="card-title">Orðasmiðjan</div>
+      <div class="card-desc">Forskeyti, viðsteyti og málfræði</div>
     </a>
 
-    <a class="game-card card-sfa" href="sfa_scout.html">
-      <div class="card-icon-wrap">🔬</div>
-      <div class="card-body">
-        <div class="card-title">SFA Scout</div>
-        <div class="card-desc">Greindu orð eins og sérfræðingur — hvað er þetta, hvernig er það notað?</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c4" href="sfa_scout.html">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">SFA Scout</div>
+      <div class="card-desc">Greindu orð eins og sérfræðingur</div>
     </a>
 
-    <a class="game-card card-nefndu" href="nefndu_thrennt.html">
-      <div class="card-icon-wrap">🧠</div>
-      <div class="card-body">
-        <div class="card-title">Nefndu Þrennt</div>
-        <div class="card-desc">Nefndu þrjú dæmi úr hverjum flokk — þjálgar minni og flokkun</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c5" href="nefndu_thrennt.html">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Nefndu Þrennt</div>
+      <div class="card-desc">Nefndu þrjú dæmi úr hverjum flokk</div>
     </a>
 
   </div>
 
-  <div class="section-label">📊 Framvinda</div>
+  <div class="section-label">📚 Orðaforðatæki</div>
 
-  <div class="score-band">
-    <div class="band-icon">🏆</div>
-    <div class="band-text">
-      <div class="band-label">Leikir tilbúnir</div>
-      <div class="band-val">5 af 5</div>
-    </div>
-    <div style="font-size:.88rem; color:var(--muted); text-align:right; line-height:1.5;">
-      Allir leikir<br>tilbúnir! 🎉
-    </div>
-  </div>
+  <div class="tools-grid">
 
-  <div class="section-label" style="margin-top:32px;">📚 Orðaforðatæki</div>
-
-  <div class="game-list">
-    <a class="game-card card-nefndu" href="ordaveggur.html" style="border-left-color:#a78bfa;">
-      <div class="card-icon-wrap" style="background:rgba(167,139,250,.12);">🧱</div>
-      <div class="card-body">
-        <div class="card-title">Orðaveggurinn</div>
-        <div class="card-desc">Skoðaðu orðin þín og skrítin íslensk orð — smelltu á spjald til að sjá skilgreiningu</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+    <a class="game-card card-c6" href="frett_dagsins.html">
+      <div class="card-icon">📰</div>
+      <div class="card-title">Frétt dagsins</div>
+      <div class="card-desc">Lestu fréttir og safnaðu orðum</div>
     </a>
-    <a class="game-card" href="frett_dagsins.html" style="border-left:4px solid #60a5fa;">
-      <div class="card-icon-wrap" style="background:rgba(96,165,250,.12);">📰</div>
-      <div class="card-body">
-        <div class="card-title">Frétt dagsins</div>
-        <div class="card-desc">Lestu raunverulegar fréttir og veldu áhugaverð orð á Orðavegginn þinn</div>
-      </div>
-      <span class="card-status status-ready">✅ Tilbúið</span>
-      <span class="card-arrow">›</span>
+
+    <a class="game-card card-c7" href="ordaveggur.html">
+      <div class="card-icon">🧱</div>
+      <div class="card-title">Orðaveggurinn</div>
+      <div class="card-desc">Skoðaðu orðasafnið þitt</div>
     </a>
+
   </div>
 
   <div class="footer">
-    Smelltu á leik til að byrja &nbsp;·&nbsp; Engin teljari &nbsp;·&nbsp; Allt á þínum hraða
+    Engin teljari &nbsp;·&nbsp; Allt á þínum hraða
   </div>
 
 </div>
