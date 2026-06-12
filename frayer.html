@@ -20,9 +20,8 @@
   --r-md:   18px;
   --r-lg:   24px;
   --r-pill: 100px;
-  --shadow:      0 8px 40px rgba(0,0,0,0.45);
-  --glow-gold:   0 0 18px rgba(245,166,35,0.30);
-  --glow-green:  0 0 18px rgba(34,197,94,0.30);
+  --glow-gold:  0 0 18px rgba(245,166,35,0.30);
+  --glow-green: 0 0 18px rgba(34,197,94,0.30);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,19 +35,17 @@ body {
   min-height: 100vh;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
+/* ── HEADER ── */
 #app-header {
   width: 100%;
   max-width: 820px;
+  margin: 0 auto;
   padding: 20px 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
 }
 .logo {
   font-size: 1.25rem;
@@ -71,18 +68,19 @@ body {
 }
 .score-chip .num { color: var(--gold); font-weight: 800; font-size: 1rem; }
 
+/* ── MAIN ── */
 #app-main {
   width: 100%;
   max-width: 820px;
-  padding: 24px 20px 48px;
-  flex: 1;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
 }
 
 .screen        { display: none; }
 .screen.active { display: block; animation: fadeIn .25s ease; }
 
-@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes pop     { 0%,100%{ transform: scale(1); } 40%{ transform: scale(1.14); } }
+@keyframes fadeIn  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@keyframes pop     { 0%,100%{ transform:scale(1); } 40%{ transform:scale(1.14); } }
 @keyframes shake   { 0%,100%{transform:translateX(0)} 15%{transform:translateX(-9px)} 35%{transform:translateX(9px)} 55%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
 @keyframes pulseBorder {
   0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.55); }
@@ -90,6 +88,7 @@ body {
   100% { box-shadow: none; }
 }
 
+/* ── BUTTONS ── */
 .btn-primary {
   display: block;
   width: 100%;
@@ -161,6 +160,7 @@ body {
 }
 .tts-btn:hover { border-color: var(--gold); color: var(--gold); }
 
+/* ── HOME ── */
 .home-hero {
   text-align: center;
   padding: 8px 0 36px;
@@ -176,6 +176,7 @@ body {
 }
 .home-actions { max-width: 340px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 
+/* ── GAME TOP BAR ── */
 .game-topbar {
   display: flex;
   align-items: center;
@@ -209,6 +210,7 @@ body {
 .dot.done    { background: var(--gold); }
 .dot.current { background: var(--text); transform: scale(1.35); }
 
+/* ── TARGET WORD ── */
 .target-wrap {
   text-align: center;
   margin-bottom: 22px;
@@ -219,6 +221,10 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 .target-word {
   font-size: 3rem;
@@ -229,6 +235,7 @@ body {
   line-height: 1.1;
 }
 
+/* ── FRAYER GRID ── */
 .frayer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -241,36 +248,16 @@ body {
   border: 2px dashed rgba(255,255,255,.12);
   border-radius: var(--r-md);
   padding: 16px;
-  min-height: 130px;
-  cursor: pointer;
-  transition: border-color .15s, background .15s, box-shadow .15s;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  position: relative;
-}
-
-body.card-selected .quadrant:not(.filled):hover {
-  border-color: var(--gold);
-  border-style: solid;
-  background: rgba(245,166,35,.07);
-}
-
-.quadrant.drag-over:not(.filled) {
-  border-color: var(--gold);
-  border-style: solid;
-  background: rgba(245,166,35,.09);
+  gap: 10px;
 }
 
 .quadrant.filled {
   border-style: solid;
   border-color: rgba(34,197,94,.38);
   background: rgba(34,197,94,.07);
-  cursor: default;
+  animation: pulseBorder .55s ease forwards;
 }
 
 .q-label {
@@ -282,79 +269,71 @@ body.card-selected .quadrant:not(.filled):hover {
   display: flex;
   align-items: center;
   gap: 5px;
-  flex-shrink: 0;
 }
 .quadrant.filled .q-label { color: rgba(34,197,94,.7); }
 
-.q-hint {
-  color: var(--muted);
-  font-size: .85rem;
-  font-style: italic;
-  flex: 1;
+/* Options inside each quadrant */
+.q-options {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 7px;
 }
 
+.q-opt-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: .88rem;
+  line-height: 1.45;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color .15s, background .15s, transform .12s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.q-opt-btn:hover {
+  border-color: rgba(255,255,255,.28);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+.q-opt-btn.shake {
+  animation: shake .42s ease;
+}
+
+/* Answer text shown after correct placement */
 .q-answer {
   font-size: .9rem;
   line-height: 1.55;
   color: #a8f0c0;
   font-weight: 500;
-  flex: 1;
   display: none;
+  padding: 4px 2px;
 }
-
-.quadrant.filled .q-hint   { display: none; }
 .quadrant.filled .q-answer { display: block; }
 
-.tray-label {
-  font-size: .9rem;
-  color: var(--muted);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
+/* ── BOTTOM BAR (praise + next button) ── */
+#bottom-bar {
+  display: none;
+  margin-top: 8px;
+  background: rgba(34,197,94,.08);
+  border: 1px solid rgba(34,197,94,.25);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  text-align: center;
+  animation: fadeIn .3s ease;
 }
-.tray-label strong { color: var(--gold); }
+#bottom-bar.show { display: block; }
 
-.cards-tray {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+.bb-icon  { font-size: 3rem; display: block; margin-bottom: 10px; animation: pop .45s ease; }
+.bb-title { font-size: 1.3rem; font-weight: 800; color: var(--green); margin-bottom: 4px; }
+.bb-word  { font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 4px; letter-spacing: -1px; }
+.bb-pts   { font-size: .9rem; color: var(--muted); margin-bottom: 22px; }
+.bb-btn   { max-width: 320px; margin: 0 auto; }
 
-.drag-card {
-  background: var(--surface);
-  border: 2px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 12px 16px;
-  font-size: .9rem;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
-  max-width: 380px;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.drag-card:hover {
-  border-color: rgba(255,255,255,.28);
-  background: var(--surface-hover);
-  transform: translateY(-2px);
-}
-.drag-card.selected {
-  border-color: var(--gold);
-  background: rgba(245,166,35,.13);
-  transform: translateY(-3px);
-  box-shadow: var(--glow-gold);
-}
-.drag-card.shake {
-  animation: shake .42s ease;
-}
-.drag-card.dragging { opacity: .45; }
-
+/* ── TOAST ── */
 #praise-toast {
   position: fixed;
   top: 76px;
@@ -380,33 +359,7 @@ body.card-selected .quadrant:not(.filled):hover {
   transform: translateX(-50%) translateY(0);
 }
 
-#word-success {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(12,12,24,.90);
-  backdrop-filter: blur(10px);
-  z-index: 300;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-#word-success.show { display: flex; animation: fadeIn .3s ease; }
-
-.ws-box {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: var(--r-lg);
-  padding: 40px 36px 32px;
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
-}
-.ws-icon   { font-size: 4.5rem; display: block; margin-bottom: 16px; animation: pop .5s ease; }
-.ws-word   { font-size: 2.6rem; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: -1px; }
-.ws-title  { font-size: 1.2rem; font-weight: 800; color: var(--green); margin-bottom: 6px; }
-.ws-pts    { font-size: .9rem; color: var(--muted); margin-bottom: 28px; }
-
+/* ── COMPLETE SCREEN ── */
 .complete-wrap {
   text-align: center;
   padding: 48px 0 32px;
@@ -428,9 +381,9 @@ body.card-selected .quadrant:not(.filled):hover {
 
 @media (max-width: 540px) {
   .frayer-grid { gap: 8px; }
-  .quadrant    { min-height: 110px; padding: 12px; }
+  .quadrant    { padding: 12px; }
   .target-word { font-size: 2.4rem; }
-  .ws-box      { padding: 28px 20px 24px; }
+  .q-opt-btn   { font-size: .82rem; padding: 9px 10px; }
 }
 </style>
 </head>
@@ -443,26 +396,17 @@ body.card-selected .quadrant:not(.filled):hover {
 
 <div id="praise-toast"></div>
 
-<div id="word-success">
-  <div class="ws-box">
-    <span class="ws-icon"  id="ws-icon">🎉</span>
-    <div  class="ws-word"  id="ws-word"></div>
-    <div  class="ws-title" id="ws-title"></div>
-    <div  class="ws-pts"   id="ws-pts"></div>
-    <button class="btn-primary" id="ws-next-btn" onclick="nextWord()"></button>
-  </div>
-</div>
-
 <main id="app-main">
 
+  <!-- HOME -->
   <div class="screen active" id="screen-home">
     <div class="home-hero">
       <span class="hero-icon">📰</span>
       <h1>Frayer News Desk</h1>
-      <p>Lærðu ný og sterk orð með Frayer-líkaninu. Settu spjöldin á réttan stað í töfluna.</p>
+      <p>Lærðu ný og sterk orð með Frayer-líkaninu. Veldu rétt svar í hverri rúðu.</p>
     </div>
     <div style="background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:14px;padding:14px 18px;margin-bottom:24px;font-size:0.95rem;color:#c0c4d4;line-height:1.6;">
-      💡 <strong style="color:var(--blue)">Hvernig:</strong> Smelltu á spjald til að velja það, smelltu svo á rúðuna þar sem það passar.
+      💡 <strong style="color:var(--blue)">Hvernig:</strong> Smelltu á rétt svar í hverri af 4 rúðunum. Ef þú veist það ekki, reyndu — engin pressa!
     </div>
     <div class="home-actions">
       <button class="btn-primary" onclick="startGame()">Byrja leikinn ▶</button>
@@ -470,6 +414,7 @@ body.card-selected .quadrant:not(.filled):hover {
     </div>
   </div>
 
+  <!-- GAME -->
   <div class="screen" id="screen-game">
 
     <div class="game-topbar">
@@ -482,61 +427,56 @@ body.card-selected .quadrant:not(.filled):hover {
     </div>
 
     <div class="target-wrap">
-      <div class="target-label" style="display:flex;align-items:center;justify-content:center;gap:12px;">🎯 Orðið í dag <button class="tts-btn" onclick="speakWord()" title="Lesa upp">🔊</button></div>
+      <div class="target-label">
+        🎯 Orðið í dag
+        <button class="tts-btn" onclick="speakWord()" title="Lesa upp">🔊</button>
+      </div>
       <div class="target-word" id="g-word"></div>
     </div>
 
+    <!-- 2×2 FRAYER GRID -->
     <div class="frayer-grid">
 
-      <div class="quadrant" id="q-skilgreining"
-           onclick="onQuadrantClick('skilgreining')"
-           ondragover="onDragOver(event)"
-           ondragleave="onDragLeave(event)"
-           ondrop="onDrop(event,'skilgreining')">
+      <div class="quadrant" id="q-skilgreining">
         <div class="q-label">📖 Skilgreining</div>
-        <div class="q-hint">Hvað þýðir þetta orð?</div>
-        <div class="q-answer" id="qa-skilgreining"></div>
+        <div class="q-options" id="qo-skilgreining"></div>
+        <div class="q-answer"  id="qa-skilgreining"></div>
       </div>
 
-      <div class="quadrant" id="q-eiginleikar"
-           onclick="onQuadrantClick('eiginleikar')"
-           ondragover="onDragOver(event)"
-           ondragleave="onDragLeave(event)"
-           ondrop="onDrop(event,'eiginleikar')">
+      <div class="quadrant" id="q-eiginleikar">
         <div class="q-label">⭐ Eiginleikar</div>
-        <div class="q-hint">Hvernig er þetta?</div>
-        <div class="q-answer" id="qa-eiginleikar"></div>
+        <div class="q-options" id="qo-eiginleikar"></div>
+        <div class="q-answer"  id="qa-eiginleikar"></div>
       </div>
 
-      <div class="quadrant" id="q-daemi"
-           onclick="onQuadrantClick('daemi')"
-           ondragover="onDragOver(event)"
-           ondragleave="onDragLeave(event)"
-           ondrop="onDrop(event,'daemi')">
+      <div class="quadrant" id="q-daemi">
         <div class="q-label">💬 Dæmi</div>
-        <div class="q-hint">Setning með orðinu</div>
-        <div class="q-answer" id="qa-daemi"></div>
+        <div class="q-options" id="qo-daemi"></div>
+        <div class="q-answer"  id="qa-daemi"></div>
       </div>
 
-      <div class="quadrant" id="q-ekki_daemi"
-           onclick="onQuadrantClick('ekki_daemi')"
-           ondragover="onDragOver(event)"
-           ondragleave="onDragLeave(event)"
-           ondrop="onDrop(event,'ekki_daemi')">
-        <div class="q-label">🚫 Andheiti / Ekki dæmi</div>
-        <div class="q-hint">Hvað passar ekki?</div>
-        <div class="q-answer" id="qa-ekki_daemi"></div>
+      <div class="quadrant" id="q-ekki_daemi">
+        <div class="q-label">🚫 Ekki dæmi</div>
+        <div class="q-options" id="qo-ekki_daemi"></div>
+        <div class="q-answer"  id="qa-ekki_daemi"></div>
       </div>
 
     </div>
 
-    <div class="tray-label">
-      🃏 <strong>Smelltu</strong> á spjald til að velja → <strong>smelltu</strong> á rúðuna:
+    <!-- BOTTOM BAR: shown when word is complete -->
+    <div id="bottom-bar">
+      <span class="bb-icon"  id="bb-icon">🎉</span>
+      <div  class="bb-word"  id="bb-word"></div>
+      <div  class="bb-title" id="bb-title"></div>
+      <div  class="bb-pts"   id="bb-pts"></div>
+      <div  class="bb-btn">
+        <button class="btn-primary" id="bb-next-btn" onclick="nextWord()"></button>
+      </div>
     </div>
-    <div class="cards-tray" id="g-tray"></div>
 
   </div>
 
+  <!-- COMPLETE -->
   <div class="screen" id="screen-complete">
     <div class="complete-wrap">
       <span class="big-icon"  id="c-icon">🏆</span>
@@ -559,198 +499,90 @@ const DATA = [
     category: '⚽ Úr viðtali við þjálfarann',
     target_word: 'Seigla',
     quadrants: {
-      skilgreining: {
-        correct:    'Að halda áfram og gefast ekki upp þótt eitthvað sé mjög erfitt.',
-        distractor: 'Að hlaupa mjög hratt yfir knattspyrnuvöllinn.'
-      },
-      eiginleikar: {
-        correct:    'Krefst hugrekkis, þolinmæði og mikils styrks.',
-        distractor: 'Er eitthvað sem maður getur keypt í íþróttabúð.'
-      },
-      daemi: {
-        correct:    'Íslenska liðið sýndi mikla seiglu þegar það skoraði sigurmark á síðustu mínútunni.',
-        distractor: 'Dómarinn flautaði leikinn af.'
-      },
-      ekki_daemi: {
-        correct:    'Að labba fúll af vellinum af því maður er að tapa.',
-        distractor: 'Að mæta alltaf á æfingar þótt það rigni.'
-      }
+      skilgreining: { correct: 'Að halda áfram og gefast ekki upp þótt eitthvað sé mjög erfitt.', distractor: 'Að hlaupa mjög hratt yfir knattspyrnuvöllinn.' },
+      eiginleikar:  { correct: 'Krefst hugrekkis, þolinmæði og mikils styrks.', distractor: 'Er eitthvað sem maður getur keypt í íþróttabúð.' },
+      daemi:        { correct: 'Íslenska liðið sýndi mikla seiglu þegar það skoraði sigurmark á síðustu mínútunni.', distractor: 'Dómarinn flautaði leikinn af.' },
+      ekki_daemi:   { correct: 'Að labba fúll af vellinum af því maður er að tapa.', distractor: 'Að mæta alltaf á æfingar þótt það rigni.' }
     }
   },
   {
     category: '📱 Jafnaldrar og samskipti',
     target_word: 'Orðrómur',
     quadrants: {
-      skilgreining: {
-        correct:    'Óstaðfest saga eða kjaftasaga sem gengur á milli fólks.',
-        distractor: 'Opinber og sönn fréttatilkynning frá lögreglunni.'
-      },
-      eiginleikar: {
-        correct:    'Fer oft hratt um netið og er ekki alltaf satt.',
-        distractor: 'Er alltaf skrifað niður í skólabækur.'
-      },
-      daemi: {
-        correct:    'Það var mikill orðrómur á TikTok um að besti leikmaðurinn væri að hætta.',
-        distractor: 'Ég las bók um sögu Íslands.'
-      },
-      ekki_daemi: {
-        correct:    'Staðreyndir sem allir geta sannað að séu réttar.',
-        distractor: 'Að hvísla einhverju leyndarmáli að vini sínum.'
-      }
+      skilgreining: { correct: 'Óstaðfest saga eða kjaftasaga sem gengur á milli fólks.', distractor: 'Opinber og sönn fréttatilkynning frá lögreglunni.' },
+      eiginleikar:  { correct: 'Fer oft hratt um netið og er ekki alltaf satt.', distractor: 'Er alltaf skrifað niður í skólabækur.' },
+      daemi:        { correct: 'Það var mikill orðrómur á TikTok um að besti leikmaðurinn væri að hætta.', distractor: 'Ég las bók um sögu Íslands.' },
+      ekki_daemi:   { correct: 'Staðreyndir sem allir geta sannað að séu réttar.', distractor: 'Að hvísla einhverju leyndarmáli að vini sínum.' }
     }
   },
   {
     category: '🏛️ Fréttirnar',
     target_word: 'Krefjandi',
     quadrants: {
-      skilgreining: {
-        correct:    'Eitthvað sem reynir mikið á mann, er erfitt og tekur orku.',
-        distractor: 'Eitthvað sem er mjög ódýrt og auðvelt að fá.'
-      },
-      eiginleikar: {
-        correct:    'Lætur mann stundum svitna og þurfa að hugsa mikið.',
-        distractor: 'Gerist alltaf á hverjum morgni.'
-      },
-      daemi: {
-        correct:    'Þetta var mjög krefjandi æfing og allir voru þreyttir á eftir.',
-        distractor: 'Ég borðaði pizzu og horfði á sjónvarpið.'
-      },
-      ekki_daemi: {
-        correct:    'Að liggja uppi í sófa og gera alls ekki neitt.',
-        distractor: 'Að læra flókna stærðfræði fyrir stórt próf.'
-      }
+      skilgreining: { correct: 'Eitthvað sem reynir mikið á mann, er erfitt og tekur orku.', distractor: 'Eitthvað sem er mjög ódýrt og auðvelt að fá.' },
+      eiginleikar:  { correct: 'Lætur mann stundum svitna og þurfa að hugsa mikið.', distractor: 'Gerist alltaf á hverjum morgni.' },
+      daemi:        { correct: 'Þetta var mjög krefjandi æfing og allir voru þreyttir á eftir.', distractor: 'Ég borðaði pizzu og horfði á sjónvarpið.' },
+      ekki_daemi:   { correct: 'Að liggja uppi í sófa og gera alls ekki neitt.', distractor: 'Að læra flókna stærðfræði fyrir stórt próf.' }
     }
   },
   {
     category: '🏛️ Samfélagið og Fréttir',
     target_word: 'Hávær',
     quadrants: {
-      skilgreining: {
-        correct:    'Einhver eða eitthvað sem heyrist mikið í eða hefur mikil læti.',
-        distractor: 'Eitthvað sem er mjög litað og bjart.'
-      },
-      eiginleikar: {
-        correct:    'Hávaðasamur, hvellur eða háróma.',
-        distractor: 'Getur flogið mjög hratt í loftinu.'
-      },
-      daemi: {
-        correct:    'Innbrotsþjófurinn var svo hávær að allir vöknuðu við lætin.',
-        distractor: 'Ég sat og las bók í algerri þögn.'
-      },
-      ekki_daemi: {
-        correct:    'Lágvær, hljóður, þögull og stilltur.',
-        distractor: 'Flugvél sem tekur á loft.'
-      }
+      skilgreining: { correct: 'Einhver eða eitthvað sem heyrist mikið í eða hefur mikil læti.', distractor: 'Eitthvað sem er mjög litað og bjart.' },
+      eiginleikar:  { correct: 'Hávaðasamur, hvellur eða háróma.', distractor: 'Getur flogið mjög hratt í loftinu.' },
+      daemi:        { correct: 'Innbrotsþjófurinn var svo hávær að allir vöknuðu við lætin.', distractor: 'Ég sat og las bók í algerri þögn.' },
+      ekki_daemi:   { correct: 'Lágvær, hljóður, þögull og stilltur.', distractor: 'Flugvél sem tekur á loft.' }
     }
   },
   {
     category: '🗣️ Samskipti (Flókin orð)',
     target_word: 'Augljóst',
     quadrants: {
-      skilgreining: {
-        correct:    'Eitthvað sem er mjög skýrt og allir sjá eða skilja strax.',
-        distractor: 'Eitthvað sem er falið eða týnt.'
-      },
-      eiginleikar: {
-        correct:    'Þarf ekki að útskýra mikið og blasir við öllum.',
-        distractor: 'Er oft lokað inni í skáp.'
-      },
-      daemi: {
-        correct:    'Það var augljóst að hann var að ljúga því hann roðnaði allur.',
-        distractor: 'Ég þurfti að nota stækkunargler til að finna það.'
-      },
-      ekki_daemi: {
-        correct:    'Flókið, falið, óljóst eða dulið.',
-        distractor: 'Skilti sem stendur á miðri götu.'
-      }
+      skilgreining: { correct: 'Eitthvað sem er mjög skýrt og allir sjá eða skilja strax.', distractor: 'Eitthvað sem er falið eða týnt.' },
+      eiginleikar:  { correct: 'Þarf ekki að útskýra mikið og blasir við öllum.', distractor: 'Er oft lokað inni í skáp.' },
+      daemi:        { correct: 'Það var augljóst að hann var að ljúga því hann roðnaði allur.', distractor: 'Ég þurfti að nota stækkunargler til að finna það.' },
+      ekki_daemi:   { correct: 'Flókið, falið, óljóst eða dulið.', distractor: 'Skilti sem stendur á miðri götu.' }
     }
   },
   {
     category: '🏛️ Stjórnmál',
     target_word: 'Hernaðarbandalag',
     quadrants: {
-      skilgreining: {
-        correct:    'Samningur milli margra landa um að hjálpa og verja hvert annað í stríði.',
-        distractor: 'Hópur fólks sem spilar á hljóðfæri saman.'
-      },
-      eiginleikar: {
-        correct:    'Inniheldur hermenn, vopn og sameiginlega vörn.',
-        distractor: 'Er alltaf bara eitt land sem berjast eitt síns liðs.'
-      },
-      daemi: {
-        correct:    'NATO er stærsta hernaðarbandalag í heimi og Ísland er í því.',
-        distractor: 'Landið ákvað að berjast eitt síns liðs gegn öllum.'
-      },
-      ekki_daemi: {
-        correct:    'Friðarsamkomulag eða hlutleysi í stríðsmálum.',
-        distractor: 'Sameinuðu þjóðirnar vinna að mannréttindum.'
-      }
+      skilgreining: { correct: 'Samningur milli margra landa um að hjálpa og verja hvert annað í stríði.', distractor: 'Hópur fólks sem spilar á hljóðfæri saman.' },
+      eiginleikar:  { correct: 'Inniheldur hermenn, vopn og sameiginlega vörn.', distractor: 'Er alltaf bara eitt land sem berjast eitt síns liðs.' },
+      daemi:        { correct: 'NATO er stærsta hernaðarbandalag í heimi og Ísland er í því.', distractor: 'Landið ákvað að berjast eitt síns liðs gegn öllum.' },
+      ekki_daemi:   { correct: 'Friðarsamkomulag eða hlutleysi í stríðsmálum.', distractor: 'Sameinuðu þjóðirnar vinna að mannréttindum.' }
     }
-  }  ,
+  },
   {
-    category:    '🧠 Hugurinn og framtíðin',
+    category: '🧠 Hugurinn og framtíðin',
     target_word: 'Sjálfstraust',
     quadrants: {
-      skilgreining: {
-        correct:    'Að trúa á sjálfan sig og vita að maður getur gert hlutina.',
-        distractor: 'Að vera hræddur við allt og alla.'
-      },
-      eiginleikar: {
-        correct:    'Gerir mann hugrakkari til að prófa nýja hluti og gera mistök.',
-        distractor: 'Lætur mann alltaf fela sig inni í herbergi.'
-      },
-      daemi: {
-        correct:    'Hún sýndi mikið sjálfstraust þegar hún fór upp á svið og söng.',
-        distractor: 'Hann ætlaði aldrei að tala við neinn aftur.'
-      },
-      ekki_daemi: {
-        correct:    'Óöryggi, kvíði, feimni eða að efast um sjálfan sig.',
-        distractor: 'Gleði og hamingja.'
-      }
+      skilgreining: { correct: 'Að trúa á sjálfan sig og vita að maður getur gert hlutina.', distractor: 'Að vera hræddur við allt og alla.' },
+      eiginleikar:  { correct: 'Gerir mann hugrakkari til að prófa nýja hluti og gera mistök.', distractor: 'Lætur mann alltaf fela sig inni í herbergi.' },
+      daemi:        { correct: 'Hún sýndi mikið sjálfstraust þegar hún fór upp á svið og söng.', distractor: 'Hann ætlaði aldrei að tala við neinn aftur.' },
+      ekki_daemi:   { correct: 'Óöryggi, kvíði, feimni eða að efast um sjálfan sig.', distractor: 'Gleði og hamingja.' }
     }
   },
   {
-    category:    '🧠 Hugurinn og framtíðin',
+    category: '🧠 Hugurinn og framtíðin',
     target_word: 'Þrautseigja',
     quadrants: {
-      skilgreining: {
-        correct:    'Að gefast ekki upp þótt eitthvað sé mjög erfitt eða taki langan tíma.',
-        distractor: 'Að vinna auðveldlega stóran vinning í lottóinu.'
-      },
-      eiginleikar: {
-        correct:    'Krefst mikillar vinnu, þolinmæði og viljastyrks.',
-        distractor: 'Gerist alltaf á einni sekúndu án þess að maður geri neitt.'
-      },
-      daemi: {
-        correct:    'Það sýnir mikla þrautseigju að halda áfram að æfa fótbolta eftir að hafa tapað mörgum leikjum.',
-        distractor: 'Að hætta strax af því að maður nennir ekki meiru.'
-      },
-      ekki_daemi: {
-        correct:    'Að gefast upp, hætta við eða nenna ekki að reyna.',
-        distractor: 'Að horfa á bíómynd og borða popp.'
-      }
+      skilgreining: { correct: 'Að gefast ekki upp þótt eitthvað sé mjög erfitt eða taki langan tíma.', distractor: 'Að vinna auðveldlega stóran vinning í lottóinu.' },
+      eiginleikar:  { correct: 'Krefst mikillar vinnu, þolinmæði og viljastyrks.', distractor: 'Gerist alltaf á einni sekúndu án þess að maður geri neitt.' },
+      daemi:        { correct: 'Það sýnir mikla þrautseigju að halda áfram að æfa fótbolta eftir að hafa tapað mörgum leikjum.', distractor: 'Að hætta strax af því að maður nennir ekki meiru.' },
+      ekki_daemi:   { correct: 'Að gefast upp, hætta við eða nenna ekki að reyna.', distractor: 'Að horfa á bíómynd og borða popp.' }
     }
   },
   {
-    category:    '⏳ Tíminn',
+    category: '⏳ Tíminn',
     target_word: 'Framtíðin',
     quadrants: {
-      skilgreining: {
-        correct:    'Sá tími sem á eftir að koma.',
-        distractor: 'Allt það sem gerðist í gær eða í fyrra.'
-      },
-      eiginleikar: {
-        correct:    'Er óskrifað blað, full af möguleikum og plönum.',
-        distractor: 'Eitthvað sem við getum lesið um í gömlum sögubókum.'
-      },
-      daemi: {
-        correct:    'Hann stefnir á að vinna í tölvuleikjahönnun í framtíðinni.',
-        distractor: 'Ég borðaði pizzu í gærkvöldi.'
-      },
-      ekki_daemi: {
-        correct:    'Fortíðin, eða það sem er þegar liðið og búið.',
-        distractor: 'Geimferðir og fljúgandi bílar.'
-      }
+      skilgreining: { correct: 'Sá tími sem á eftir að koma.', distractor: 'Allt það sem gerðist í gær eða í fyrra.' },
+      eiginleikar:  { correct: 'Er óskrifað blað, full af möguleikum og plönum.', distractor: 'Eitthvað sem við getum lesið um í gömlum sögubókum.' },
+      daemi:        { correct: 'Hann stefnir á að vinna í tölvuleikjahönnun í framtíðinni.', distractor: 'Ég borðaði pizzu í gærkvöldi.' },
+      ekki_daemi:   { correct: 'Fortíðin, eða það sem er þegar liðið og búið.', distractor: 'Geimferðir og fljúgandi bílar.' }
     }
   }
 ];
@@ -759,9 +591,9 @@ const QUADRANT_KEYS = ['skilgreining','eiginleikar','daemi','ekki_daemi'];
 
 const PRAISE_PER_Q = {
   skilgreining: ['📖 Einmitt! Þú þekkir skilgreininguna!', '📖 Vel skilgreint! Rétt!'],
-  eiginleikar:  ['⭐ Snilld! Réttur eiginleiki!',           '⭐ Frábær! Þú veist hvernig þetta er!'],
-  daemi:        ['💬 Rétt dæmi! Vel gert!',                 '💬 Glæsilegt! Þú notar orðið rétt!'],
-  ekki_daemi:   ['🚫 Einmitt! Þetta passar ekki!',          '🚫 Rétt! Þú þekkir muninn!']
+  eiginleikar:  ['⭐ Snilld! Réttur eiginleiki!', '⭐ Frábær! Þú veist hvernig þetta er!'],
+  daemi:        ['💬 Rétt dæmi! Vel gert!', '💬 Glæsilegt! Þú notar orðið rétt!'],
+  ekki_daemi:   ['🚫 Einmitt! Þetta passar ekki!', '🚫 Rétt! Þú þekkir muninn!']
 };
 
 const WORD_PRAISE = [
@@ -784,16 +616,6 @@ function speakWord() {
   if (el) speak(el.textContent);
 }
 
-let wordIdx    = 0;
-let totalScore = 0;
-let wordScore  = 0;
-let placed     = {};
-let selCard    = null;
-let dragData   = null;
-
-const $   = id => document.getElementById(id);
-const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
-
 function shuffle(a) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -803,14 +625,21 @@ function shuffle(a) {
   return b;
 }
 
+let wordIdx    = 0;
+let totalScore = 0;
+let wordScore  = 0;
+let placed     = {};
+
+const $   = id => document.getElementById(id);
+const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
+  $('bottom-bar').classList.remove('show');
 }
 
 function goHome() {
-  $('word-success').classList.remove('show');
-  clearSelection();
   showScreen('screen-home');
 }
 
@@ -825,137 +654,56 @@ function startGame() {
 function loadWord() {
   placed    = {};
   wordScore = 0;
-  clearSelection();
 
   const entry = DATA[wordIdx];
 
-  $('g-cat').textContent = entry.category;
+  $('g-cat').textContent       = entry.category;
   $('g-prog-text').textContent = `${wordIdx + 1} / ${DATA.length}`;
   $('g-dots').innerHTML = DATA.map((_, i) =>
     `<div class="dot ${i < wordIdx ? 'done' : i === wordIdx ? 'current' : ''}"></div>`
   ).join('');
 
   $('g-word').textContent = entry.target_word;
+  $('bottom-bar').classList.remove('show');
 
-  QUADRANT_KEYS.forEach(k => {
-    const el = $('q-' + k);
-    el.classList.remove('filled');
-    $('qa-' + k).textContent = '';
-  });
+  // Build each quadrant's option buttons
+  QUADRANT_KEYS.forEach(key => {
+    const qEl  = $('q-' + key);
+    const opts = $('qo-' + key);
+    const ans  = $('qa-' + key);
 
-  // Build all 8 cards but only show 4 at a time (2 correct + 2 decoys)
-  const allCards = shuffle([
-    { text: entry.quadrants.skilgreining.correct,    targetQ: 'skilgreining' },
-    { text: entry.quadrants.skilgreining.distractor, targetQ: null },
-    { text: entry.quadrants.eiginleikar.correct,     targetQ: 'eiginleikar' },
-    { text: entry.quadrants.eiginleikar.distractor,  targetQ: null },
-    { text: entry.quadrants.daemi.correct,           targetQ: 'daemi' },
-    { text: entry.quadrants.daemi.distractor,        targetQ: null },
-    { text: entry.quadrants.ekki_daemi.correct,      targetQ: 'ekki_daemi' },
-    { text: entry.quadrants.ekki_daemi.distractor,   targetQ: null },
-  ]);
-  // Show first 4, rest hidden until needed
-  const cards = allCards;
-  window._hiddenCards = [];
-  window._visibleCount = 4;
+    qEl.classList.remove('filled');
+    ans.textContent = '';
+    opts.innerHTML  = '';
 
-  const tray = $('g-tray');
-  tray.innerHTML = '';
-  cards.forEach((c, idx) => {
-    const el = document.createElement('div');
-    el.className        = 'drag-card';
-    el.textContent      = c.text;
-    el.dataset.targetQ  = c.targetQ || '';
-    el.draggable        = true;
+    const buttons = shuffle([
+      { text: entry.quadrants[key].correct,    isCorrect: true  },
+      { text: entry.quadrants[key].distractor, isCorrect: false }
+    ]);
 
-    el.addEventListener('click', () => onCardClick(el, c.targetQ));
-
-    el.addEventListener('dragstart', e => {
-      dragData = { el, targetQ: c.targetQ };
-      el.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', '');
+    buttons.forEach(({ text, isCorrect }) => {
+      const btn = document.createElement('button');
+      btn.className   = 'q-opt-btn';
+      btn.textContent = text;
+      btn.onclick = () => attemptAnswer(key, isCorrect, btn, text);
+      opts.appendChild(btn);
     });
-    el.addEventListener('dragend', () => {
-      el.classList.remove('dragging');
-      dragData = null;
-    });
-
-    if (idx >= window._visibleCount) {
-      el.style.display = 'none';
-      el.dataset.hidden = 'true';
-    }
-    tray.appendChild(el);
   });
 }
 
-function onCardClick(el, targetQ) {
-  if (el.classList.contains('dragging')) return;
-
-  if (selCard && selCard.el === el) {
-    clearSelection();
-    return;
-  }
-
-  clearSelection();
-  selCard = { el, targetQ };
-  el.classList.add('selected');
-  document.body.classList.add('card-selected');
-}
-
-function clearSelection() {
-  if (selCard) selCard.el.classList.remove('selected');
-  selCard = null;
-  document.body.classList.remove('card-selected');
-}
-
-function onQuadrantClick(qKey) {
-  if (!selCard) return;
+function attemptAnswer(qKey, isCorrect, btnEl, text) {
   if (placed[qKey]) return;
-  attemptPlace(selCard.el, selCard.targetQ, qKey);
-}
 
-function onDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  if (!e.currentTarget.classList.contains('filled'))
-    e.currentTarget.classList.add('drag-over');
-}
-
-function onDragLeave(e) {
-  if (!e.currentTarget.contains(e.relatedTarget))
-    e.currentTarget.classList.remove('drag-over');
-}
-
-function onDrop(e, qKey) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if (!dragData) return;
-  if (placed[qKey]) return;
-  attemptPlace(dragData.el, dragData.targetQ, qKey);
-}
-
-function attemptPlace(cardEl, cardTargetQ, qKey) {
-  clearSelection();
-  cardEl.style.opacity = '';
-
-  if (cardTargetQ === qKey) {
+  if (isCorrect) {
     placed[qKey] = true;
     wordScore  += 10;
     totalScore += 10;
     $('hdr-score').textContent = totalScore;
 
     const qEl = $('q-' + qKey);
-    $('qa-' + qKey).textContent = cardEl.textContent;
+    $('qa-' + qKey).textContent = text;
+    $('qo-' + qKey).innerHTML   = '';     // remove buttons
     qEl.classList.add('filled');
-    qEl.style.animation = 'pulseBorder .55s ease forwards';
-    setTimeout(() => qEl.style.animation = '', 600);
-
-    cardEl.remove();
-    // Reveal next hidden card if any
-    const nextHidden = [...document.getElementById('g-tray').children]
-      .find(c => c.dataset.hidden === 'true' && c.style.display === 'none');
-    if (nextHidden) { nextHidden.style.display = ''; }
 
     const msgs = PRAISE_PER_Q[qKey];
     showPraise(msgs[Math.floor(Math.random() * msgs.length)]);
@@ -965,9 +713,10 @@ function attemptPlace(cardEl, cardTargetQ, qKey) {
     }
 
   } else {
-    void cardEl.offsetWidth;
-    cardEl.classList.add('shake');
-    cardEl.addEventListener('animationend', () => cardEl.classList.remove('shake'), { once: true });
+    void btnEl.offsetWidth;
+    btnEl.classList.add('shake');
+    btnEl.addEventListener('animationend', () => btnEl.classList.remove('shake'), { once: true });
+    showPraise('💭 Reyndu aftur — þú ert á réttri leið!');
   }
 }
 
@@ -985,17 +734,19 @@ function showWordSuccess() {
   const isLast = wordIdx === DATA.length - 1;
   const p      = rnd(WORD_PRAISE);
 
-  $('ws-icon').textContent  = p.icon;
-  $('ws-word').textContent  = entry.target_word;
-  $('ws-title').textContent = p.title + ' Þú skilur þetta orð!';
-  $('ws-pts').textContent   = `+${wordScore} stig — samtals ${totalScore} stig`;
-  $('ws-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta orð ▶';
+  $('bb-icon').textContent  = p.icon;
+  $('bb-word').textContent  = entry.target_word;
+  $('bb-title').textContent = p.title + ' Þú skilur þetta orð!';
+  $('bb-pts').textContent   = `+${wordScore} stig — samtals ${totalScore} stig`;
+  $('bb-next-btn').textContent = isLast ? 'Sjá niðurstöður 🏆' : 'Næsta orð ▶';
+  $('bottom-bar').classList.add('show');
 
-  $('word-success').classList.add('show');
+  // Scroll so user sees the bottom bar
+  $('bottom-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function nextWord() {
-  $('word-success').classList.remove('show');
+  $('bottom-bar').classList.remove('show');
   wordIdx++;
   if (wordIdx >= DATA.length) showComplete();
   else loadWord();
@@ -1012,7 +763,7 @@ function showComplete() {
     msg = 'Þú settir öll spjöld á réttan stað. Þú þekkir þessi orð mjög vel!';
   } else if (pct >= 70) {
     icon='⭐'; title='Mjög gott!';
-    msg = 'Þú skilur þessi orð vel. Prófaðu aftur til að fá fullkomnar 240 stig!';
+    msg = 'Þú skilur þessi orð vel. Prófaðu aftur til að fá fullkomnar stig!';
   } else {
     icon='💪'; title='Vel gert!';
     msg = 'Þú ert að læra ný orð. Æfing skapar meistarann — prófaðu aftur!';
