@@ -131,7 +131,8 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
-  padding: 9px 15px;
+  padding: 11px 15px;
+  min-height: 44px;
   color: var(--text);
   font-size: .9rem;
   font-weight: 600;
@@ -139,7 +140,8 @@ body {
   font-family: inherit;
   transition: background .15s;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   touch-action: manipulation;
 }
 .back-btn:hover { background: var(--surface-hover); }
@@ -283,13 +285,15 @@ body {
   background: rgba(255,255,255,0.05);
   border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
-  padding: 10px 14px;
+  padding: 12px 14px;
+  min-height: 44px;
   font-size: .88rem;
   line-height: 1.45;
   color: var(--text);
   cursor: pointer;
   font-family: inherit;
   text-align: left;
+  width: 100%;
   transition: border-color .15s, background .15s, transform .12s;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -379,11 +383,16 @@ body {
 }
 .complete-actions { display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto; }
 
-@media (max-width: 540px) {
-  .frayer-grid { gap: 8px; }
-  .quadrant    { padding: 12px; }
-  .target-word { font-size: 2.4rem; }
-  .q-opt-btn   { font-size: .82rem; padding: 9px 10px; }
+@media (max-width: 600px) {
+  #app-header  { padding: 14px 16px 0; }
+  #app-main    { padding: 16px 14px 60px; }
+  .frayer-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .quadrant    { padding: 10px; }
+  .q-label     { font-size: .78rem; }
+  .target-word { font-size: 2.2rem; }
+  .q-opt-btn   { font-size: .82rem; padding: 11px 10px; }
+  .game-topbar { gap: 6px; }
+  .cat-badge   { font-size: .78rem; padding: 5px 10px; }
 }
 </style>
 </head>
