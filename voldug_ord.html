@@ -853,4 +853,69 @@ function submitAnswer() {
 
   } else {
     const msg = rand(RETRY_MSG).replace('{ov}', round.overused);
-    $('g-feedback').className = 'feedback-card show retry
+    $('g-feedback').className = 'feedback-card show retry';
+    $('fb-icon').textContent   = '💭';
+    $('fb-title').textContent  = 'Reyndu aftur!';
+    $('fb-body').textContent   = msg;
+    $('g-retry').style.display = 'block';
+    $('g-next').classList.remove('show');
+    $('fb-upgraded').style.display = 'none';
+
+    // allow retry
+    answered = false;
+    chosenWord = null;
+  }
+}
+
+function retryRound() {
+  answered   = false;
+  chosenWord = null;
+  $('g-feedback').className   = 'feedback-card';
+  $('g-retry').style.display  = 'none';
+  $('g-next').classList.remove('show');
+  $('fb-upgraded').style.display = 'none';
+  $('g-submit').disabled = true;
+  document.querySelectorAll('.w-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('selected','ok','bad','missed','chosen');
+  });
+}
+
+function nextRound() {
+  roundIdx++;
+  const cat = DATA[activeCat];
+  if (roundIdx >= cat.rounds.length) {
+    showComplete();
+  } else {
+    buildRound();
+  }
+}
+
+function showComplete() {
+  showScreen('screen-complete');
+  const cat = DATA[activeCat];
+  const max = cat.rounds.length * 20;
+  const pct = Math.round(roundScore / max * 100);
+
+  let icon, title, msg;
+  if (pct === 100) {
+    icon='🏆'; title='Fullkomið!';
+    msg='Þú valdir fullkomleg orð í öllum setningum. Orðaforðinn þinn er að styrkjast!';
+  } else if (pct >= 60) {
+    icon='⭐'; title='Mjög gott!';
+    msg='Þú ert að þróa sterkt mál. Prófaðu aftur til að fá full stig!';
+  } else {
+    icon='💪'; title='Vel gert!';
+    msg='Æfing skapar meistarann. Reyndu þennan flokk aftur og sjáðu framfarirnar!';
+  }
+
+  $('c-icon').textContent  = icon;
+  $('c-score').textContent = roundScore;
+  $('c-sub').textContent   = `stig af ${max} mögulegum`;
+  $('c-title').textContent = title;
+  $('c-msg').textContent   = msg;
+  $('c-replay').textContent = `Spila ${cat.name} aftur 🔄`;
+}
+</script>
+</body>
+</html>
