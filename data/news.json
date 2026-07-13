@@ -3,52 +3,52 @@
     "label": "mbl.is - Innlent",
     "items": [
       {
-        "title": "Þrír handteknir vegna gruns um líkamsárás",
-        "desc": "Þrír voru handteknir grunaðir um líkamsárás í miðborginni í gærkvöld eða í nótt og var einn þeirra vistaður í fangaklefa vegna málsins.",
+        "title": "Mælirinn ekki undir 18 gráður í nótt",
+        "desc": "Mikil veðurblíða ríkir áfram á Austfjörðum. Fór hitastig til að mynda ekki undir 18 gráður í nótt á veðurstöð Veðurstofu Íslands í Bakkagerði við Borgarfjörð eystri.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/maelirinn_ekki_undir_18_gradur_i_nott/"
+      },
+      {
+        "title": "Innkalla kjötrétt vegna óvissu um öryggi kjöts",
+        "desc": "Matvælastofnun varar við neyslu á þremur framleiðslulotum af Bapao beef frá Tjendrawasih þar sem óvissa er um öryggi kjöts sem notað var í vöruna.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/innkalla_kjotrett_vegna_ovissu_um_oryggi_kjots/"
+      },
+      {
+        "title": "Skólahald snýr aftur til Grindavíkur",
+        "desc": "Alls hafa 43 börn verið skráð í grunnskóla í Grindavík í haust. Bæjarstjórn segir þetta stórt skref í að ná samfélaginu aftur heim til Grindavíkur.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/skolahald_snyr_aftur_til_grindavikur/"
+      },
+      {
+        "title": "Engar framkvæmdir á Grindvíkurvegi í dag",
+        "desc": "Hætt hefur verið við malbikun á hringtorgi við Grindavíkurveg við Reykjanesbraut í dag vegna veðurs.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/engar_framkvaemdir_a_grindvikurvegi_i_dag/"
+      },
+      {
+        "title": "Frábær árangur hrossa og knapa á Landsmóti hestamanna",
+        "desc": "Halla Tómasdóttir forseti Íslands afhenti verðlaun og dáðist að íslenska hestinum eins og þúsundir annarra landsmótsgesta.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/frabaer_arangur_hrossa_og_knapa_a_landsmoti_hestama/"
+      },
+      {
+        "title": "Brotist inn í kirkju á höfuðborgarsvæðinu",
+        "desc": "Ekki liggja fyrir upplýsingar að svo stöddu hvaða kirkju var brotist inn í en málið kom til kasta lögreglu á stöð 1.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/brotist_inn_i_kirkju_a_hofudborgarsvaedinu/"
+      },
+      {
+        "title": "Þungar áhyggjur af fögrum fyrirheitum",
+        "desc": "Sandra B. Franks, formaður Sjúkraliðafélags Íslands, lýsir miklum áhyggjum af fögrum fyrirheitum í nýsamþykktri fjármálaáætlun fyrir árin 2027-2031.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/thungar_ahyggjur_af_fogrum_fyrirheitum/"
+      },
+      {
+        "title": "Bláblómstrandi og rótsterk",
+        "desc": "„Þegar lúpínan blómstrar á sumrin hefst umræða um ágengni hennar og jafnvel lýti á landinu. Þarna koma oft fram sterkar skoðanir þar sem ekki er alltaf stuðst við rannsóknir,“ segir Hreinn Óskarsson, sviðsstjóri hjá Landi og skógi. Þar hefur hann umsjón með þjóðskógum og svæðum sem mörg hafa verið grædd upp í byrjun með bláblómstrandi rótsterkri jurt.",
         "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/12/thrir_handteknir_vegna_gruns_um_likamsaras/"
-      },
-      {
-        "title": "Tvær hindranir í vegi orkuskipta",
-        "desc": "Tryggvi Þór Herbertsson, stjórnarformaður Qair Iceland H2, segir fyrirtækið þurfa að yfirstíga tvær hindranir áður en það geti hafið umfangsmikla framleiðslu á rafeldsneyti á Grundartanga. Tilefnið er heimsókn vetnisknúins rannsóknaskips á vegum Qair til Reykjavíkur.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/12/tvaer_hindranir_i_vegi_orkuskipta/"
-      },
-      {
-        "title": "Gular viðvaranir: Hitinn gæti náð 27 stigum",
-        "desc": "Veðurstofa Íslands hefur gefið út gular viðvaranir vegna hvassviðris á Breiðafirði, Vestfjörðum, á Ströndum og Norðurlandi vestra og miðhálendinu.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/12/gular_vidvaranir_hitinn_gaeti_nad_27_stigum/"
-      },
-      {
-        "title": "Með tilfinningu fyrir tölum",
-        "desc": "Strandveiðarnar gæða byggðina hér miklu lífi yfir sumarið,&ldquo; segir Álfdís Hrefna Þorleifsdóttir á Suðureyri við Súgandafjörð fyrir vestan. Hún starfar í sumar við afleysingar á hafnarvoginni á Suðureyri, þar sem á fimmta tug báta eru gerðir út í sumar.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/11/med_tilfinningu_fyrir_tolum/"
-      },
-      {
-        "title": "„Íslendingar eru mikil stemningsþjóð“",
-        "desc": "Rífandi stemning er á Bullseye í Reykjavík þar sem mikill fjöldi er kominn saman til að fylgjast með Noregi og Englandi etja kappi í þriðja leik átta liða úrslita HM karla í fótbolta.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/11/islendingar_eru_mikil_stemningsthjod/"
-      },
-      {
-        "title": "Mokuðu síld til að rétta bátinn af",
-        "desc": "Sigurjón Guðbjartsson, athafnamaður á Siglufirði, hefur verið á sjó í sjötíu ár. Á ferlinum hefur hann nokkrum sinnum komist í hann krappann.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/200milur/frettir/2026/07/11/mokudu_sild_til_ad_retta_batinn_af/"
-      },
-      {
-        "title": "Gefi ekki rétta mynd af viðhorfi til dánaraðstoðar",
-        "desc": "Formaður Félags íslenskra hjúkrunarfræðinga og formaður Læknafélags Íslands segja að ályktanir um að meirihluti lækna og hjúkrunarfræðinga styðji lögleiðingu dánaraðstoðar eigi ekki við traustan grundvöll að styðjast.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/11/gefi_ekki_retta_mynd_af_vidhorfi_til_danaradstodar/"
-      },
-      {
-        "title": "Dularfullir kalkþörungar fegra",
-        "desc": "Dýpi heitir fyrirtæki frumkvöðulsins og náttúrubarnsins G. Sigríðar Ágústsdóttur. Dýpi framleiðir vistvæna innimálningu úr kalkþörungum. Kalkþörungamálning er unnin úr náttúrulegum steinefnum og stuðlar að heilbrigðu innilofti.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/07/11/dularfullir_kalkthorungar_fegra/"
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/12/blablomstrandi_og_rotsterk/"
       }
     ],
     "ok": true
@@ -57,52 +57,52 @@
     "label": "mbl.is - Ithrottir",
     "items": [
       {
-        "title": "Erfitt að alast upp í stóru félagsliðunum",
-        "desc": "„Það er alveg erfitt,“ sagði knattspyrnukonan fyrrverandi Sólveig Jóhannesdóttir Larsen í Dagmálum.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/efstadeild/2026/07/12/erfitt_ad_alast_upp_i_storu_felagslidunum/"
+        "title": "Hundruð milljóna í húfi: Fór Ronaldo að gráta?",
+        "desc": "Málið hefur verið tekið til formlegrar skoðunar og niðurstaða fengist.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/frettir/2026/07/13/hundrud_milljona_i_hufi_for_ronaldo_ad_grata/"
       },
       {
-        "title": "„Bestu mennirnir okkar TAKK!“",
-        "desc": "Norðmenn upplifðu fótboltasumar sem seint mun gleymast jafnvel þótt landsliðið hafi fallið úr leik eftir tap gegn Englendingum í átta liða úrslitum heimsmeistaramótsins í fótbolta í Bandaríkjunum í gærkvöld.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/07/12/bestu_mennirnir_okkar_takk/"
+        "title": "Óvænt á leiðinni til United",
+        "desc": "Enska úrvalsdeildarfélagið Manchester United hefur náð samkomulagi við Aston Villa um kaupin á belgíska knattspyrnumanninum Youri Tielemans.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/07/13/ovaent_a_leidinni_til_united/"
       },
       {
-        "title": "Samfélagskæti í íþróttum",
-        "desc": "Það var gaman fyrir Knicks-aðdáendur hér vestra að fylgjast með gleðinni sem braust fram í New York-borg á því tveggja mánaða ferðalagi sem úrslitakeppni NBA-deildarinnar er.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/frettir/2026/07/12/samfelagskaeti_i_ithrottum/"
+        "title": "Íslendingaliðið áfram í undanúrslit",
+        "desc": "Dagur Dan Þórhallsson og liðsfélagar í CF Montreal eru komnir í undanúrslit kanadíska meistaramótsins eftir 2:1-sigur gegn Vancouver FC í nótt.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/fotbolti/2026/07/13/islendingalidid_afram_i_undanurslit/"
       },
       {
-        "title": "Hélt að flúrið væri tileinkað Sjálfstæðisflokknum",
-        "desc": "„Ég man eftir því að við unnum,“ sagði körfuboltakonan fyrrverandi Guðbjörg Sverrisdóttir í Dagmálum.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/korfubolti/2026/07/12/helt_ad_flurid_vaeri_tileinkad_sjalfstaedisflokknum/"
+        "title": "Gæti orðið sá besti í sögu Englands",
+        "desc": "Enska goðsögnin Gary Lineker telur að Jude Bellingham gæti orðið einn besti knattspyrnumaður í sögu Englands.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/07/13/gaeti_ordid_sa_besti_i_sogu_englands/"
       },
       {
-        "title": "Svona líta undanúrslitin út",
-        "desc": "Átta liða úrslitum heimsmeistaramóts karla í fótbolta lauk í nótt með leik Argentínu og Sviss. Er því ljóst hvaða lið mætast í undanúrslitum eftir helgi og leika um verðlaun á mótinu.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/07/12/svona_lita_undanurslitin_ut/"
+        "title": "Goðsögnin tekur við landsliðinu",
+        "desc": "Diego Forlán, fyrrverandi leikmaður Manchester United og Atletico Madrid, mun taka við sem landsliðsþjálfari Úrúgvæ til bráðabirgða.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/fotbolti/2026/07/13/godsognin_tekur_vid_landslidinu/"
       },
       {
-        "title": "Argentína áfram eftir rautt og dramatík",
-        "desc": "Heimsmeistarar Argentínu eru komnir í undanúrslit HM karla í fótbolta eftir sigur á Sviss, 3:1, í framlengdum leik í Kansas í nótt. Argentína mætir Englandi í undanúrslitum.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/07/12/argentina_afram_eftir_rautt_og_dramatik/"
+        "title": "Aldrei gerst áður í sögu HM",
+        "desc": "Í fyrsta sinn í sögu heimsmeistaramótsins hafa fjögur efstu lið heimslista FIFA öll tryggt sér sæti í undanúrslitunum.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/hm_fotbolta/2026/07/13/aldrei_gerst_adur_i_sogu_hm/"
       },
       {
-        "title": "Bellingham hetja Englands gegn Noregi",
-        "desc": "England tryggði sér sæti í undanúrslitum HM karla í fótbolta með sigri á Noregi í mögnuðum og framlengdum leik í Miami í kvöld. Urðu lokatölur 2:1 og var Jude Bellingham hetja Englands, sem mætir Argentínu eða Sviss í undanúrslitum.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/sport/enski/2026/07/11/bellingham_hetja_englands_gegn_noregi/"
+        "title": "Besti árangur Haralds á tímabilinu",
+        "desc": "Atvinnukylfingurinn Haraldur Franklín Magnús náði sínum besta árangri á tímabilinu þegar hann hafnaði jafn í 25. sæti á German Challenge powered by VcG-mótinu á HotelPlanner Tour-mótaröðinni í Þýskalandi um helgina.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/sport/golf/2026/07/13/besti_arangur_haralds_a_timabilinu/"
       },
       {
-        "title": "Stjarnan kýldi fyrrum liðsfélaga",
-        "desc": "Bam Adebayo og Tyler Herro, fyrrum liðsfélagar með Miami Heat í NBA-deildinni, lentu í hörðum deilum á dögunum þar sem Adebayo er sagður hafa lamið Herro.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.mbl.is/sport/frettir/2026/07/11/stjarnan_kyldi_fyrrum_lidsfelaga/"
+        "title": "Frábær árangur hrossa og knapa á Landsmóti hestamanna",
+        "desc": "Halla Tómasdóttir forseti Íslands afhenti verðlaun og dáðist að íslenska hestinum eins og þúsundir annarra landsmótsgesta.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/07/13/frabaer_arangur_hrossa_og_knapa_a_landsmoti_hestama/"
       }
     ],
     "ok": true
@@ -111,55 +111,55 @@
     "label": "Visir - Frettir",
     "items": [
       {
-        "title": "Íran og Bandaríkin skiptast á árásum",
-        "desc": "Íranir gerðu árásir á bandarískar herstöðvar á Persaflóa í nótt og segja aðgerðirnar svar við árásum Bandaríkjanna. Íranski byltingarvörðurinn (IRGC) sagðist í gær hafa lokað fyrir alla umferð á Hormússundi.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.visir.is/g/20262908369d/iran-og-bandarikin-skiptast-a-arasum"
+        "title": "ESB setji aldurstakmörk á samfélagsmiðlum",
+        "desc": "Forseti framkvæmdastjórnar Evrópusambandsins segir sambandið þurfa að setja aldursmörk á aðgang að samfélagsmiðlum. Nefnd á vegum framkvæmdastjórnarinnar kynnti í dag skýrslu um fylgni notkunar ungmenna á samfélagsmiðlum og vanlíðanar.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908695d/esb-setji-aldurstakmork-a-samfelagsmidlum"
       },
       {
-        "title": "Gular viðvaranir og allt að tuttugu og sjö stig",
-        "desc": "Gular viðvaranir eru í gildi á Norðvesturlandi en búist er við allhvössum eða hvössum vindi. Hiti gæti náð 27 stigum en hlýjast verður á norðausturlandi.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.visir.is/g/20262908362d/gular-vidvaranir-og-allt-ad-tuttugu-og-sjo-stig"
+        "title": "Brotist inn í Fíladelfíuna og gítar stolið",
+        "desc": "Brotist var inn í Hvítasunnukirkjuna Fíladelfíu við Hátún í Reykjavík í gær. Smámunum var stolið, þar á meðal gítar.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908682d/brotist-inn-i-filadelfiuna-og-gitar-stolid"
       },
       {
-        "title": "Lindsey Graham er látinn",
-        "desc": "Bandaríski öldungadeildarþingmaðurinn Lindsey Graham lést í gærkvöldi 71 árs að aldri eftir bráð veikindi.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.visir.is/g/20262908364d/lindsey-graham-er-latinn"
+        "title": "Segja 2.700 hafa látist vegna hitabylgju",
+        "desc": "Talið er að yfir 2.700 hafi látist af völdum hita í Englandi og Wales í kjölfar hitabylgju sem þar geisaði í maí og júní. Rauðar veðurviðvaranir vegna hitans voru gefnar út í lok júní en talið er að flest dauðsföll hafi átt sér stað í júnímánuði þegar hiti náði tæpum 37 stigum.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908657d/segja-2.700-hafa-latist-vegna-hitabylgju"
       },
       {
-        "title": "Þrír handteknir grunaðir um líkamsárás",
-        "desc": "Lögreglan á höfuðborgarsvæðinu handtók þrjá grunaða um líkamsárás í nótt. Einn þeirra var vistaður í fangaklefa vegna málsins.",
-        "pubDate": "12. júl. 2026",
-        "link": "https://www.visir.is/g/20262908360d/thrir-handteknir-grunadir-um-likamsaras"
+        "title": "Gæti orðið hálf milljón árið 2037",
+        "desc": "Ísland gæti orðið hálfrar milljónar þjóð strax árið 2037, samkvæmt hæsta spáafbrigði Hagstofunnar. Á sama tíma breytist samsetning mannfjöldans hratt. Innflytjendur og börn innflytjenda eru nú rúmlega fimmtungur landsmanna, fæðingarmynstur hefur breyst og til lengri tíma er gert ráð fyrir að þjóðin eldist.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908647d/gaeti-ordid-half-milljon-arid-2037"
       },
       {
-        "title": "Heilbrigðiseftirlitið ekki áður séð mengun í fjörunni við vinnslustöð Hvals",
-        "desc": "Framkvæmdastjóri Heilbrigðiseftirlits Vesturlands segir að fyrri yfirlýsing um óásættanlega meðhöndlun Hvals hf. á soðvatni hafi byggt á röngum upplýsingum. Fitugildra í vinnslustöðinni virðist virka en unnið sé að því að greina hvort fita og önnur efni séu fjarlægð með fullnægjandi hætti. Myndefni sem fulltrúar Paul Watson-samtakanna segjast hafa tekið í...",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.visir.is/g/20262908312d/heilbrigdiseftirlitid-ekki-adur-sed-mengun-i-fjorunni-vid-vinnslustod-hvals"
+        "title": "Sænskur Evrópuþingmaður kærir danskan kollega til lögreglu",
+        "desc": "Sænskur þingmaður Evrópusambandsins hefur lagt fram kæru til lögreglu þar sem hún sakar danskan kollega sinn um hatursorðræður byggðar á kynþáttafordómum. Þingmaðurinn varð fyrir áreiti á samfélagsmiðlum fyrir að fordæma fagnaðarlæti á Evrópuþinginu.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908651d/saenskur-evroputhingmadur-kaerir-danskan-kollega-til-logreglu"
       },
       {
-        "title": "Unnið að hrunvörnum við Holtsnúp",
-        "desc": "Unnið er að hrunavörnum við Holtsnúp við Steinafjall undir Eyjafjöllum, meðfram Hringveginum. Staðurinn hefur verð til skoðunar um nokkurt skeið en þar varð banaslys í mars í fyrra.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.visir.is/g/20262907449d/unnid-ad-hrunvornum-vid-holtsnup"
+        "title": "McConnell birtir mynd af sér á spítala",
+        "desc": "Öldungadeildarþingmaðurinn Mitch McConnell hefur sent frá sér yfirlýsingu þar sem hann greinir frá því að hann hafi dvalist á sjúkrahúsi og gengist undir ýmsar rannsóknir eftir fall og væga lungnabólgu.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908649d/mcconnell-birtir-mynd-af-ser-a-spitala"
       },
       {
-        "title": "Hluti af þriðja vinningi lenti á Íslandi",
-        "desc": "Þátttakandi á Íslandi deildi þriðja vinningi í EuroJackpot kvöldsins með fjórtán öðrum og fékk tæpar tíu milljónir króna í sinn hlut. Enginn var með fyrsta vinning í EuroJackpot í kvöld.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.visir.is/g/20262908298d/hluti-af-thridja-vinningi-lenti-a-islandi"
+        "title": "Gagnrýnin byggð á misskilningi",
+        "desc": "Barna- og menntamálaráðherra segir gagnrýni samtaka sveitarfélaga um að ríkið sé að skilgreina sig frá tilteknum hópi barna með fjölþættan vanda byggða á misskilningi. Ríkinu sé í lófa lagið að snúa fyrirkomulaginu til fyrra horfs sé það vilji sveitarfélaga.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908645d/gagnrynin-byggd-a-misskilningi"
       },
       {
-        "title": "Stutt í að beint flug til Kína fari í sölu",
-        "desc": "Síðustu ár hafa reglulega borist fréttir af því að fyrirhugað sé að koma á beinu flugi milli Kína og Íslands en nú er útlit fyrir að fréttirnar verði loks að veruleika. „Stutt er í að dagsetning fyrsta flugsins verði kynnt og sala miða hefjist,“ segir Kínverska sendiráðið á Íslandi í svari við fyrirspurn fréttastofu.",
-        "pubDate": "11. júl. 2026",
-        "link": "https://www.visir.is/g/20262907833d/stutt-i-ad-beint-flug-til-kina-fari-i-solu"
+        "title": "Íranir og Bandaríkjamenn halda árásunum áfram",
+        "desc": "Árásir Bandaríkjanna og Íran hvort á annað héldu áfram í nótt. Skotmörk Írana voru herstöðvar í nágrannalöndum en Bandaríkin sögðust hafa hæft meðal annars loftvarnarkerfi Írana.",
+        "pubDate": "13. júl. 2026",
+        "link": "https://www.visir.is/g/20262908630d/iranir-og-bandarikjamenn-halda-arasunum-afram"
       }
     ],
     "ok": true
   },
-  "updated": "2026-07-12T09:09:34.685Z"
+  "updated": "2026-07-13T10:34:03.654Z"
 }
