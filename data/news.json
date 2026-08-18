@@ -3,52 +3,52 @@
     "label": "mbl.is - Innlent",
     "items": [
       {
-        "title": "Andlát: Bogi Ísak Nilsson",
-        "desc": "Bogi Ísak Nilsson, fyrrverandi ríkissaksóknari og ríkislögreglustjóri, lést á heimili sínu fimmtudaginn 13. ágúst, 85 ára að aldri, eftir glímu við stutt en erfið veikindi.",
+        "title": "„Ófremdarástand“ á íbúðamarkaði",
+        "desc": "Staðan á íbúðamarkaði er erfið. Háir vextir gera byggingaverktökum erfitt fyrir að fjármagna verkefni og þeir sitja uppi með óseldar íbúðir.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/18/ofremdarastand_a_ibudamarkadi/"
+      },
+      {
+        "title": "Allt að 18 stiga hiti í dag",
+        "desc": "Í dag er reiknað með að lægð sem verið hefur suður af landinu muni fjarlægjast. Lægir þá á suðurhelmingi landsins en vindur verður almennt fremur hægur norðantil.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/18/allt_ad_18_stiga_hiti_i_dag/"
+      },
+      {
+        "title": "Viðræður við ESB fela í sér aðlögun",
+        "desc": "Jónas Hagan, einn af talsmönnum Já til að sjá-hreyfingarinnar, fullyrðir að aðildarviðræður við Evrópusambandið feli í sér aðlögun. Hún hefjist áður en kosið verði um aðildarsamning.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/18/vidraedur_vid_esb_fela_i_ser_adlogun/"
+      },
+      {
+        "title": "Vilja láta lækka skyldusparnaðinn",
+        "desc": "Að mati Viðskiptaráðs Íslands væri óhætt að lækka lögbundinn lífeyrissparnað úr 15,5% niður í 12% af launum. Einnig ættu laun umfram ákveðna upphæð að vera undanþegin kvöð um skyldusparnað.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/18/vilja_lata_laekka_skyldusparnadinn/"
+      },
+      {
+        "title": "„Ég kýs að taka með mér allt sem er jákvætt og gott“",
+        "desc": "Stefán Jakobsson eða Stebbi Jak eins og hann er oftast kallaður sagði skilið við hljómsveitina Dimmu í vor eftir 15 ára samstarf.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/18/eg_kys_ad_taka_med_mer_allt_sem_er_jakvaett_og_gott/"
+      },
+      {
+        "title": "Bryndís Ósk að taka við hjá LS",
+        "desc": "Bryndís Ósk Jökla Björnsdóttir hefur verið ráðin framkvæmdastjóri Landssambands smábátaeigenda (LS). Hún hóf störf í byrjun ágúst, en starfar fyrstu vikurnar samhliða Erni Pálssyni fráfarandi framkvæmdastjóra",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.mbl.is/200milur/frettir/2026/08/18/bryndis_osk_ad_taka_vid_hja_ls/"
+      },
+      {
+        "title": "„Við fáum hann aldrei aftur til okkar“",
+        "desc": "Elmar Pétursson var aðeins eins og hálfs árs þegar hann lést þann 14. janúar síðastliðinn. Fimm dögum áður hafði hann fengið háan hita sem leiddi af sér hitakrampa, eins og hann hafði fengið oft áður, en í þetta skipti lenti hann í hjartastoppi.",
         "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/andlat_bogi_isak_nilsson/"
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/vid_faum_hann_aldrei_aftur_til_okkar/"
       },
       {
-        "title": "Eldur á svölum reyndist vera húsráðandi að grilla",
-        "desc": "Tilkynnt var um eld á svölum í fjölbýlishúsi í hverfi 104 í gærkvöld.",
+        "title": "Fólk sem ratað hefur í einhverja ógæfu",
+        "desc": "„Það sem við höfum heyrt frá lögreglu er að þetta séu mest tækifærisinnbrot þar sem fáir aðilar eru að verki, oft fólk sem hefur ratað í einhverja ógæfu,“ segir Hildur Björnsdóttir borgarstjóri við mbl.is um innbrotafaraldur í borginni.",
         "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/eldur_a_svolum_reyndist_vera_husradandi_ad_grilla/"
-      },
-      {
-        "title": "Tveir skildir eftir í sjálfheldu í Parísarhjólinu",
-        "desc": "Tveir gestir voru skildir eftir í sjálfheldu í Parísarhjólinu á miðbakkanum í Reykjavík í gærkvöld.",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/tveir_skildir_eftir_i_sjalfheldu_i_parisarhjolinu/"
-      },
-      {
-        "title": "Hiti allt að 20 stigum",
-        "desc": "Það verður þokkalega hlýtt í dag og væntanlega hlýjast á Norðurlandi.",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/hiti_allt_ad_20_stigum/"
-      },
-      {
-        "title": "„Reyðarjárn“ úr langreyði",
-        "desc": "Hvalur hf. ætlar að venda sínu kvæði í kross og leggja á hilluna í bili að selja hvalkjöt til Japan en nýta kjöt af langreyðum þess í stað til framleiðslu á járnbætiefni. Bætiefnið verður í formi dufts sem selt verður í hylkjum og er kallað „Reyðarjárn“.",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/reydarjarn_ur_langreydi/"
-      },
-      {
-        "title": "Fór í hjartastopp í kjölfar hitakrampa",
-        "desc": "Eftir að Elmar Pétursson lést í janúar síðastliðnum, aðeins eins og hálfs árs, kom í ljós að hann hafði verið með arfgengan hjartagalla, langt QT-heilkenni (long QT syndrome type 1) sem getur valdið hjartsláttartruflunum og skyndidauða",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/for_i_hjartastopp_i_kjolfar_hitakrampa/"
-      },
-      {
-        "title": "Útlendingastofnun tók fram fyrir hendur lögreglu",
-        "desc": "Óskar Magnússon, lögmaður og rithöfundur segir Útlendingastofnun hafa tekið fram fyrir hendurnar á lögreglu í máli þar sem erlendir aðilar stofnuðu íslenskum sjómönnum og lögreglumönnum í mikla hættu.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/16/utlendingastofnun_tok_fram_fyrir_hendur_logreglu/"
-      },
-      {
-        "title": "Segir mannát hreinan uppspuna",
-        "desc": "„Ég er óseðjandi nörd og áhugamaður um tölvur og tækni,“ segir Hjálmar Gíslason framkvæmdastjóri sem gefið hefur út gagnvirka stafræna útgáfu af Íslandskorti Guðbrands biskups Þorlákssonar frá 16. öld, nokkuð sem biskup sá vafalaust ekki fyrir.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/frettir/innlent/2026/08/16/segir_mannat_hreinan_uppspuna/"
+        "link": "https://www.mbl.is/frettir/innlent/2026/08/17/folk_sem_ratad_hefur_i_einhverja_ogaefu/"
       }
     ],
     "ok": true
@@ -57,52 +57,52 @@
     "label": "mbl.is - Ithrottir",
     "items": [
       {
-        "title": "Mourinho hefur aldrei drukkið sig fullan",
-        "desc": "Nýir heimildaþættir um knattspyrnustjórann José Mourinho á streymisveitunni Netflix hafa vakið athygli.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/fotbolti/2026/08/16/mourinho_hefur_aldrei_drukkid_sig_fullan/"
+        "title": "Carragher slær á væntingar United",
+        "desc": "Jamie Carragher, fyrrverandi leikmaður Liverpool og sparkspekingur hjá Sky Sports, telur ólíklegt að Michael Carrick geti leitt Manchester United til sigurs í ensku úrvalsdeildinni eða Meistaradeild Evrópu.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/08/17/carragher_slaer_a_vaentingar_united/"
       },
       {
-        "title": "Vonast til að Rashfordi verði áfram",
-        "desc": "Harry Maguire, miðvörður Manchester United í ensku úrvalsdeildinni í fótbolta vonast til þess að Marcus Rashford verði áfram hjá félaginu þar sem hann geti styrkt liðið.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/enski/2026/08/16/vonast_til_ad_rashfordi_verdi_afram/"
+        "title": "Fyrirliða United boðinn samningur",
+        "desc": "Enska knattspyrnufélagið Manchester United er í viðræðum við Portúgalann Bruno Fernandes um nýjan samning hjá félaginu.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/08/17/fyrirlida_united_bodinn_samningur/"
       },
       {
-        "title": "Stórbætti heimsmetið",
-        "desc": "Þjóðverjinn Johannes Liebmann setti glæsilegt heimsmet í 1500 metra skriðsundi á Evrópumótinu í París í gærkvöldi.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/frettir/2026/08/16/storbaetti_heimsmetid/"
+        "title": "Ótrúleg tölfræði nýja leikmanns Arsenal",
+        "desc": "Grikkinn Christos Tzolis, sem gekk í raðir Englandsmeistara Arsenal í fótbolta fyrr í sumar, hefur verið í fantaformi upp á síðkastið.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/enski/2026/08/17/otruleg_tolfraedi_nyja_leikmanns_arsenal/"
       },
       {
-        "title": "Margt sem við þurfum að laga",
-        "desc": "Manchester City fékk skell í leiknum um Samfélagsskjöldinn á Englandi í dag þegar liðið laut í lægra haldi gegn Arsenal, 3:0.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/enski/2026/08/16/margt_sem_vid_thurfum_ad_laga/"
+        "title": "Vendingar í toppbaráttunni í 1. deildinni",
+        "desc": "Þróttur úr Reykjavík er kominn í toppsæti 1. deildar karla eftir sigur á Fylki, 3:1, í 19. umferðinni í Laugardalnum í kvöld.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/efstadeild/2026/08/17/vendingar_i_toppbarattunni_i_1_deildinni/"
       },
       {
-        "title": "Ráða nýjan þjálfara eftir svekkjandi HM",
-        "desc": "Belginn Sebastian Pocognoli hefur skrifað undir tveggja ára samning og verður þar með skoska karlalandsliðsins í fótbolta.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/fotbolti/2026/08/16/rada_nyjan_thjalfara_eftir_svekkjandi_hm/"
+        "title": "Framarar upp að hlið KR-inga",
+        "desc": "Fram sigraði Stjörnuna, 3:1, í lokaleik 19. umferðar Bestu deildar karla í fótbolta í Úlfarsárdalnum í kvöld. Fram er í þriðja sæti með 40 stig, eins og KR í öðru sæti. Stjarnan er í áttunda sæti með 21 stig.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/efstadeild/2026/08/17/framarar_upp_ad_hlid_kr_inga/"
       },
       {
-        "title": "Liverpool vann síðasta æfingaleikinn",
-        "desc": "Liverpool vann 2:0-sigur á ítalska liðinu Como í æfingaleik í fótbolta á Anfield í dag. Þetta var lokaleikur liðsins fyrir ensku úrvalsdeildina sem hefst um næstu helgi.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/fotbolti/2026/08/16/liverpool_vann_sidasta_aefingaleikinn/"
+        "title": "Sex mörk í fyrsta leik tímabilsins hjá Loga",
+        "desc": "Landsliðsmaðurinn Logi Tómasson og liðsfélagar hans í Samsunspor hófu tímabilið á jafntefli gegn Göztepe, 3:3, í tyrknesku úrvalsdeildinni í fótbolta í Samsun í kvöld.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/fotbolti/2026/08/17/sex_mork_i_fyrsta_leik_timabilsins_hja_loga/"
       },
       {
-        "title": "Víkingur jók forskotið - sex marka jafntefli í Vesturbæ",
-        "desc": "Þrír leikir verða flautaðir á klukkan 18 í Bestu deild karla í fótbolta.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/efstadeild/2026/08/16/vikingur_jok_forskotid_sex_marka_jafntefli_i_vestur/"
+        "title": "Rekinn frá FIFA",
+        "desc": "Alþjóðaknattspyrnusambandið, FIFA, hefur sagt Kevin Lamour, framkvæmdastjóra rekstramála hjá sambandinu, upp störfum.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/fotbolti/2026/08/17/rekinn_fra_fifa/"
       },
       {
-        "title": "Framtíð Guðjóns Vals óráðin",
-        "desc": "Guðjón Valur Sigurðsson, fyrrverandi landsliðsfyrirliði Íslands í handbolta og þjálfari Gummersbach í Þýskalandi, hefur vakið mikla athygli fyrir uppgang liðsins undanfarin ár.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.mbl.is/sport/handbolti/2026/08/16/framtid_gudjons_vals_oradin/"
+        "title": "Húsvíkingar galopna botnbaráttuna – Ægir niður um deild",
+        "desc": "Völsungur vann mikilvægan sigur á Vestra, 2:0, í 19. umferð 1. deildar karla í fótbolta á Húsavík í kvöld.",
+        "pubDate": "17. ágú. 2026",
+        "link": "https://www.mbl.is/sport/efstadeild/2026/08/17/husvikingar_galopna_botnbarattuna_aegir_nidur_um_de/"
       }
     ],
     "ok": true
@@ -111,55 +111,55 @@
     "label": "Visir - Frettir",
     "items": [
       {
-        "title": "Kushner mættur til Ísrael",
-        "desc": "Jared Kushner, sérlegur erindreki Donalds Trump og tengdasonur kom óvænt til Ísraels í morgun og er búist við því að hann hitti Benjamín Netanjahú á fundi síðar í dag. Kushner fundaði með leiðtogum Hamas samtakanna í gær um hvernig hægt verði að koma friðarferli af stað á svæðinu.",
+        "title": "Þrjátíu börn getin á frjósemisstofu með óþekktum kynfrumum",
+        "desc": "Rannsókn hefur leitt í ljós að um 30 börn voru getin með röngu sæði eða eggi á frjósemisstofum í Norður-Kýpur, sem hafa notið vinsælda meðal Breta. Foreldrarnir höfðu valið gjafa hjá stærsta kynfrumubanka heims en kynfrumurnar sem notaðar voru við getnað virðast hafa komið úr allt annarri og óþekktri átt.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.visir.is/g/20262922421d/thrjatiu-born-getin-a-frjosemisstofu-med-othekktum-kynfrumum"
+      },
+      {
+        "title": "Bandero dregið úr höfn og flutt til Akraness",
+        "desc": "Bandero, skip Paul Watson-samtakanna, var dregið úr höfn í gærkvöldi og til Akraness. Gísli Jóhann Hallsson, yfirhafnsögumaður hjá Faxaflóahöfnum, sagði við mbl.is í gærkvöldi að búa ætti til pláss við höfnina. Um rekstrarlega ákvörðun hafi verið að ræða.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.visir.is/g/20262922429d/bandero-dregid-ur-hofn-og-flutt-til-akraness"
+      },
+      {
+        "title": "Bjart og sólríkt víðast hvar",
+        "desc": "Í dag er spáð austlægri eða breytilegri átt, 3-8 metrum á sekúndu, en 5-13 við suðaustantil í dag. Lítilsháttar vætu er spáð á Austfjörðum og Suðausturlandi, en annars léttskýjað að mestu.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.visir.is/g/20262922420d/bjart-og-solrikt-vidast-hvar"
+      },
+      {
+        "title": "Hættu við ADHD-greiningu vegna vímuefnaneyslu barnsins",
+        "desc": "Kærunefnd vöru og þjónustukaupa vísaði í sumar frá máli foreldris sem fór með barnið í ADHD-greiningu en fékk hana ekki vegna vímuefnaneyslu barnsins. Barnið fékk þannig ekki greininguna og foreldrið þess ekki endurgreiðslu. Nefndin taldi málið utan valdssviðs síns.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.visir.is/g/20262922018d/haettu-vid-adhd-greiningu-vegna-vimuefnaneyslu-barnsins"
+      },
+      {
+        "title": "Enginn árangur af fundi Kushner og Netanyahu",
+        "desc": "Benjamin Netanyahu, forsætisráðherra Ísrael, ítrekaði þá afstöðu stjórnvalda á fundi með Jared Kusnher, tengdasyni Donald Trump, í gær að engar frekari friðarviðræður myndu eiga sér stað né myndu Ísraelsmenn yfirgefa Gasa fyrr en Hamas samtökin hefðu afvopnast að fullu.",
+        "pubDate": "18. ágú. 2026",
+        "link": "https://www.visir.is/g/20262922418d/enginn-arangur-af-fundi-kushner-og-netanyahu"
+      },
+      {
+        "title": "Geta skotið drónum langt inn fyrir landsvæði NATO-ríkja",
+        "desc": "Rússar hafa á undanförnum árum komið upp herstöðvum víða í vesturhluta landsins. Þaðan eru þeir taldir geta skotið öflugum drónum langt inn á landsvæði ríkja Atlantshafsbandalagsins.",
         "pubDate": "17. ágú. 2026",
-        "link": "https://www.visir.is/g/20262921918d/kushner-maettur-til-israel"
+        "link": "https://www.visir.is/g/20262922406d/geta-skotid-dronum-langt-inn-fyrir-landsvaedi-nato-rikja"
       },
       {
-        "title": "Aðalmeðferð hefst í Reykholtsmálinu",
-        "desc": "Aðalmeðferðin í Reykholtsmálinu svokallaða hefst í Héraðsdómi Suðurlands í dag. Sex sæta ákæru fyrir að hafa frelsissvipt, fjárkúgað og beitt maltneskan mann stórfelldu ofbeldi í Reykholti árið 2024.",
+        "title": "Færsla vínbúðarinnar „galin“ en skemmdi ekki miðbæinn",
+        "desc": "Skiptar skoðanir eru á tilfærslu Vínbúðarinnar á Akureyri, ári eftir að hún var gerð. Kaupmenn segja miðbæinn enn lifandi en afhendingarstaður netverslunar með áfengi var opnaður í húsnæðinu þar sem vínbúðin var áður.",
         "pubDate": "17. ágú. 2026",
-        "link": "https://www.visir.is/g/20262920417d/adalmedferd-hefst-i-reykholtsmalinu"
+        "link": "https://www.visir.is/g/20262922315d/faersla-vinbudarinnar-galin-en-skemmdi-ekki-midbaeinn"
       },
       {
-        "title": "Hætta sölu til Japan: Hvalkjötið nýtt í framleiðslu fæðubótarefnis",
-        "desc": "Stjórnendur Hvals hf. er hættir að selja hvalkjöt til Japans og hyggjast þess í stað nýta kjötið til framleiðslu á járnbætiefni. Kristján Loftsson, forstjóri Hvals, segir járnskort útbreiddan og að þjóðir í Afríku ættu að veiða úr hvalastofnum undan ströndum álfunnar til að mæta vandanum.",
+        "title": "Haraldur konungur lagður inn á spítala",
+        "desc": "Haraldur Noregskonungur verður lagður inn á sjúkrahús í tvær vikur. Krónprinsinn Hákon er því ríkisstjóri í fjarveru föður síns.",
         "pubDate": "17. ágú. 2026",
-        "link": "https://www.visir.is/g/20262921900d/haetta-solu-til-japan-hvalkjotid-nytt-i-framleidslu-faedubotarefnis"
-      },
-      {
-        "title": "Lögreglumál: Sátu fastir eftir að slökkt var á parísarhjólinu",
-        "desc": "Lögreglan á höfuðborgarsvæðinu var kölluð til í gærkvöldi, þar sem tveir einstaklingar sátu fastir í parísarhjólinu á Miðbakkanum í Reykjavík eftir að starfsmenn slökktu á hjólinu og virtust hafa haldið heim.",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.visir.is/g/20262921898d/logreglumal-satu-fastir-eftir-ad-slokkt-var-a-parisarhjolinu"
-      },
-      {
-        "title": "Lúsmýi fækkar en moskítóflugan ekki dauð úr öllum æðum",
-        "desc": "Líffræðingur segir minna um lúsmý en áður á þeim stöðum sem það fannst fyrst. Áfram sé fylgst náið með moskítóflugum sem fundust hér á landi í fyrra.",
-        "pubDate": "17. ágú. 2026",
-        "link": "https://www.visir.is/g/20262920933d/lusmyi-faekkar-en-moskitoflugan-ekki-daud-ur-ollum-aedum"
-      },
-      {
-        "title": "Viðreisn fjarlægir bænina af Facebook: „Við viljum ekki særa fólk“",
-        "desc": "Færsla þar sem æðruleysisbæninni hafði verið breytt í svokallaða „krónuleysisbæn“ var birt í dag, sunnudaginn 16. ágúst, á Facebook-síðu Viðreisnar en henni var skömmu seinna eytt út. Framkvæmdastjóri Viðreisnar segir ástæðuna einfaldlega þá að viðbrögðin við færslunni hafi verið verri en búist var við en að það hafi aldrei verið ætlunin að særa neinn með...",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.visir.is/g/20262921798d/vidreisn-fjarlaegir-baenina-af-facebook-vid-viljum-ekki-saera-folk-"
-      },
-      {
-        "title": "Gerir upp hús hannað af Guðjóni Samúelssyni",
-        "desc": "Hús hannað af Guðjóni Samúelssyni byggt þar sem talið er að Helgi magri hafi haft vetrarsetu fær nú mikla yfirhalningu. Eigandinn segir mikilvægt að varðveita gömul hús.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.visir.is/g/20262908858d/gerir-upp-hus-hannad-af-gudjoni-samuelssyni"
-      },
-      {
-        "title": "Á sjötta tug björgunarsveitarfólks kom að björguninni",
-        "desc": "Talsvert mikið viðbragð var á fjórða tímanum í dag þegar göngumaður slasaðist illa á fæti á stað þar sem virkilega erfitt var að komast að honum. Þyrla Landhelgisgæslunnar var kölluð til aðstoðar björgunarsveitum og um klukkan hálf sex hafði maðurinn verið hífður upp. Hann var í kjölfarið fluttur á sjúkrahús í Reykjavík til aðhlynningar og athugunar.",
-        "pubDate": "16. ágú. 2026",
-        "link": "https://www.visir.is/g/20262921789d/a-sjotta-tug-bjorgunarsveitarfolks-kom-ad-bjorguninni"
+        "link": "https://www.visir.is/g/20262922393d/haraldur-konungur-lagdur-inn-a-spitala"
       }
     ],
     "ok": true
   },
-  "updated": "2026-08-17T07:57:44.398Z"
+  "updated": "2026-08-18T07:47:57.465Z"
 }
